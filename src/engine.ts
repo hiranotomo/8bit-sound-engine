@@ -7,22 +7,30 @@ export interface EngineOptions {
 }
 
 export class SoundEngine {
-  readonly bgm: BGMPlayer
-  readonly se: SEPlayer
-  private ctx: AudioContext
-  private masterGain: GainNode
+  private _bgm: BGMPlayer | null = null
+  private _se: SEPlayer | null = null
+  private ctx: AudioContext | null = null
+  private masterGain: GainNode | null = null
   private reverbNode: ConvolverNode | null = null
   private reverbGain: GainNode | null = null
   private dryGain: GainNode | null = null
+  private options: EngineOptions
+  private initialized = false
 
   constructor(options: EngineOptions = {}) {
-    // Use webkitAudioContext for older iOS Safari
+    this.options = options
+  }
+
+  /** Initialize audio context — called automatically on first resume() */
+  private init(): void {
+    if (this.initialized) return
+    this.initialized = true
+
     const AudioCtx = window.AudioContext || (window as any).webkitAudioContext
     this.ctx = new AudioCtx()
     this.masterGain = this.ctx.createGain()
 
-    // Set up reverb if enabled
-    const reverbOpts = options.reverb
+    const reverbOpts = this.options.reverb
     if (reverbOpts) {
       const config = typeof reverbOpts === 'object' ? reverbOpts : {}
       const mix = config.mix ?? 0.25
@@ -43,12 +51,20 @@ export class SoundEngine {
       this.masterGain.connect(this.ctx.destination)
     }
 
-    // Players output to masterGain instead of destination
-    this.bgm = new BGMPlayer(this.ctx, this.masterGain)
-    this.se = new SEPlayer(this.ctx, this.masterGain)
+    this._bgm = new BGMPlayer(this.ctx, this.masterGain)
+    this._se = new SEPlayer(this.ctx, this.masterGain)
   }
 
-  /** Set reverb wet/dry mix (0 = fully dry, 1 = fully wet) */
+  get bgm(): BGMPlayer {
+    this.init()
+    return this._bgm!
+  }
+
+  get se(): SEPlayer {
+    this.init()
+    return this._se!
+  }
+
   setReverbMix(mix: number): void {
     if (this.dryGain && this.reverbGain) {
       this.dryGain.gain.value = 1 - mix
@@ -58,17 +74,11 @@ export class SoundEngine {
 
   /** Resume AudioContext — MUST be called from a user gesture on iOS */
   async resume(): Promise<void> {
+    this.init()
+    if (!this.ctx) return
     if (this.ctx.state === 'suspended') {
       await this.ctx.resume()
     }
-    // iOS Safari workaround: play a silent buffer to "unlock" audio
-    if (this.ctx.state === 'running') return
-    const buffer = this.ctx.createBuffer(1, 1, this.ctx.sampleRate)
-    const source = this.ctx.createBufferSource()
-    source.buffer = buffer
-    source.connect(this.ctx.destination)
-    source.start(0)
-    await this.ctx.resume()
   }
 }
 
