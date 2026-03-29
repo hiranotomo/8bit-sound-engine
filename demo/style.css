@@ -758,6 +758,69 @@ body {
   background: repeating-linear-gradient(90deg, var(--pink) 0px, var(--pink) 5px, #a03050 5px, #a03050 7px);
 }
 
+/* --- Mixer Controls --- */
+.mixer-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 0.4rem;
+  color: var(--cream);
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
+}
+
+.mixer-row:last-child {
+  margin-bottom: 0;
+}
+
+.mixer-label {
+  min-width: 95px;
+}
+
+.mixer-value {
+  min-width: 45px;
+  text-align: right;
+  color: var(--gold);
+}
+
+.pixel-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  outline: none;
+  cursor: pointer;
+  image-rendering: pixelated;
+}
+
+.pixel-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 18px;
+  background: linear-gradient(180deg, var(--gold), var(--gold-dark));
+  border: 2px solid var(--brown-dark);
+  cursor: pointer;
+  box-shadow:
+    inset 0 2px 0 0 #f8e080,
+    inset 0 -2px 0 0 #a07020;
+}
+
+.pixel-slider::-moz-range-thumb {
+  width: 14px;
+  height: 18px;
+  background: linear-gradient(180deg, var(--gold), var(--gold-dark));
+  border: 2px solid var(--brown-dark);
+  cursor: pointer;
+  border-radius: 0;
+}
+
+.pixel-slider:active::-webkit-slider-thumb {
+  background: linear-gradient(180deg, #f8e080, var(--gold));
+}
+
 /* --- Footer --- */
 .footer {
   text-align: center;

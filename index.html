@@ -179,6 +179,30 @@
       </div>
     </section>
 
+    <!-- Mixer Panel -->
+    <section class="wood-panel">
+      <div class="panel-header">
+        <span class="panel-icon">&#9881;</span> MIXER
+      </div>
+      <div class="panel-content">
+        <div class="mixer-row">
+          <span class="mixer-label">REVERB</span>
+          <input type="range" class="pixel-slider" id="reverb-mix" min="0" max="100" value="20" />
+          <span class="mixer-value" id="reverb-value">20%</span>
+        </div>
+        <div class="mixer-row">
+          <span class="mixer-label">MELODY PAN</span>
+          <input type="range" class="pixel-slider" id="melody-pan" min="-100" max="100" value="25" />
+          <span class="mixer-value" id="melody-pan-value">R 25</span>
+        </div>
+        <div class="mixer-row">
+          <span class="mixer-label">BASS PAN</span>
+          <input type="range" class="pixel-slider" id="bass-pan" min="-100" max="100" value="-25" />
+          <span class="mixer-value" id="bass-pan-value">L 25</span>
+        </div>
+      </div>
+    </section>
+
     <!-- Footer -->
     <footer class="footer">
       <span class="hint">Click any button to begin your adventure!</span>

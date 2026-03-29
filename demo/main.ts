@@ -111,3 +111,34 @@ function spawnFloatingNote() {
 setInterval(() => {
   if (currentBGM) spawnFloatingNote()
 }, 2000)
+
+// --- Mixer Controls ---
+
+function formatPan(value: number): string {
+  if (value === 0) return 'C'
+  return value > 0 ? `R ${value}` : `L ${Math.abs(value)}`
+}
+
+const reverbSlider = document.getElementById('reverb-mix') as HTMLInputElement
+const reverbValue = document.getElementById('reverb-value')
+reverbSlider?.addEventListener('input', () => {
+  const val = parseInt(reverbSlider.value)
+  engine.setReverbMix(val / 100)
+  if (reverbValue) reverbValue.textContent = `${val}%`
+})
+
+const melodyPanSlider = document.getElementById('melody-pan') as HTMLInputElement
+const melodyPanValue = document.getElementById('melody-pan-value')
+melodyPanSlider?.addEventListener('input', () => {
+  const val = parseInt(melodyPanSlider.value)
+  engine.bgm.setChannelPan(0, val / 100)
+  if (melodyPanValue) melodyPanValue.textContent = formatPan(val)
+})
+
+const bassPanSlider = document.getElementById('bass-pan') as HTMLInputElement
+const bassPanValue = document.getElementById('bass-pan-value')
+bassPanSlider?.addEventListener('input', () => {
+  const val = parseInt(bassPanSlider.value)
+  engine.bgm.setChannelPan(1, val / 100)
+  if (bassPanValue) bassPanValue.textContent = formatPan(val)
+})

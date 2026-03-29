@@ -8,6 +8,7 @@ export class BGMPlayer {
   private isPlaying = false
   private loopTimeoutId: number | null = null
   private masterGain: GainNode
+  private channelPanners: StereoPannerNode[] = []
 
   constructor(ctx: AudioContext, output?: AudioNode) {
     this.ctx = ctx
@@ -62,6 +63,14 @@ export class BGMPlayer {
       } catch (_) { /* already disconnected */ }
     }
     this.scheduledNodes = []
+    this.channelPanners = []
+  }
+
+  /** Set pan for a specific channel (0-indexed). -1 = left, 1 = right */
+  setChannelPan(channelIndex: number, pan: number): void {
+    if (this.channelPanners[channelIndex]) {
+      this.channelPanners[channelIndex].pan.value = Math.max(-1, Math.min(1, pan))
+    }
   }
 
   private scheduleTrack(def: BGMDefinition): void {
@@ -78,17 +87,13 @@ export class BGMPlayer {
       const channelGain = this.ctx.createGain()
       channelGain.gain.value = volume
 
-      // Stereo panning per channel
-      const pan = ch.pan ?? 0
-      if (pan !== 0) {
-        const panner = this.ctx.createStereoPanner()
-        panner.pan.value = pan
-        channelGain.connect(panner)
-        panner.connect(this.masterGain)
-        this.scheduledNodes.push(panner)
-      } else {
-        channelGain.connect(this.masterGain)
-      }
+      // Stereo panning per channel (always create panner for runtime control)
+      const panner = this.ctx.createStereoPanner()
+      panner.pan.value = ch.pan ?? 0
+      channelGain.connect(panner)
+      panner.connect(this.masterGain)
+      this.channelPanners.push(panner)
+      this.scheduledNodes.push(panner)
       this.scheduledNodes.push(channelGain)
 
       let time = startTime
