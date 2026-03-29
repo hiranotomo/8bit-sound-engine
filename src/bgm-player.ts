@@ -1,13 +1,10 @@
-// src/bgm-player.ts
 import { BGMDefinition } from './types'
-import { Synth } from './synth'
 import { noteToFrequency } from './utils/note'
 import { durationToSeconds } from './utils/timing'
-import { createNoiseNode } from './noise'
 
 export class BGMPlayer {
   private ctx: AudioContext
-  private currentSynths: Synth[] = []
+  private scheduledNodes: AudioNode[] = []
   private isPlaying = false
   private loopTimeoutId: number | null = null
   private masterGain: GainNode
@@ -21,17 +18,18 @@ export class BGMPlayer {
   play(definition: BGMDefinition): void {
     this.stopImmediate()
     this.isPlaying = true
-    this.masterGain.gain.value = 1
+    this.masterGain.gain.setValueAtTime(1, this.ctx.currentTime)
     this.scheduleTrack(definition)
   }
 
   changeTo(definition: BGMDefinition, options?: { fade?: number }): void {
     const fadeMs = options?.fade ?? 300
     const fadeSec = fadeMs / 1000
+    this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, this.ctx.currentTime)
     this.masterGain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + fadeSec)
     setTimeout(() => {
       this.stopImmediate()
-      this.masterGain.gain.value = 1
+      this.masterGain.gain.setValueAtTime(1, this.ctx.currentTime)
       this.isPlaying = true
       this.scheduleTrack(definition)
     }, fadeMs)
@@ -40,6 +38,7 @@ export class BGMPlayer {
   stop(options?: { fade?: number }): void {
     const fadeMs = options?.fade ?? 0
     if (fadeMs > 0) {
+      this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, this.ctx.currentTime)
       this.masterGain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + fadeMs / 1000)
       setTimeout(() => this.stopImmediate(), fadeMs)
     } else {
@@ -53,7 +52,13 @@ export class BGMPlayer {
       clearTimeout(this.loopTimeoutId)
       this.loopTimeoutId = null
     }
-    this.currentSynths = []
+    // Disconnect all scheduled nodes to silence them immediately
+    for (const node of this.scheduledNodes) {
+      try {
+        node.disconnect()
+      } catch (_) { /* already disconnected */ }
+    }
+    this.scheduledNodes = []
   }
 
   private scheduleTrack(def: BGMDefinition): void {
@@ -61,26 +66,29 @@ export class BGMPlayer {
     const startTime = this.ctx.currentTime + 0.05
 
     for (const ch of def.channels) {
-      const synth = new Synth(this.ctx, ch.wave, ch.volume ?? 0.5)
-      synth.output.disconnect()
-      synth.output.connect(this.masterGain)
-      this.currentSynths.push(synth)
+      // Skip noise channels in BGM
+      if (ch.wave === 'noise') continue
+
+      const oscType: OscillatorType = ch.wave === 'square' ? 'square' : 'triangle'
+      const volume = ch.volume ?? 0.5
+
+      const channelGain = this.ctx.createGain()
+      channelGain.gain.value = volume
+      channelGain.connect(this.masterGain)
+      this.scheduledNodes.push(channelGain)
 
       let time = startTime
       for (const note of ch.notes) {
         const dur = durationToSeconds(note.duration, def.bpm)
         const freq = noteToFrequency(note.pitch)
-        if (ch.wave === 'noise') {
-          if (freq > 0) {
-            const noise = createNoiseNode(this.ctx, dur, time)
-            const gain = this.ctx.createGain()
-            gain.gain.value = ch.volume ?? 0.5
-            noise.connect(gain)
-            gain.connect(this.masterGain)
-          }
-        } else {
-          const oscType = ch.wave === 'square' ? 'square' : 'triangle'
-          synth.playNote(freq, time, dur * 0.9, oscType)
+        if (freq > 0) {
+          const osc = this.ctx.createOscillator()
+          osc.type = oscType
+          osc.frequency.value = freq
+          osc.connect(channelGain)
+          osc.start(time)
+          osc.stop(time + dur * 0.9)
+          this.scheduledNodes.push(osc)
         }
         time += dur
       }

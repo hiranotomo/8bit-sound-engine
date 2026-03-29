@@ -20,11 +20,14 @@ export const SE_PRESETS: Record<string, SEDefinition> = {
     ]
   },
   damage: {
-    wave: 'noise',
-    volume: 0.6,
+    wave: 'square',
+    volume: 0.5,
     notes: [
-      { pitch: 'C2', duration: '8n' },
-      { pitch: 'C1', duration: '8n' },
+      { pitch: 'E5', duration: '32n' },
+      { pitch: 'B4', duration: '32n' },
+      { pitch: 'G4', duration: '32n' },
+      { pitch: 'E4', duration: '16n' },
+      { pitch: 'C4', duration: '16n' },
     ]
   },
   powerup: {
@@ -70,9 +73,12 @@ export const SE_PRESETS: Record<string, SEDefinition> = {
   },
   explosion: {
     wave: 'noise',
-    volume: 0.8,
+    volume: 0.7,
     notes: [
-      { pitch: 'C2', duration: '4n' },
+      { pitch: 'G3', duration: '16n' },
+      { pitch: 'C3', duration: '8n' },
+      { pitch: 'C2', duration: '8n' },
+      { pitch: 'C1', duration: '4n' },
     ]
   },
   laser: {
