@@ -11,4 +11,10 @@ describe('noteToFrequency', () => {
   it('returns 0 for null (rest)', () => {
     expect(noteToFrequency(null)).toBe(0)
   })
+  it('converts Bb4 (flat) to same as A#4', () => {
+    expect(noteToFrequency('Bb4')).toBeCloseTo(noteToFrequency('A#4'))
+  })
+  it('converts Eb3 (flat) to same as D#3', () => {
+    expect(noteToFrequency('Eb3')).toBeCloseTo(noteToFrequency('D#3'))
+  })
 })
