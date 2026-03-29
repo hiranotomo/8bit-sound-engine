@@ -1,0 +1,418 @@
+/* ============================================================
+   8-BIT SOUND ENGINE — Pixel Art Demo Stylesheet
+   ============================================================ */
+
+/* --- Reset & Base --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-radius: 0 !important;
+}
+
+:root {
+  --green: #00ff41;
+  --orange: #ff6600;
+  --pink: #ff0055;
+  --dark-purple: #333366;
+  --light-purple: #6666aa;
+  --bg: #0f0f23;
+  --bg-card: #1a1a3e;
+  --text: #ffffff;
+  --text-dim: #8888aa;
+  --pixel: 3px;
+}
+
+html {
+  font-size: 16px;
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+}
+
+body {
+  font-family: 'Press Start 2P', monospace;
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.8;
+}
+
+/* --- CRT Scanline Overlay --- */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 2px,
+    rgba(0, 0, 0, 0.15) 4px
+  );
+}
+
+/* Subtle CRT vignette */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 60%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+}
+
+/* --- Container --- */
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+
+/* --- Header --- */
+.header {
+  text-align: center;
+  padding: 32px 0 24px;
+}
+
+.header h1 {
+  font-size: 1.1rem;
+  color: var(--green);
+  text-shadow:
+    0 0 10px var(--green),
+    0 0 30px rgba(0, 255, 65, 0.3);
+  letter-spacing: 2px;
+  animation: glow-title 3s ease-in-out infinite alternate;
+}
+
+.header .subtitle {
+  font-size: 0.55rem;
+  color: var(--text-dim);
+  margin-top: 12px;
+  letter-spacing: 1px;
+}
+
+@keyframes glow-title {
+  0%   { text-shadow: 0 0 10px var(--green), 0 0 30px rgba(0, 255, 65, 0.3); }
+  100% { text-shadow: 0 0 15px var(--green), 0 0 50px rgba(0, 255, 65, 0.5); }
+}
+
+/* --- Pixel Card (sections) --- */
+.pixel-card {
+  background-color: var(--bg-card);
+  margin-bottom: 24px;
+  padding: 20px;
+  position: relative;
+  /* Pixel border using box-shadow */
+  box-shadow:
+    /* outer border */
+    inset  var(--pixel)  var(--pixel) 0 0 var(--light-purple),
+    inset calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 var(--dark-purple),
+    /* pixel corners */
+     var(--pixel)  var(--pixel) 0 0 var(--dark-purple),
+    calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 rgba(102, 102, 170, 0.3);
+}
+
+.pixel-card .card-title {
+  font-size: 0.65rem;
+  color: var(--orange);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: var(--pixel) solid var(--dark-purple);
+  letter-spacing: 2px;
+}
+
+/* --- Buttons Base --- */
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.pixel-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.55rem;
+  padding: 10px 14px;
+  border: none;
+  cursor: pointer;
+  color: var(--text);
+  background-color: var(--dark-purple);
+  position: relative;
+  transition: background-color 0.05s, transform 0.05s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  image-rendering: pixelated;
+
+  /* Pixel 3D button look */
+  box-shadow:
+    inset calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 #222244,
+    inset  var(--pixel)  var(--pixel) 0 0 #8888cc,
+     var(--pixel)  var(--pixel) 0 0 #000011;
+}
+
+.pixel-btn:hover {
+  background-color: var(--light-purple);
+  box-shadow:
+    inset calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 #444477,
+    inset  var(--pixel)  var(--pixel) 0 0 #aaaadd,
+     var(--pixel)  var(--pixel) 0 0 #000011;
+}
+
+.pixel-btn:active,
+.pixel-btn.active {
+  transform: translate(var(--pixel), var(--pixel));
+  box-shadow:
+    inset  var(--pixel)  var(--pixel) 0 0 #222244,
+    inset calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 #8888cc;
+}
+
+/* --- BGM Buttons --- */
+.pixel-btn[data-bgm] {
+  background-color: #1a4433;
+  box-shadow:
+    inset calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 #0a2218,
+    inset  var(--pixel)  var(--pixel) 0 0 #2a7755,
+     var(--pixel)  var(--pixel) 0 0 #000011;
+}
+
+.pixel-btn[data-bgm]:hover {
+  background-color: #226644;
+}
+
+.pixel-btn[data-bgm="stop"] {
+  background-color: #441122;
+  box-shadow:
+    inset calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 #220808,
+    inset  var(--pixel)  var(--pixel) 0 0 #883344,
+     var(--pixel)  var(--pixel) 0 0 #000011;
+}
+
+.pixel-btn[data-bgm="stop"]:hover {
+  background-color: #662233;
+}
+
+/* Playing state — glow pulse */
+.pixel-btn.playing {
+  background-color: #007722;
+  color: var(--green);
+  animation: btn-pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes btn-pulse {
+  0% {
+    box-shadow:
+      inset calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 #004411,
+      inset  var(--pixel)  var(--pixel) 0 0 #33cc66,
+       var(--pixel)  var(--pixel) 0 0 #000011,
+      0 0 8px var(--green);
+  }
+  100% {
+    box-shadow:
+      inset calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 #004411,
+      inset  var(--pixel)  var(--pixel) 0 0 #33cc66,
+       var(--pixel)  var(--pixel) 0 0 #000011,
+      0 0 20px var(--green),
+      0 0 40px rgba(0, 255, 65, 0.3);
+  }
+}
+
+/* --- SE Buttons --- */
+.pixel-btn[data-se] {
+  background-color: #332244;
+  box-shadow:
+    inset calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 #1a1133,
+    inset  var(--pixel)  var(--pixel) 0 0 #6644aa,
+     var(--pixel)  var(--pixel) 0 0 #000011;
+}
+
+.pixel-btn[data-se]:hover {
+  background-color: #553366;
+}
+
+.pixel-btn[data-se].active {
+  background-color: var(--pink);
+  color: #fff;
+}
+
+/* --- Now Playing --- */
+.now-playing {
+  font-size: 0.5rem;
+  color: var(--green);
+  margin-top: 14px;
+  padding: 10px;
+  background-color: #0a0a1a;
+  text-align: center;
+  box-shadow:
+    inset  var(--pixel)  var(--pixel) 0 0 #000005,
+    inset calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 #222244;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.now-playing .notes {
+  animation: float-notes 1.5s steps(3) infinite;
+}
+
+@keyframes float-notes {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* --- Channel Visualization --- */
+.channel-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  font-size: 0.5rem;
+}
+
+.channel-row:last-child {
+  margin-bottom: 0;
+}
+
+.channel-label {
+  color: var(--text-dim);
+  min-width: 100px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.channel-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  image-rendering: pixelated;
+}
+
+.channel-indicator.pulse1  { background-color: var(--green); }
+.channel-indicator.pulse2  { background-color: #33ccff; }
+.channel-indicator.triangle { background-color: var(--orange); }
+.channel-indicator.noise   { background-color: var(--pink); }
+
+.channel-bar-track {
+  flex: 1;
+  height: 14px;
+  background-color: #0a0a1a;
+  position: relative;
+  box-shadow:
+    inset  2px  2px 0 0 #000005,
+    inset -2px -2px 0 0 #222244;
+}
+
+.channel-bar-fill {
+  height: 100%;
+  image-rendering: pixelated;
+  transition: width 0.15s steps(8);
+}
+
+.channel-bar-fill.pulse1 {
+  background: repeating-linear-gradient(90deg, var(--green) 0px, var(--green) 6px, #005518 6px, #005518 8px);
+}
+
+.channel-bar-fill.pulse2 {
+  background: repeating-linear-gradient(90deg, #33ccff 0px, #33ccff 6px, #115577 6px, #115577 8px);
+}
+
+.channel-bar-fill.triangle {
+  background: repeating-linear-gradient(90deg, var(--orange) 0px, var(--orange) 6px, #663300 6px, #663300 8px);
+}
+
+.channel-bar-fill.noise {
+  background: repeating-linear-gradient(90deg, var(--pink) 0px, var(--pink) 6px, #660022 6px, #660022 8px);
+}
+
+/* --- Footer --- */
+.footer {
+  text-align: center;
+  padding: 24px 0 16px;
+  font-size: 0.45rem;
+  color: var(--text-dim);
+  line-height: 2.2;
+}
+
+.footer .hint {
+  color: var(--orange);
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* --- Stars background decoration --- */
+.stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #ffffff;
+  image-rendering: pixelated;
+  animation: twinkle 4s steps(2) infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.8; }
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+  .container {
+    padding: 12px 8px 48px;
+  }
+
+  .header h1 {
+    font-size: 0.75rem;
+  }
+
+  .pixel-card {
+    padding: 14px 10px;
+  }
+
+  .pixel-btn {
+    font-size: 0.45rem;
+    padding: 8px 10px;
+  }
+
+  .channel-label {
+    min-width: 80px;
+    font-size: 0.4rem;
+  }
+
+  .btn-row {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 400px) {
+  .header h1 {
+    font-size: 0.6rem;
+  }
+
+  .pixel-btn {
+    font-size: 0.4rem;
+    padding: 7px 8px;
+  }
+
+  .channel-label {
+    min-width: 65px;
+    font-size: 0.35rem;
+  }
+}
