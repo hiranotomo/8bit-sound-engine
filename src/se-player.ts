@@ -36,7 +36,7 @@ export class SEPlayer {
       } else {
         if (freq > 0) {
           const osc = this.ctx.createOscillator()
-          osc.type = def.wave === 'square' ? 'square' : 'triangle'
+          osc.type = def.wave as OscillatorType
           osc.frequency.value = freq
           osc.connect(gain)
           osc.start(time)

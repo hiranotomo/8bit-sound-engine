@@ -1,5 +1,5 @@
 // src/types.ts
-export type WaveType = 'square' | 'triangle' | 'noise'
+export type WaveType = 'square' | 'triangle' | 'sawtooth' | 'noise'
 
 export interface NoteEvent {
   pitch: string | null

@@ -72,7 +72,7 @@ export class BGMPlayer {
       // Skip noise channels in BGM
       if (ch.wave === 'noise') continue
 
-      const oscType: OscillatorType = ch.wave === 'square' ? 'square' : 'triangle'
+      const oscType: OscillatorType = ch.wave as OscillatorType
       const volume = ch.volume ?? 0.5
 
       const channelGain = this.ctx.createGain()
