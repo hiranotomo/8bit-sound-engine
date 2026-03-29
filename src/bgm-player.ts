@@ -8,7 +8,10 @@ export class BGMPlayer {
   private isPlaying = false
   private loopTimeoutId: number | null = null
   private masterGain: GainNode
+  private channelGains: GainNode[] = []
   private channelPanners: StereoPannerNode[] = []
+  private channelVolumes: number[] = []
+  private channelMuted: boolean[] = []
 
   constructor(ctx: AudioContext, output?: AudioNode) {
     this.ctx = ctx
@@ -47,30 +50,52 @@ export class BGMPlayer {
     }
   }
 
+  /** Mute/unmute a channel by index with a short fade */
+  setChannelMute(channelIndex: number, muted: boolean): void {
+    const gain = this.channelGains[channelIndex]
+    if (!gain) return
+    this.channelMuted[channelIndex] = muted
+    const target = muted ? 0 : this.channelVolumes[channelIndex] ?? 0.5
+    gain.gain.cancelScheduledValues(this.ctx.currentTime)
+    gain.gain.setValueAtTime(gain.gain.value, this.ctx.currentTime)
+    gain.gain.linearRampToValueAtTime(target, this.ctx.currentTime + 0.15)
+  }
+
+  /** Toggle mute on a channel, returns new muted state */
+  toggleChannel(channelIndex: number): boolean {
+    const muted = !this.channelMuted[channelIndex]
+    this.setChannelMute(channelIndex, muted)
+    return muted
+  }
+
+  /** Set pan for a specific channel. -1 = left, 1 = right */
+  setChannelPan(channelIndex: number, pan: number): void {
+    if (this.channelPanners[channelIndex]) {
+      this.channelPanners[channelIndex].pan.value = Math.max(-1, Math.min(1, pan))
+    }
+  }
+
+  /** Get number of active (non-noise) channels */
+  get channelCount(): number {
+    return this.channelGains.length
+  }
+
   private stopImmediate(): void {
     this.isPlaying = false
     if (this.loopTimeoutId !== null) {
       clearTimeout(this.loopTimeoutId)
       this.loopTimeoutId = null
     }
-    // Cancel any pending gain automation (ramps) so they don't interfere
     this.masterGain.gain.cancelScheduledValues(this.ctx.currentTime)
     this.masterGain.gain.setValueAtTime(1, this.ctx.currentTime)
-    // Disconnect all scheduled nodes to silence them immediately
     for (const node of this.scheduledNodes) {
-      try {
-        node.disconnect()
-      } catch (_) { /* already disconnected */ }
+      try { node.disconnect() } catch (_) { /* already disconnected */ }
     }
     this.scheduledNodes = []
+    this.channelGains = []
     this.channelPanners = []
-  }
-
-  /** Set pan for a specific channel (0-indexed). -1 = left, 1 = right */
-  setChannelPan(channelIndex: number, pan: number): void {
-    if (this.channelPanners[channelIndex]) {
-      this.channelPanners[channelIndex].pan.value = Math.max(-1, Math.min(1, pan))
-    }
+    this.channelVolumes = []
+    this.channelMuted = []
   }
 
   private scheduleTrack(def: BGMDefinition): void {
@@ -78,21 +103,24 @@ export class BGMPlayer {
     const startTime = this.ctx.currentTime + 0.05
 
     for (const ch of def.channels) {
-      // Skip noise channels in BGM
       if (ch.wave === 'noise') continue
 
       const oscType: OscillatorType = ch.wave as OscillatorType
       const volume = ch.volume ?? 0.5
+      const chIndex = this.channelGains.length
 
       const channelGain = this.ctx.createGain()
-      channelGain.gain.value = volume
+      channelGain.gain.value = this.channelMuted[chIndex] ? 0 : volume
 
-      // Stereo panning per channel (always create panner for runtime control)
       const panner = this.ctx.createStereoPanner()
       panner.pan.value = ch.pan ?? 0
       channelGain.connect(panner)
       panner.connect(this.masterGain)
+
+      this.channelGains.push(channelGain)
       this.channelPanners.push(panner)
+      this.channelVolumes.push(volume)
+      if (this.channelMuted[chIndex] === undefined) this.channelMuted.push(false)
       this.scheduledNodes.push(panner)
       this.scheduledNodes.push(channelGain)
 

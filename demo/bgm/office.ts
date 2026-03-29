@@ -150,6 +150,110 @@ export const office: BGMDefinition = {
         { pitch: null, duration: '4n' },
         { pitch: null, duration: '2n' },
       ]
+    },
+    // Harmony — sawtooth (soft pad-like chords) — slightly left
+    {
+      wave: 'sawtooth',
+      volume: 0.12,
+      pan: -0.3,
+      notes: [
+        // Bar 1: Bb (I) — 3rd
+        { pitch: 'D4', duration: '1n' },
+        // Bar 2: Eb (IV) — 3rd
+        { pitch: 'G4', duration: '1n' },
+        // Bar 3: Bb (I) — 5th
+        { pitch: 'F4', duration: '1n' },
+        // Bar 4: F (V) — 3rd + 5th
+        { pitch: 'A4', duration: '2n' },
+        { pitch: 'C5', duration: '2n' },
+        // Bar 5: Bb (I) — 3rd
+        { pitch: 'D4', duration: '1n' },
+        // Bar 6: Eb/G — 3rd then Eb root
+        { pitch: 'G4', duration: '2n' },
+        { pitch: 'Eb4', duration: '2n' },
+        // Bar 7: Cm (ii) — 3rd then F (V) — 3rd
+        { pitch: 'Eb4', duration: '2n' },
+        { pitch: 'A4', duration: '2n' },
+        // Bar 8: Bb (I) — resolve + rest
+        { pitch: 'F4', duration: '2n' },
+        { pitch: null, duration: '2n' },
+      ]
+    },
+    // Rhythm — square (percussive staccato) — center-right
+    {
+      wave: 'square',
+      volume: 0.15,
+      pan: 0.1,
+      notes: [
+        // Bar 1: note-rest-note-note-rest-note-note-rest
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        // Bar 2
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        // Bar 3
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        // Bar 4
+        { pitch: 'F4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        { pitch: 'F4', duration: '8n' },
+        { pitch: 'F4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        { pitch: 'F4', duration: '8n' },
+        { pitch: 'F4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        // Bar 5
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        // Bar 6
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        // Bar 7
+        { pitch: 'F4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        { pitch: 'F4', duration: '8n' },
+        { pitch: 'F4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        { pitch: 'F4', duration: '8n' },
+        { pitch: 'F4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        // Bar 8: wind down
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: null, duration: '8n' },
+        { pitch: null, duration: '4n' },
+        { pitch: null, duration: '2n' },
+      ]
     }
   ]
 }

@@ -94,6 +94,127 @@ export const nature: BGMDefinition = {
         { pitch: 'G2', duration: '2n' },
         { pitch: null, duration: '2n' },
       ]
+    },
+    // Harmony — sawtooth (dreamy pad, very soft) — right of center
+    {
+      wave: 'sawtooth',
+      volume: 0.10,
+      pan: 0.3,
+      notes: [
+        // Bar 1: G — 3rd
+        { pitch: 'B3', duration: '1n' },
+
+        // Bar 2: C — 3rd
+        { pitch: 'E4', duration: '1n' },
+
+        // Bar 3: G — 5th
+        { pitch: 'D4', duration: '1n' },
+
+        // Bar 4: Em → D
+        { pitch: 'G3', duration: '2n' },
+        { pitch: 'F#3', duration: '2n' },
+
+        // Bar 5: C — 3rd
+        { pitch: 'E4', duration: '1n' },
+
+        // Bar 6: Am → G
+        { pitch: 'C4', duration: '2n' },
+        { pitch: 'B3', duration: '2n' },
+
+        // Bar 7: D — 3rd
+        { pitch: 'F#4', duration: '1n' },
+
+        // Bar 8: G — settle
+        { pitch: 'B3', duration: '2n' },
+        { pitch: 'D4', duration: '2n' },
+      ]
+    },
+    // Arpeggio — triangle (gentle music-box texture) — slightly left
+    {
+      wave: 'triangle',
+      volume: 0.15,
+      pan: -0.15,
+      notes: [
+        // Bar 1: G arpeggio — ascending/descending
+        { pitch: 'G4', duration: '8n' },
+        { pitch: 'B4', duration: '8n' },
+        { pitch: 'D5', duration: '8n' },
+        { pitch: 'B4', duration: '8n' },
+        { pitch: 'G4', duration: '8n' },
+        { pitch: 'B4', duration: '8n' },
+        { pitch: 'D5', duration: '8n' },
+        { pitch: 'B4', duration: '8n' },
+
+        // Bar 2: C arpeggio
+        { pitch: 'C4', duration: '8n' },
+        { pitch: 'E4', duration: '8n' },
+        { pitch: 'G4', duration: '8n' },
+        { pitch: 'E4', duration: '8n' },
+        { pitch: 'C4', duration: '8n' },
+        { pitch: 'E4', duration: '8n' },
+        { pitch: 'G4', duration: '8n' },
+        { pitch: 'E4', duration: '8n' },
+
+        // Bar 3: G arpeggio
+        { pitch: 'G4', duration: '8n' },
+        { pitch: 'B4', duration: '8n' },
+        { pitch: 'D5', duration: '8n' },
+        { pitch: 'B4', duration: '8n' },
+        { pitch: 'G4', duration: '8n' },
+        { pitch: 'B4', duration: '8n' },
+        { pitch: 'D5', duration: '8n' },
+        { pitch: 'B4', duration: '8n' },
+
+        // Bar 4: Em → D
+        { pitch: 'E4', duration: '8n' },
+        { pitch: 'G4', duration: '8n' },
+        { pitch: 'B4', duration: '8n' },
+        { pitch: 'G4', duration: '8n' },
+        { pitch: 'D4', duration: '8n' },
+        { pitch: 'F#4', duration: '8n' },
+        { pitch: 'A4', duration: '8n' },
+        { pitch: 'F#4', duration: '8n' },
+
+        // Bar 5: C arpeggio
+        { pitch: 'C4', duration: '8n' },
+        { pitch: 'E4', duration: '8n' },
+        { pitch: 'G4', duration: '8n' },
+        { pitch: 'E4', duration: '8n' },
+        { pitch: 'C4', duration: '8n' },
+        { pitch: 'E4', duration: '8n' },
+        { pitch: 'G4', duration: '8n' },
+        { pitch: 'E4', duration: '8n' },
+
+        // Bar 6: Am → G
+        { pitch: 'A3', duration: '8n' },
+        { pitch: 'C4', duration: '8n' },
+        { pitch: 'E4', duration: '8n' },
+        { pitch: 'C4', duration: '8n' },
+        { pitch: 'G3', duration: '8n' },
+        { pitch: 'B3', duration: '8n' },
+        { pitch: 'D4', duration: '8n' },
+        { pitch: 'B3', duration: '8n' },
+
+        // Bar 7: D arpeggio
+        { pitch: 'D4', duration: '8n' },
+        { pitch: 'F#4', duration: '8n' },
+        { pitch: 'A4', duration: '8n' },
+        { pitch: 'F#4', duration: '8n' },
+        { pitch: 'D4', duration: '8n' },
+        { pitch: 'F#4', duration: '8n' },
+        { pitch: 'A4', duration: '8n' },
+        { pitch: 'F#4', duration: '8n' },
+
+        // Bar 8: G arpeggio — descending to resolve
+        { pitch: 'G3', duration: '8n' },
+        { pitch: 'B3', duration: '8n' },
+        { pitch: 'D4', duration: '8n' },
+        { pitch: 'G4', duration: '8n' },
+        { pitch: 'D4', duration: '8n' },
+        { pitch: 'B3', duration: '8n' },
+        { pitch: 'G3', duration: '8n' },
+        { pitch: null, duration: '8n' },
+      ]
     }
   ]
 }

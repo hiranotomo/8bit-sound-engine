@@ -11,7 +11,13 @@ const engine = createSoundEngine({
 
 const bgms = { office: officeBGM, nature: natureBGM }
 const bgmLabels: Record<string, string> = { office: 'Office / City', nature: 'Nature / Adventure' }
+const layerNames: Record<string, string[]> = {
+  office: ['MELODY', 'BASS', 'HARMONY', 'RHYTHM'],
+  nature: ['MELODY', 'BASS', 'HARMONY', 'ARPEGGIO']
+}
 let currentBGM: string | null = null
+
+const layerPanel = document.getElementById('layer-panel')
 
 document.querySelectorAll('[data-bgm]').forEach(btn => {
   btn.addEventListener('click', async () => {
@@ -21,6 +27,7 @@ document.querySelectorAll('[data-bgm]').forEach(btn => {
       engine.bgm.stop({ fade: 300 })
       currentBGM = null
       updateNowPlaying()
+      updateLayerPanel()
       return
     }
     const def = bgms[name as keyof typeof bgms]
@@ -31,6 +38,7 @@ document.querySelectorAll('[data-bgm]').forEach(btn => {
     }
     currentBGM = name
     updateNowPlaying()
+    updateLayerPanel()
     spawnFloatingNote()
   })
 })
@@ -111,6 +119,38 @@ function spawnFloatingNote() {
 setInterval(() => {
   if (currentBGM) spawnFloatingNote()
 }, 2000)
+
+// --- Layer Toggle Controls ---
+
+function updateLayerPanel() {
+  if (!layerPanel) return
+  if (!currentBGM) {
+    layerPanel.style.display = 'none'
+    return
+  }
+  layerPanel.style.display = 'block'
+  const names = layerNames[currentBGM] || ['CH 0', 'CH 1', 'CH 2', 'CH 3']
+  for (let i = 0; i < 4; i++) {
+    const btn = document.getElementById(`layer-${i}`)
+    if (btn) {
+      btn.classList.add('active')
+      btn.innerHTML = `<span class="layer-indicator on"></span> ${names[i]}`
+    }
+  }
+}
+
+document.querySelectorAll('[data-layer]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (!currentBGM) return
+    const idx = parseInt((btn as HTMLElement).dataset.layer!)
+    const muted = engine.bgm.toggleChannel(idx)
+    btn.classList.toggle('active', !muted)
+    const indicator = btn.querySelector('.layer-indicator')
+    if (indicator) {
+      indicator.classList.toggle('on', !muted)
+    }
+  })
+})
 
 // --- Mixer Controls ---
 

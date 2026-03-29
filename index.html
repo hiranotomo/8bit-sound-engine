@@ -84,6 +84,24 @@
         <div class="now-playing" id="now-playing">
           <span class="now-playing-text">Silence...</span>
         </div>
+        <!-- Layer toggles (hidden until BGM selected) -->
+        <div class="layer-panel" id="layer-panel" style="display:none;">
+          <div class="layer-title">LAYERS</div>
+          <div class="layer-row">
+            <button class="layer-btn active" data-layer="0" id="layer-0">
+              <span class="layer-indicator on"></span> MELODY
+            </button>
+            <button class="layer-btn active" data-layer="1" id="layer-1">
+              <span class="layer-indicator on"></span> BASS
+            </button>
+            <button class="layer-btn active" data-layer="2" id="layer-2">
+              <span class="layer-indicator on"></span> HARMONY
+            </button>
+            <button class="layer-btn active" data-layer="3" id="layer-3">
+              <span class="layer-indicator on"></span> RHYTHM
+            </button>
+          </div>
+        </div>
       </div>
     </section>
 
