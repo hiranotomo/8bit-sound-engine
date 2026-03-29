@@ -1,5 +1,0 @@
-[     495ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:5173/favicon.ico:0
-[   26740ms] Error: Invalid note: Bb4
-    at noteToFrequency (http://localhost:5173/src/utils/note.ts:18:20)
-    at BGMPlayer.scheduleTrack (http://localhost:5173/src/bgm-player.ts:59:18)
-    at http://localhost:5173/src/bgm-player.ts:28:9
