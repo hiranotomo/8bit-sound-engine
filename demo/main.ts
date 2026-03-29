@@ -1,15 +1,14 @@
 import { createSoundEngine } from '../src/index'
-import { overworld as overworldBGM } from './bgm/overworld'
-import { dungeon as dungeonBGM } from './bgm/dungeon'
-import { battle as battleBGM } from './bgm/battle'
+import { office as officeBGM } from './bgm/office'
+import { nature as natureBGM } from './bgm/nature'
 import './style.css'
 
 const engine = createSoundEngine()
 
 // --- BGM Controls ---
 
-const bgms = { overworld: overworldBGM, dungeon: dungeonBGM, battle: battleBGM }
-const bgmLabels: Record<string, string> = { overworld: 'Forest', dungeon: 'Dungeon', battle: 'Battle' }
+const bgms = { office: officeBGM, nature: natureBGM }
+const bgmLabels: Record<string, string> = { office: 'Office / City', nature: 'Nature / Adventure' }
 let currentBGM: string | null = null
 
 document.querySelectorAll('[data-bgm]').forEach(btn => {
