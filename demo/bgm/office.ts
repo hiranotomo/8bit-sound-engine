@@ -7,7 +7,7 @@ import { BGMDefinition } from '../../src/types'
  * Triangle wave melody + triangle bass for soft, recorder-like tone
  */
 export const office: BGMDefinition = {
-  bpm: 112,
+  bpm: 138,
   loop: true,
   channels: [
     // Melody — triangle (warm, recorder-like)
