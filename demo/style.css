@@ -1,5 +1,6 @@
 /* ============================================================
-   8-BIT SOUND ENGINE — Pixel Art Demo Stylesheet
+   8-BIT SOUND ENGINE — RPG Pixel Art Forest Theme
+   Inspired by warm, colorful adventure game aesthetics
    ============================================================ */
 
 /* --- Reset & Base --- */
@@ -11,15 +12,35 @@
 }
 
 :root {
-  --green: #00ff41;
-  --orange: #ff6600;
-  --pink: #ff0055;
-  --dark-purple: #333366;
-  --light-purple: #6666aa;
-  --bg: #0f0f23;
-  --bg-card: #1a1a3e;
-  --text: #ffffff;
-  --text-dim: #8888aa;
+  /* Warm forest palette */
+  --sky-top: #3b1e5e;
+  --sky-mid: #c85a3a;
+  --sky-bottom: #f2b866;
+
+  --green-dark: #2d5a1e;
+  --green-mid: #4a8c2a;
+  --green-light: #7bc24e;
+  --green-bright: #a8e060;
+
+  --brown-dark: #5c3a1e;
+  --brown-mid: #8b6040;
+  --brown-light: #c4965c;
+  --brown-pale: #e0c090;
+
+  --gold: #f0c040;
+  --gold-dark: #c89020;
+  --orange: #e87830;
+  --red: #d83030;
+  --pink: #f06888;
+
+  --water-dark: #2850a0;
+  --water-light: #50a0d0;
+
+  --white: #f8f0e0;
+  --cream: #f0e8d0;
+  --text: #3a2010;
+  --text-light: #6b5030;
+
   --pixel: 3px;
 }
 
@@ -32,250 +53,653 @@ html {
 
 body {
   font-family: 'Press Start 2P', monospace;
-  background-color: var(--bg);
+  background: var(--green-dark);
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
   line-height: 1.8;
-}
-
-/* --- CRT Scanline Overlay --- */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.15) 2px,
-    rgba(0, 0, 0, 0.15) 4px
-  );
-}
-
-/* Subtle CRT vignette */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9998;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 60%,
-    rgba(0, 0, 0, 0.5) 100%
-  );
-}
-
-/* --- Container --- */
-.container {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 24px 16px 64px;
-}
-
-/* --- Header --- */
-.header {
-  text-align: center;
-  padding: 32px 0 24px;
-}
-
-.header h1 {
-  font-size: 1.1rem;
-  color: var(--green);
-  text-shadow:
-    0 0 10px var(--green),
-    0 0 30px rgba(0, 255, 65, 0.3);
-  letter-spacing: 2px;
-  animation: glow-title 3s ease-in-out infinite alternate;
-}
-
-.header .subtitle {
-  font-size: 0.55rem;
-  color: var(--text-dim);
-  margin-top: 12px;
-  letter-spacing: 1px;
-}
-
-@keyframes glow-title {
-  0%   { text-shadow: 0 0 10px var(--green), 0 0 30px rgba(0, 255, 65, 0.3); }
-  100% { text-shadow: 0 0 15px var(--green), 0 0 50px rgba(0, 255, 65, 0.5); }
-}
-
-/* --- Pixel Card (sections) --- */
-.pixel-card {
-  background-color: var(--bg-card);
-  margin-bottom: 24px;
-  padding: 20px;
   position: relative;
-  /* Pixel border using box-shadow */
-  box-shadow:
-    /* outer border */
-    inset  var(--pixel)  var(--pixel) 0 0 var(--light-purple),
-    inset calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 var(--dark-purple),
-    /* pixel corners */
-     var(--pixel)  var(--pixel) 0 0 var(--dark-purple),
-    calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 rgba(102, 102, 170, 0.3);
 }
 
-.pixel-card .card-title {
-  font-size: 0.65rem;
-  color: var(--orange);
-  margin-bottom: 16px;
-  padding-bottom: 10px;
-  border-bottom: var(--pixel) solid var(--dark-purple);
+/* ============================================================
+   SCENE — Pixel Art Background
+   ============================================================ */
+
+.scene {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* --- Sky gradient (warm sunset) --- */
+.sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    #2a1545 0%,
+    #5c2d6e 15%,
+    #a84050 30%,
+    #d87040 45%,
+    #f0a848 60%,
+    #f8d878 70%,
+    #90c848 78%,
+    #4a8c2a 85%,
+    #2d5a1e 100%
+  );
+}
+
+/* --- Clouds --- */
+.cloud {
+  position: absolute;
+  background: rgba(255, 240, 220, 0.6);
+  image-rendering: pixelated;
+}
+
+.cloud::before, .cloud::after {
+  content: '';
+  position: absolute;
+  background: inherit;
+}
+
+.cloud-1 {
+  width: 80px;
+  height: 20px;
+  top: 10%;
+  left: 15%;
+  box-shadow:
+    20px -12px 0 0 rgba(255, 240, 220, 0.6),
+    40px -8px 0 0 rgba(255, 240, 220, 0.6),
+    -10px -6px 0 0 rgba(255, 240, 220, 0.6);
+  animation: cloud-drift 60s linear infinite;
+}
+
+.cloud-2 {
+  width: 60px;
+  height: 16px;
+  top: 8%;
+  left: 55%;
+  box-shadow:
+    15px -10px 0 0 rgba(255, 240, 220, 0.5),
+    30px -6px 0 0 rgba(255, 240, 220, 0.5);
+  animation: cloud-drift 80s linear infinite;
+  animation-delay: -20s;
+}
+
+.cloud-3 {
+  width: 100px;
+  height: 18px;
+  top: 16%;
+  left: 75%;
+  box-shadow:
+    25px -14px 0 0 rgba(255, 240, 220, 0.4),
+    50px -8px 0 0 rgba(255, 240, 220, 0.4),
+    -15px -6px 0 0 rgba(255, 240, 220, 0.4);
+  animation: cloud-drift 90s linear infinite;
+  animation-delay: -40s;
+}
+
+@keyframes cloud-drift {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(100vw + 200px)); }
+}
+
+/* --- Mountains (far background) --- */
+.mountains {
+  position: absolute;
+  bottom: 30%;
+  left: 0;
+  right: 0;
+  height: 30%;
+}
+
+.mountain {
+  position: absolute;
+  bottom: 0;
+  width: 0;
+  height: 0;
+}
+
+.mountain-far-1 {
+  left: 5%;
+  border-left: 120px solid transparent;
+  border-right: 120px solid transparent;
+  border-bottom: 160px solid #6b5088;
+}
+
+.mountain-far-2 {
+  right: 5%;
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-bottom: 140px solid #7860a0;
+}
+
+.mountain-near-1 {
+  left: 20%;
+  border-left: 150px solid transparent;
+  border-right: 150px solid transparent;
+  border-bottom: 120px solid #486838;
+}
+
+.mountain-near-2 {
+  right: 15%;
+  border-left: 130px solid transparent;
+  border-right: 130px solid transparent;
+  border-bottom: 110px solid #507040;
+}
+
+/* --- Trees (CSS pixel trees) --- */
+.trees {
+  position: absolute;
+  bottom: 14%;
+  left: 0;
+  right: 0;
+  height: 30%;
+}
+
+.tree {
+  position: absolute;
+  bottom: 0;
+}
+
+/* Triangle tree shape using borders */
+.tree::before {
+  content: '';
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-bottom: 50px solid var(--green-mid);
+}
+
+.tree::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 24px;
+  background: var(--brown-mid);
+}
+
+.tree-1 { left: 3%; }
+.tree-1::before { border-bottom-color: #3a7028; border-left-width: 35px; border-right-width: 35px; border-bottom-width: 60px; }
+.tree-2 { left: 12%; }
+.tree-2::before { border-bottom-color: #4a8c2a; }
+.tree-3 { right: 18%; }
+.tree-3::before { border-bottom-color: #3a7028; border-left-width: 40px; border-right-width: 40px; border-bottom-width: 65px; }
+.tree-4 { right: 8%; }
+.tree-4::before { border-bottom-color: #2d6820; border-left-width: 25px; border-right-width: 25px; border-bottom-width: 45px; }
+.tree-5 { right: 2%; }
+.tree-5::before { border-bottom-color: #4a8c2a; border-left-width: 32px; border-right-width: 32px; border-bottom-width: 55px; }
+
+/* --- Ground --- */
+.ground {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 16%;
+  background: linear-gradient(180deg, var(--green-mid) 0%, var(--green-dark) 40%, #1e3a10 100%);
+}
+
+.ground-detail {
+  position: absolute;
+  bottom: 14%;
+  left: 0;
+  right: 0;
+  height: 4%;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--green-light) 0px,
+    var(--green-light) 8px,
+    var(--green-mid) 8px,
+    var(--green-mid) 12px,
+    var(--green-bright) 12px,
+    var(--green-bright) 16px,
+    var(--green-mid) 16px,
+    var(--green-mid) 24px
+  );
+  opacity: 0.5;
+}
+
+/* --- Campfire --- */
+.campfire {
+  position: absolute;
+  bottom: 15%;
+  left: 8%;
+}
+
+.fire {
+  width: 16px;
+  height: 20px;
+  background: var(--orange);
+  position: relative;
+  animation: flicker 0.3s steps(2) infinite alternate;
+}
+
+.fire::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 3px;
+  width: 10px;
+  height: 14px;
+  background: var(--gold);
+}
+
+.fire::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 5px;
+  width: 6px;
+  height: 8px;
+  background: #fff8e0;
+}
+
+.fire-glow {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  width: 56px;
+  height: 56px;
+  background: radial-gradient(circle, rgba(240, 160, 40, 0.3) 0%, transparent 70%);
+  animation: glow-pulse 1s steps(3) infinite alternate;
+}
+
+@keyframes flicker {
+  0% { transform: scaleY(1) scaleX(1); }
+  100% { transform: scaleY(1.15) scaleX(0.9); }
+}
+
+@keyframes glow-pulse {
+  0% { opacity: 0.6; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.2); }
+}
+
+/* --- Fox character --- */
+.character {
+  position: absolute;
+  bottom: 15%;
+  right: 12%;
+}
+
+.fox {
+  width: 20px;
+  height: 20px;
+  background: #e08030;
+  position: relative;
+  animation: fox-idle 1s steps(2) infinite;
+}
+
+.fox::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 2px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 10px solid #e08030;
+}
+
+.fox::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 4px;
+  height: 4px;
+  background: #301800;
+  box-shadow: 8px 0 0 0 #301800;
+}
+
+@keyframes fox-idle {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-2px); }
+}
+
+/* --- Floating music notes --- */
+.music-note {
+  position: absolute;
+  font-size: 16px;
+  color: var(--gold);
+  pointer-events: none;
+  animation: note-float 3s ease-out forwards;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+}
+
+@keyframes note-float {
+  0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+  70% { opacity: 0.8; }
+  100% { opacity: 0; transform: translateY(-80px) rotate(20deg) translateX(20px); }
+}
+
+/* ============================================================
+   MAIN UI — RPG Menu Style
+   ============================================================ */
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+}
+
+/* --- Scroll/Banner header --- */
+.scroll-banner {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 0 20px;
+}
+
+.scroll-top, .scroll-bottom {
+  height: 12px;
+  background: var(--brown-light);
+  margin: 0 20px;
+  position: relative;
+  box-shadow:
+    inset 0 3px 0 0 var(--brown-pale),
+    inset 0 -3px 0 0 var(--brown-dark);
+}
+
+.scroll-top::before, .scroll-top::after,
+.scroll-bottom::before, .scroll-bottom::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 20px;
+  background: var(--brown-mid);
+  top: -4px;
+  box-shadow:
+    inset 0 3px 0 0 var(--brown-light),
+    inset 0 -3px 0 0 var(--brown-dark);
+}
+
+.scroll-top::before, .scroll-bottom::before { left: -24px; }
+.scroll-top::after, .scroll-bottom::after { right: -24px; }
+
+.scroll-body {
+  background: var(--cream);
+  padding: 16px 20px 12px;
+  border-left: 4px solid var(--brown-mid);
+  border-right: 4px solid var(--brown-mid);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 4px,
+      rgba(180, 160, 120, 0.1) 4px,
+      rgba(180, 160, 120, 0.1) 5px
+    );
+}
+
+.scroll-body h1 {
+  font-size: 0.95rem;
+  color: var(--brown-dark);
+  text-shadow: 2px 2px 0 rgba(200, 160, 80, 0.4);
   letter-spacing: 2px;
 }
 
-/* --- Buttons Base --- */
+.scroll-body .subtitle {
+  font-size: 0.5rem;
+  color: var(--text-light);
+  margin-top: 6px;
+}
+
+/* --- Wood Panel (card sections) --- */
+.wood-panel {
+  margin-bottom: 16px;
+  background: linear-gradient(180deg, #c4985c, #a07840, #8b6838);
+  border: 4px solid var(--brown-dark);
+  position: relative;
+  box-shadow:
+    inset 0 2px 0 0 var(--brown-light),
+    inset 0 -2px 0 0 #5c3018,
+    4px 4px 0 0 rgba(0, 0, 0, 0.25);
+  /* Wood grain */
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 8px,
+      rgba(120, 80, 30, 0.15) 8px,
+      rgba(120, 80, 30, 0.15) 9px
+    );
+}
+
+.panel-header {
+  font-size: 0.6rem;
+  color: var(--gold);
+  padding: 10px 14px 8px;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+  border-bottom: 3px solid rgba(0, 0, 0, 0.2);
+  letter-spacing: 2px;
+}
+
+.panel-icon {
+  margin-right: 4px;
+}
+
+.panel-content {
+  padding: 12px 14px 14px;
+}
+
+/* --- BGM Buttons (RPG menu style) --- */
 .btn-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 12px;
+  gap: 8px;
+  margin-bottom: 10px;
 }
 
-.pixel-btn {
+.btn-row:last-of-type {
+  margin-bottom: 0;
+}
+
+.game-btn {
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.55rem;
+  font-size: 0.5rem;
   padding: 10px 14px;
-  border: none;
+  border: 3px solid;
   cursor: pointer;
-  color: var(--text);
-  background-color: var(--dark-purple);
+  color: var(--white);
   position: relative;
-  transition: background-color 0.05s, transform 0.05s;
+  transition: transform 0.05s;
   text-transform: uppercase;
   letter-spacing: 1px;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
   image-rendering: pixelated;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
-  /* Pixel 3D button look */
+.btn-icon {
+  font-style: normal;
+}
+
+/* Forest button */
+.btn-forest {
+  background: linear-gradient(180deg, var(--green-light), var(--green-mid));
+  border-color: var(--green-dark);
   box-shadow:
-    inset calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 #222244,
-    inset  var(--pixel)  var(--pixel) 0 0 #8888cc,
-     var(--pixel)  var(--pixel) 0 0 #000011;
+    inset 0 2px 0 0 var(--green-bright),
+    inset 0 -2px 0 0 #1e4010,
+    3px 3px 0 0 rgba(0,0,0,0.3);
 }
 
-.pixel-btn:hover {
-  background-color: var(--light-purple);
+.btn-forest:hover {
+  background: linear-gradient(180deg, var(--green-bright), var(--green-light));
+}
+
+/* Dungeon button */
+.btn-cave {
+  background: linear-gradient(180deg, #7868a8, #584888);
+  border-color: #382858;
   box-shadow:
-    inset calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 #444477,
-    inset  var(--pixel)  var(--pixel) 0 0 #aaaadd,
-     var(--pixel)  var(--pixel) 0 0 #000011;
+    inset 0 2px 0 0 #9888c8,
+    inset 0 -2px 0 0 #302048,
+    3px 3px 0 0 rgba(0,0,0,0.3);
 }
 
-.pixel-btn:active,
-.pixel-btn.active {
-  transform: translate(var(--pixel), var(--pixel));
+.btn-cave:hover {
+  background: linear-gradient(180deg, #9888c8, #7868a8);
+}
+
+/* Battle button */
+.btn-battle {
+  background: linear-gradient(180deg, #d85040, #b03028);
+  border-color: #781818;
   box-shadow:
-    inset  var(--pixel)  var(--pixel) 0 0 #222244,
-    inset calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 #8888cc;
+    inset 0 2px 0 0 #f07060,
+    inset 0 -2px 0 0 #601010,
+    3px 3px 0 0 rgba(0,0,0,0.3);
 }
 
-/* --- BGM Buttons --- */
-.pixel-btn[data-bgm] {
-  background-color: #1a4433;
+.btn-battle:hover {
+  background: linear-gradient(180deg, #f07060, #d85040);
+}
+
+/* Stop button */
+.btn-stop {
+  background: linear-gradient(180deg, #786058, #584038);
+  border-color: #382820;
   box-shadow:
-    inset calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 #0a2218,
-    inset  var(--pixel)  var(--pixel) 0 0 #2a7755,
-     var(--pixel)  var(--pixel) 0 0 #000011;
+    inset 0 2px 0 0 #988070,
+    inset 0 -2px 0 0 #281810,
+    3px 3px 0 0 rgba(0,0,0,0.3);
 }
 
-.pixel-btn[data-bgm]:hover {
-  background-color: #226644;
+.btn-stop:hover {
+  background: linear-gradient(180deg, #988070, #786058);
 }
 
-.pixel-btn[data-bgm="stop"] {
-  background-color: #441122;
+/* Button press */
+.game-btn:active {
+  transform: translate(2px, 2px);
   box-shadow:
-    inset calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 #220808,
-    inset  var(--pixel)  var(--pixel) 0 0 #883344,
-     var(--pixel)  var(--pixel) 0 0 #000011;
+    inset 0 2px 0 0 rgba(255,255,255,0.1),
+    inset 0 -2px 0 0 rgba(0,0,0,0.2);
 }
 
-.pixel-btn[data-bgm="stop"]:hover {
-  background-color: #662233;
+/* Playing state */
+.game-btn.playing {
+  animation: playing-glow 1s steps(4) infinite alternate;
 }
 
-/* Playing state — glow pulse */
-.pixel-btn.playing {
-  background-color: #007722;
-  color: var(--green);
-  animation: btn-pulse 1s ease-in-out infinite alternate;
+.game-btn.playing::after {
+  content: '♫';
+  position: absolute;
+  right: 6px;
+  top: 2px;
+  font-size: 0.6rem;
+  animation: note-bounce 0.6s steps(3) infinite alternate;
 }
 
-@keyframes btn-pulse {
-  0% {
-    box-shadow:
-      inset calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 #004411,
-      inset  var(--pixel)  var(--pixel) 0 0 #33cc66,
-       var(--pixel)  var(--pixel) 0 0 #000011,
-      0 0 8px var(--green);
-  }
-  100% {
-    box-shadow:
-      inset calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 #004411,
-      inset  var(--pixel)  var(--pixel) 0 0 #33cc66,
-       var(--pixel)  var(--pixel) 0 0 #000011,
-      0 0 20px var(--green),
-      0 0 40px rgba(0, 255, 65, 0.3);
-  }
+@keyframes playing-glow {
+  0% { box-shadow: inset 0 2px 0 0 rgba(255,255,255,0.2), inset 0 -2px 0 0 rgba(0,0,0,0.2), 3px 3px 0 0 rgba(0,0,0,0.3), 0 0 8px var(--gold); }
+  100% { box-shadow: inset 0 2px 0 0 rgba(255,255,255,0.2), inset 0 -2px 0 0 rgba(0,0,0,0.2), 3px 3px 0 0 rgba(0,0,0,0.3), 0 0 20px var(--gold), 0 0 40px rgba(240, 192, 64, 0.3); }
 }
 
-/* --- SE Buttons --- */
-.pixel-btn[data-se] {
-  background-color: #332244;
-  box-shadow:
-    inset calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 #1a1133,
-    inset  var(--pixel)  var(--pixel) 0 0 #6644aa,
-     var(--pixel)  var(--pixel) 0 0 #000011;
+@keyframes note-bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-4px); }
 }
 
-.pixel-btn[data-se]:hover {
-  background-color: #553366;
-}
-
-.pixel-btn[data-se].active {
-  background-color: var(--pink);
-  color: #fff;
-}
-
-/* --- Now Playing --- */
+/* --- Now Playing (parchment style) --- */
 .now-playing {
-  font-size: 0.5rem;
-  color: var(--green);
-  margin-top: 14px;
-  padding: 10px;
-  background-color: #0a0a1a;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.25);
+  font-size: 0.45rem;
+  color: var(--gold);
   text-align: center;
-  box-shadow:
-    inset  var(--pixel)  var(--pixel) 0 0 #000005,
-    inset calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 0 #222244;
-  min-height: 36px;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  min-height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* --- SE Buttons (inventory item grid) --- */
+.se-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   gap: 8px;
 }
 
-.now-playing .notes {
-  animation: float-notes 1.5s steps(3) infinite;
+.item-btn {
+  font-family: 'Press Start 2P', monospace;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 4px;
+  border: 3px solid var(--brown-dark);
+  cursor: pointer;
+  background: linear-gradient(180deg, #d8c8a0, #c0a878);
+  color: var(--text);
+  position: relative;
+  transition: transform 0.05s;
+  image-rendering: pixelated;
+  box-shadow:
+    inset 0 2px 0 0 #e8dcc0,
+    inset 0 -2px 0 0 #987848,
+    2px 2px 0 0 rgba(0,0,0,0.25);
 }
 
-@keyframes float-notes {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+.item-btn:hover {
+  background: linear-gradient(180deg, #e8dcc0, #d8c8a0);
+  border-color: var(--gold-dark);
 }
 
-/* --- Channel Visualization --- */
+.item-btn:active,
+.item-btn.active {
+  transform: translate(2px, 2px);
+  box-shadow:
+    inset 0 2px 0 0 #987848,
+    inset 0 -2px 0 0 #e8dcc0;
+  background: linear-gradient(180deg, var(--gold), #e0a830);
+}
+
+.item-icon {
+  font-size: 0.7rem;
+  font-style: normal;
+  line-height: 1;
+}
+
+.item-label {
+  font-size: 0.3rem;
+  letter-spacing: 0.5px;
+  color: var(--text-light);
+}
+
+.item-btn.active .item-label {
+  color: var(--brown-dark);
+}
+
+/* --- Channel Visualization (crystal bars) --- */
 .channel-row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
-  font-size: 0.5rem;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 0.4rem;
+  color: var(--cream);
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
 }
 
 .channel-row:last-child {
@@ -283,33 +707,33 @@ body::before {
 }
 
 .channel-label {
-  color: var(--text-dim);
-  min-width: 100px;
+  min-width: 90px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
-.channel-indicator {
+.crystal {
   display: inline-block;
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   image-rendering: pixelated;
+  box-shadow:
+    inset 2px 2px 0 0 rgba(255,255,255,0.4),
+    inset -1px -1px 0 0 rgba(0,0,0,0.3);
 }
 
-.channel-indicator.pulse1  { background-color: var(--green); }
-.channel-indicator.pulse2  { background-color: #33ccff; }
-.channel-indicator.triangle { background-color: var(--orange); }
-.channel-indicator.noise   { background-color: var(--pink); }
+.crystal-green  { background: var(--green-bright); }
+.crystal-blue   { background: var(--water-light); }
+.crystal-orange { background: var(--orange); }
+.crystal-pink   { background: var(--pink); }
 
 .channel-bar-track {
   flex: 1;
-  height: 14px;
-  background-color: #0a0a1a;
+  height: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(0, 0, 0, 0.2);
   position: relative;
-  box-shadow:
-    inset  2px  2px 0 0 #000005,
-    inset -2px -2px 0 0 #222244;
 }
 
 .channel-bar-fill {
@@ -319,100 +743,93 @@ body::before {
 }
 
 .channel-bar-fill.pulse1 {
-  background: repeating-linear-gradient(90deg, var(--green) 0px, var(--green) 6px, #005518 6px, #005518 8px);
+  background: repeating-linear-gradient(90deg, var(--green-bright) 0px, var(--green-bright) 5px, var(--green-mid) 5px, var(--green-mid) 7px);
 }
 
 .channel-bar-fill.pulse2 {
-  background: repeating-linear-gradient(90deg, #33ccff 0px, #33ccff 6px, #115577 6px, #115577 8px);
+  background: repeating-linear-gradient(90deg, var(--water-light) 0px, var(--water-light) 5px, var(--water-dark) 5px, var(--water-dark) 7px);
 }
 
 .channel-bar-fill.triangle {
-  background: repeating-linear-gradient(90deg, var(--orange) 0px, var(--orange) 6px, #663300 6px, #663300 8px);
+  background: repeating-linear-gradient(90deg, var(--orange) 0px, var(--orange) 5px, #a05020 5px, #a05020 7px);
 }
 
 .channel-bar-fill.noise {
-  background: repeating-linear-gradient(90deg, var(--pink) 0px, var(--pink) 6px, #660022 6px, #660022 8px);
+  background: repeating-linear-gradient(90deg, var(--pink) 0px, var(--pink) 5px, #a03050 5px, #a03050 7px);
 }
 
 /* --- Footer --- */
 .footer {
   text-align: center;
-  padding: 24px 0 16px;
-  font-size: 0.45rem;
-  color: var(--text-dim);
-  line-height: 2.2;
+  padding: 16px 0;
+  font-size: 0.4rem;
+  color: var(--cream);
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .footer .hint {
-  color: var(--orange);
-  margin-bottom: 8px;
-  display: block;
+  color: var(--gold);
 }
 
-/* --- Stars background decoration --- */
-.stars {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-  overflow: hidden;
-}
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
 
-.star {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: #ffffff;
-  image-rendering: pixelated;
-  animation: twinkle 4s steps(2) infinite;
-}
-
-@keyframes twinkle {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 0.8; }
-}
-
-/* --- Responsive --- */
 @media (max-width: 600px) {
   .container {
-    padding: 12px 8px 48px;
+    padding: 12px 8px 32px;
   }
 
-  .header h1 {
-    font-size: 0.75rem;
+  .scroll-body h1 {
+    font-size: 0.7rem;
   }
 
-  .pixel-card {
-    padding: 14px 10px;
+  .se-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 
-  .pixel-btn {
+  .game-btn {
     font-size: 0.45rem;
     padding: 8px 10px;
   }
 
-  .channel-label {
-    min-width: 80px;
-    font-size: 0.4rem;
+  .item-btn {
+    padding: 8px 2px;
   }
 
-  .btn-row {
-    gap: 8px;
+  .item-icon {
+    font-size: 0.6rem;
+  }
+
+  .item-label {
+    font-size: 0.25rem;
+  }
+
+  .channel-label {
+    min-width: 75px;
+    font-size: 0.35rem;
   }
 }
 
 @media (max-width: 400px) {
-  .header h1 {
-    font-size: 0.6rem;
+  .scroll-body h1 {
+    font-size: 0.55rem;
   }
 
-  .pixel-btn {
+  .se-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .game-btn {
     font-size: 0.4rem;
     padding: 7px 8px;
   }
 
   .channel-label {
     min-width: 65px;
-    font-size: 0.35rem;
+    font-size: 0.3rem;
   }
 }

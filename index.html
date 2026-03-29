@@ -3,106 +3,189 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>8-Bit Sound Engine Demo</title>
+  <title>8-Bit Sound Engine</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-  <!-- Background stars -->
-  <div class="stars"></div>
+  <!-- Pixel art scene background -->
+  <div class="scene">
+    <!-- Sky layers -->
+    <div class="sky"></div>
+    <div class="clouds">
+      <div class="cloud cloud-1"></div>
+      <div class="cloud cloud-2"></div>
+      <div class="cloud cloud-3"></div>
+    </div>
+    <!-- Mountains -->
+    <div class="mountains">
+      <div class="mountain mountain-far-1"></div>
+      <div class="mountain mountain-far-2"></div>
+      <div class="mountain mountain-near-1"></div>
+      <div class="mountain mountain-near-2"></div>
+    </div>
+    <!-- Trees -->
+    <div class="trees">
+      <div class="tree tree-1"></div>
+      <div class="tree tree-2"></div>
+      <div class="tree tree-3"></div>
+      <div class="tree tree-4"></div>
+      <div class="tree tree-5"></div>
+    </div>
+    <!-- Ground -->
+    <div class="ground"></div>
+    <div class="ground-detail"></div>
+    <!-- Animated elements -->
+    <div class="campfire">
+      <div class="fire"></div>
+      <div class="fire-glow"></div>
+    </div>
+    <div class="character">
+      <div class="fox"></div>
+    </div>
+    <!-- Floating music notes -->
+    <div class="floating-notes" id="floating-notes"></div>
+  </div>
 
+  <!-- Main UI -->
   <div class="container">
 
-    <!-- Header -->
-    <header class="header">
-      <h1>&#9835; 8BIT SOUND ENGINE &#9835;</h1>
-      <p class="subtitle">RETRO AUDIO FOR THE MODERN WEB</p>
+    <!-- Title scroll/banner -->
+    <header class="scroll-banner">
+      <div class="scroll-top"></div>
+      <div class="scroll-body">
+        <h1>8BIT SOUND ENGINE</h1>
+        <p class="subtitle">~ Adventure Awaits ~</p>
+      </div>
+      <div class="scroll-bottom"></div>
     </header>
 
-    <!-- BGM Section -->
-    <section class="pixel-card">
-      <h2 class="card-title">&#9654; BGM</h2>
-      <div class="btn-row">
-        <button class="pixel-btn" data-bgm="overworld">OVERWORLD</button>
-        <button class="pixel-btn" data-bgm="dungeon">DUNGEON</button>
-        <button class="pixel-btn" data-bgm="battle">BATTLE</button>
+    <!-- BGM Section - styled as a wooden sign board -->
+    <section class="wood-panel">
+      <div class="panel-header">
+        <span class="panel-icon">&#9834;</span> MUSIC
       </div>
-      <div class="btn-row">
-        <button class="pixel-btn" data-bgm="stop">&#9632; STOP</button>
-      </div>
-      <div class="now-playing" id="now-playing">STOPPED</div>
-    </section>
-
-    <!-- Sound Effects Section -->
-    <section class="pixel-card">
-      <h2 class="card-title">&#9733; SOUND EFFECTS</h2>
-      <div class="btn-row">
-        <button class="pixel-btn" data-se="jump">JUMP</button>
-        <button class="pixel-btn" data-se="coin">COIN</button>
-        <button class="pixel-btn" data-se="damage">DAMAGE</button>
-      </div>
-      <div class="btn-row">
-        <button class="pixel-btn" data-se="powerup">POWERUP</button>
-        <button class="pixel-btn" data-se="gameover">GAMEOVER</button>
-        <button class="pixel-btn" data-se="select">SELECT</button>
-      </div>
-      <div class="btn-row">
-        <button class="pixel-btn" data-se="cancel">CANCEL</button>
-        <button class="pixel-btn" data-se="explosion">EXPLOSION</button>
-        <button class="pixel-btn" data-se="laser">LASER</button>
-      </div>
-      <div class="btn-row">
-        <button class="pixel-btn" data-se="1up">1UP</button>
+      <div class="panel-content">
+        <div class="btn-row">
+          <button class="game-btn btn-forest" data-bgm="overworld">
+            <span class="btn-icon">&#127794;</span> FOREST
+          </button>
+          <button class="game-btn btn-cave" data-bgm="dungeon">
+            <span class="btn-icon">&#9763;</span> DUNGEON
+          </button>
+          <button class="game-btn btn-battle" data-bgm="battle">
+            <span class="btn-icon">&#9876;</span> BATTLE
+          </button>
+        </div>
+        <div class="btn-row">
+          <button class="game-btn btn-stop" data-bgm="stop">
+            <span class="btn-icon">&#9632;</span> STOP
+          </button>
+        </div>
+        <div class="now-playing" id="now-playing">
+          <span class="now-playing-text">Silence...</span>
+        </div>
       </div>
     </section>
 
-    <!-- Channel Visualization -->
-    <section class="pixel-card">
-      <h2 class="card-title">&#9836; CHANNELS</h2>
-
-      <div class="channel-row">
-        <span class="channel-label">
-          <span class="channel-indicator pulse1"></span> Pulse 1
-        </span>
-        <div class="channel-bar-track">
-          <div class="channel-bar-fill pulse1" style="width: 0%"></div>
+    <!-- SE Section - styled as a treasure chest / inventory -->
+    <section class="wood-panel">
+      <div class="panel-header">
+        <span class="panel-icon">&#9733;</span> SOUND EFFECTS
+      </div>
+      <div class="panel-content">
+        <div class="se-grid">
+          <button class="item-btn" data-se="jump">
+            <span class="item-icon">&#8593;</span>
+            <span class="item-label">JUMP</span>
+          </button>
+          <button class="item-btn" data-se="coin">
+            <span class="item-icon">&#9679;</span>
+            <span class="item-label">COIN</span>
+          </button>
+          <button class="item-btn" data-se="damage">
+            <span class="item-icon">&#10007;</span>
+            <span class="item-label">DAMAGE</span>
+          </button>
+          <button class="item-btn" data-se="powerup">
+            <span class="item-icon">&#9733;</span>
+            <span class="item-label">POWERUP</span>
+          </button>
+          <button class="item-btn" data-se="gameover">
+            <span class="item-icon">&#9760;</span>
+            <span class="item-label">GAMEOVER</span>
+          </button>
+          <button class="item-btn" data-se="select">
+            <span class="item-icon">&#9654;</span>
+            <span class="item-label">SELECT</span>
+          </button>
+          <button class="item-btn" data-se="cancel">
+            <span class="item-icon">&#10005;</span>
+            <span class="item-label">CANCEL</span>
+          </button>
+          <button class="item-btn" data-se="explosion">
+            <span class="item-icon">&#10026;</span>
+            <span class="item-label">BOOM</span>
+          </button>
+          <button class="item-btn" data-se="laser">
+            <span class="item-icon">&#10148;</span>
+            <span class="item-label">LASER</span>
+          </button>
+          <button class="item-btn" data-se="1up">
+            <span class="item-icon">&#9829;</span>
+            <span class="item-label">1UP</span>
+          </button>
         </div>
       </div>
+    </section>
 
-      <div class="channel-row">
-        <span class="channel-label">
-          <span class="channel-indicator pulse2"></span> Pulse 2
-        </span>
-        <div class="channel-bar-track">
-          <div class="channel-bar-fill pulse2" style="width: 0%"></div>
-        </div>
+    <!-- Channel Visualization - styled as magic crystals -->
+    <section class="wood-panel">
+      <div class="panel-header">
+        <span class="panel-icon">&#9830;</span> CHANNELS
       </div>
-
-      <div class="channel-row">
-        <span class="channel-label">
-          <span class="channel-indicator triangle"></span> Triangle
-        </span>
-        <div class="channel-bar-track">
-          <div class="channel-bar-fill triangle" style="width: 0%"></div>
+      <div class="panel-content">
+        <div class="channel-row">
+          <span class="channel-label">
+            <span class="crystal crystal-green"></span> Pulse 1
+          </span>
+          <div class="channel-bar-track">
+            <div class="channel-bar-fill pulse1" style="width: 0%"></div>
+          </div>
         </div>
-      </div>
-
-      <div class="channel-row">
-        <span class="channel-label">
-          <span class="channel-indicator noise"></span> Noise
-        </span>
-        <div class="channel-bar-track">
-          <div class="channel-bar-fill noise" style="width: 0%"></div>
+        <div class="channel-row">
+          <span class="channel-label">
+            <span class="crystal crystal-blue"></span> Pulse 2
+          </span>
+          <div class="channel-bar-track">
+            <div class="channel-bar-fill pulse2" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="channel-row">
+          <span class="channel-label">
+            <span class="crystal crystal-orange"></span> Triangle
+          </span>
+          <div class="channel-bar-track">
+            <div class="channel-bar-fill triangle" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="channel-row">
+          <span class="channel-label">
+            <span class="crystal crystal-pink"></span> Noise
+          </span>
+          <div class="channel-bar-track">
+            <div class="channel-bar-fill noise" style="width: 0%"></div>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-      <span class="hint">Click any button to start. Browser requires user interaction for audio.</span>
-      Built with Web Audio API
+      <span class="hint">Click any button to begin your adventure!</span>
+      <span>Built with Web Audio API</span>
     </footer>
 
   </div>
