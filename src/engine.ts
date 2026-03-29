@@ -16,12 +16,75 @@ export class SoundEngine {
   private dryGain: GainNode | null = null
   private options: EngineOptions
   private initialized = false
+  private unlocked = false
 
   constructor(options: EngineOptions = {}) {
     this.options = options
+    this.setupAutoUnlock()
   }
 
-  /** Initialize audio context — called automatically on first resume() */
+  /**
+   * Auto-unlock audio on first user gesture.
+   * Based on howler.js, Phaser 3.88, and unmute.js best practices.
+   * CRITICAL: use touchend, NOT touchstart — touchstart does NOT satisfy
+   * iOS Safari's user activation requirement.
+   */
+  private setupAutoUnlock(): void {
+    const events = ['touchend', 'click', 'keydown', 'mousedown']
+    const unlock = () => {
+      this.init()
+      this.unlockAudio()
+      if (this.unlocked) {
+        events.forEach(e => document.removeEventListener(e, unlock, true))
+      }
+    }
+    // Capture phase (same as howler.js)
+    events.forEach(e => document.addEventListener(e, unlock, true))
+
+    // Handle iOS "interrupted" state on background/foreground
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden || !this.ctx || this.ctx.state === 'closed') return
+      // Phaser's fix for iOS 17+: suspend then resume with delay
+      setTimeout(() => {
+        if (this.ctx && this.ctx.state !== 'running') {
+          this.ctx.suspend().then(() => this.ctx!.resume())
+        }
+      }, 100)
+    })
+
+    // Apple's visibilitychange is unreliable — also listen to focus (from unmute.js)
+    window.addEventListener('focus', () => {
+      if (this.ctx && this.ctx.state !== 'running' && this.ctx.state !== 'closed') {
+        this.ctx.resume().catch(() => {})
+      }
+    })
+  }
+
+  /** Play silent buffer + resume — both needed for iOS unlock (from howler.js) */
+  private unlockAudio(): void {
+    if (this.unlocked || !this.ctx) return
+    // Play a silent buffer (warms the context on older iOS)
+    const buffer = this.ctx.createBuffer(1, 1, 22050)
+    const source = this.ctx.createBufferSource()
+    source.buffer = buffer
+    source.connect(this.ctx.destination)
+    source.start(0)
+    source.onended = () => {
+      source.disconnect(0)
+      if (this.ctx && this.ctx.state === 'running') {
+        this.unlocked = true
+      }
+    }
+    // Resume — this is the key call on modern iOS
+    if (this.ctx.state !== 'running') {
+      this.ctx.resume().then(() => {
+        this.unlocked = true
+      }).catch(() => {})
+    } else {
+      this.unlocked = true
+    }
+  }
+
   private init(): void {
     if (this.initialized) return
     this.initialized = true
@@ -53,6 +116,13 @@ export class SoundEngine {
 
     this._bgm = new BGMPlayer(this.ctx, this.masterGain)
     this._se = new SEPlayer(this.ctx, this.masterGain)
+
+    // Monitor statechange to auto-recover (from unmute.js)
+    this.ctx.addEventListener('statechange', () => {
+      if (this.ctx && this.ctx.state !== 'running' && this.ctx.state !== 'closed') {
+        this.ctx.resume().catch(() => {})
+      }
+    })
   }
 
   get bgm(): BGMPlayer {
@@ -72,11 +142,11 @@ export class SoundEngine {
     }
   }
 
-  /** Resume AudioContext — MUST be called from a user gesture on iOS */
+  /** Resume AudioContext — call from user gesture handlers */
   async resume(): Promise<void> {
     this.init()
-    if (!this.ctx) return
-    if (this.ctx.state === 'suspended') {
+    this.unlockAudio()
+    if (this.ctx && this.ctx.state === 'suspended') {
       await this.ctx.resume()
     }
   }
