@@ -11,13 +11,31 @@ const engine = createSoundEngine({
 
 const bgms = { office: officeBGM, nature: natureBGM }
 const bgmLabels: Record<string, string> = { office: 'Office / City', nature: 'Nature / Adventure' }
-const layerNames: Record<string, string[]> = {
-  office: ['MELODY', 'BASS', 'HARMONY', 'RHYTHM'],
-  nature: ['MELODY', 'BASS', 'HARMONY', 'ARPEGGIO']
+// Variation presets: each is a name + which layers are ON [melody, bass, harmony, rhythm/arpeggio]
+interface Variation { name: string; layers: boolean[] }
+const variations: Record<string, Variation[]> = {
+  office: [
+    { name: 'A  INTRO',   layers: [true,  false, false, false] },
+    { name: 'B  BUILD',   layers: [true,  true,  false, false] },
+    { name: 'C  GROOVE',  layers: [true,  true,  false, true]  },
+    { name: 'D  FULL',    layers: [true,  true,  true,  true]  },
+    { name: 'E  BREAK',   layers: [false, true,  false, true]  },
+    { name: 'F  OUTRO',   layers: [true,  false, true,  false] },
+  ],
+  nature: [
+    { name: 'A  DAWN',    layers: [true,  false, false, false] },
+    { name: 'B  MORNING', layers: [true,  true,  false, false] },
+    { name: 'C  STROLL',  layers: [true,  true,  false, true]  },
+    { name: 'D  FULL',    layers: [true,  true,  true,  true]  },
+    { name: 'E  DREAMY',  layers: [false, false, true,  true]  },
+    { name: 'F  SUNSET',  layers: [true,  false, true,  false] },
+  ],
 }
 let currentBGM: string | null = null
+let currentVariation: number = -1
 
-const layerPanel = document.getElementById('layer-panel')
+const variationPanel = document.getElementById('variation-panel')
+const variationButtons = document.getElementById('variation-buttons')
 
 document.querySelectorAll('[data-bgm]').forEach(btn => {
   btn.addEventListener('click', async () => {
@@ -26,8 +44,9 @@ document.querySelectorAll('[data-bgm]').forEach(btn => {
     if (name === 'stop') {
       engine.bgm.stop({ fade: 300 })
       currentBGM = null
+      currentVariation = -1
       updateNowPlaying()
-      updateLayerPanel()
+      updateVariationPanel()
       return
     }
     const def = bgms[name as keyof typeof bgms]
@@ -37,8 +56,11 @@ document.querySelectorAll('[data-bgm]').forEach(btn => {
       engine.bgm.play(def)
     }
     currentBGM = name
+    currentVariation = -1
     updateNowPlaying()
-    updateLayerPanel()
+    updateVariationPanel()
+    // Auto-select variation D (FULL) on start
+    setTimeout(() => applyVariation(3), currentBGM ? 600 : 100)
     spawnFloatingNote()
   })
 })
@@ -120,37 +142,42 @@ setInterval(() => {
   if (currentBGM) spawnFloatingNote()
 }, 2000)
 
-// --- Layer Toggle Controls ---
+// --- Variation Controls ---
 
-function updateLayerPanel() {
-  if (!layerPanel) return
+function updateVariationPanel() {
+  if (!variationPanel || !variationButtons) return
   if (!currentBGM) {
-    layerPanel.style.display = 'none'
+    variationPanel.style.display = 'none'
     return
   }
-  layerPanel.style.display = 'block'
-  const names = layerNames[currentBGM] || ['CH 0', 'CH 1', 'CH 2', 'CH 3']
-  for (let i = 0; i < 4; i++) {
-    const btn = document.getElementById(`layer-${i}`)
-    if (btn) {
-      btn.classList.add('active')
-      btn.innerHTML = `<span class="layer-indicator on"></span> ${names[i]}`
-    }
-  }
+  variationPanel.style.display = 'block'
+  const vars = variations[currentBGM] || []
+  variationButtons.innerHTML = ''
+  vars.forEach((v, i) => {
+    const btn = document.createElement('button')
+    btn.className = 'layer-btn'
+    btn.textContent = v.name
+    btn.addEventListener('click', () => applyVariation(i))
+    variationButtons.appendChild(btn)
+  })
 }
 
-document.querySelectorAll('[data-layer]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    if (!currentBGM) return
-    const idx = parseInt((btn as HTMLElement).dataset.layer!)
-    const muted = engine.bgm.toggleChannel(idx)
-    btn.classList.toggle('active', !muted)
-    const indicator = btn.querySelector('.layer-indicator')
-    if (indicator) {
-      indicator.classList.toggle('on', !muted)
-    }
-  })
-})
+function applyVariation(index: number) {
+  if (!currentBGM) return
+  const vars = variations[currentBGM]
+  if (!vars || !vars[index]) return
+  currentVariation = index
+  const v = vars[index]
+  for (let i = 0; i < v.layers.length; i++) {
+    engine.bgm.setChannelMute(i, !v.layers[i])
+  }
+  // Update button highlight
+  if (variationButtons) {
+    Array.from(variationButtons.children).forEach((btn, i) => {
+      btn.classList.toggle('current', i === index)
+    })
+  }
+}
 
 // --- Mixer Controls ---
 
