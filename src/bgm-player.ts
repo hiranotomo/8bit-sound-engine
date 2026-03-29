@@ -25,11 +25,11 @@ export class BGMPlayer {
   changeTo(definition: BGMDefinition, options?: { fade?: number }): void {
     const fadeMs = options?.fade ?? 300
     const fadeSec = fadeMs / 1000
+    this.masterGain.gain.cancelScheduledValues(this.ctx.currentTime)
     this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, this.ctx.currentTime)
     this.masterGain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + fadeSec)
     setTimeout(() => {
       this.stopImmediate()
-      this.masterGain.gain.setValueAtTime(1, this.ctx.currentTime)
       this.isPlaying = true
       this.scheduleTrack(definition)
     }, fadeMs)
@@ -52,6 +52,9 @@ export class BGMPlayer {
       clearTimeout(this.loopTimeoutId)
       this.loopTimeoutId = null
     }
+    // Cancel any pending gain automation (ramps) so they don't interfere
+    this.masterGain.gain.cancelScheduledValues(this.ctx.currentTime)
+    this.masterGain.gain.setValueAtTime(1, this.ctx.currentTime)
     // Disconnect all scheduled nodes to silence them immediately
     for (const node of this.scheduledNodes) {
       try {
