@@ -16,7 +16,9 @@ export class SoundEngine {
   private dryGain: GainNode | null = null
 
   constructor(options: EngineOptions = {}) {
-    this.ctx = new AudioContext()
+    // Use webkitAudioContext for older iOS Safari
+    const AudioCtx = window.AudioContext || (window as any).webkitAudioContext
+    this.ctx = new AudioCtx()
     this.masterGain = this.ctx.createGain()
 
     // Set up reverb if enabled
@@ -54,8 +56,19 @@ export class SoundEngine {
     }
   }
 
-  resume(): Promise<void> {
-    return this.ctx.resume()
+  /** Resume AudioContext — MUST be called from a user gesture on iOS */
+  async resume(): Promise<void> {
+    if (this.ctx.state === 'suspended') {
+      await this.ctx.resume()
+    }
+    // iOS Safari workaround: play a silent buffer to "unlock" audio
+    if (this.ctx.state === 'running') return
+    const buffer = this.ctx.createBuffer(1, 1, this.ctx.sampleRate)
+    const source = this.ctx.createBufferSource()
+    source.buffer = buffer
+    source.connect(this.ctx.destination)
+    source.start(0)
+    await this.ctx.resume()
   }
 }
 
