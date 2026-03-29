@@ -15,15 +15,20 @@ export class SEPlayer {
     this.output = output ?? ctx.destination
   }
 
-  play(nameOrDef: string | SEDefinition, options?: { pitch?: number }): void {
+  play(nameOrDef: string | SEDefinition, options?: { pitch?: number; pan?: number }): void {
     const def = typeof nameOrDef === 'string' ? SE_PRESETS[nameOrDef] : nameOrDef
     if (!def) throw new Error(`Unknown SE preset: ${nameOrDef}`)
 
     const pitchMult = options?.pitch ?? 1.0
+    // Random subtle pan if not specified (-0.4 to 0.4)
+    const panValue = options?.pan ?? (Math.random() * 0.8 - 0.4)
     const startTime = this.ctx.currentTime
     const gain = this.ctx.createGain()
     gain.gain.value = def.volume ?? 0.5
-    gain.connect(this.output)
+    const panner = this.ctx.createStereoPanner()
+    panner.pan.value = panValue
+    gain.connect(panner)
+    panner.connect(this.output)
 
     let time = startTime
     for (const note of def.notes) {

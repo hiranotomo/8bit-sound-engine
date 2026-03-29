@@ -10,10 +10,11 @@ export const office: BGMDefinition = {
   bpm: 144,
   loop: true,
   channels: [
-    // Melody — triangle (warm, recorder-like)
+    // Melody — triangle (warm, recorder-like) — slightly right
     {
       wave: 'triangle',
       volume: 0.35,
+      pan: 0.25,
       notes: [
         // A: Rising triad hook — quick, energetic
         // Bar 1
@@ -70,10 +71,11 @@ export const office: BGMDefinition = {
         { pitch: null, duration: '2n' },
       ]
     },
-    // Bass — triangle WALKING bass (8th notes — busy, DQ city feel)
+    // Bass — triangle WALKING bass (8th notes — busy, DQ city feel) — slightly left
     {
       wave: 'triangle',
       volume: 0.3,
+      pan: -0.25,
       notes: [
         // Bar 1: Bb (I)
         { pitch: 'Bb2', duration: '8n' },

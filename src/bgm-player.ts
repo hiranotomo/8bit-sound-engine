@@ -77,7 +77,18 @@ export class BGMPlayer {
 
       const channelGain = this.ctx.createGain()
       channelGain.gain.value = volume
-      channelGain.connect(this.masterGain)
+
+      // Stereo panning per channel
+      const pan = ch.pan ?? 0
+      if (pan !== 0) {
+        const panner = this.ctx.createStereoPanner()
+        panner.pan.value = pan
+        channelGain.connect(panner)
+        panner.connect(this.masterGain)
+        this.scheduledNodes.push(panner)
+      } else {
+        channelGain.connect(this.masterGain)
+      }
       this.scheduledNodes.push(channelGain)
 
       let time = startTime

@@ -11,10 +11,11 @@ export const nature: BGMDefinition = {
   bpm: 92,
   loop: true,
   channels: [
-    // Melody — square (staccato, piano-like, soft)
+    // Melody — square (staccato, piano-like, soft) — slightly left
     {
       wave: 'square',
       volume: 0.25,
+      pan: -0.2,
       notes: [
         // A: Gentle, spacious — like sitting by a river
         // Bar 1
@@ -60,10 +61,11 @@ export const nature: BGMDefinition = {
         { pitch: null, duration: '2n' },
       ]
     },
-    // Bass — triangle (long, warm, spacious — opposite of Office's walking bass)
+    // Bass — triangle (long, warm, spacious) — slightly right
     {
       wave: 'triangle',
       volume: 0.35,
+      pan: 0.2,
       notes: [
         // Bar 1: G
         { pitch: 'G2', duration: '1n' },

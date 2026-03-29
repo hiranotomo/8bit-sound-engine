@@ -10,6 +10,7 @@ export interface ChannelDefinition {
   wave: WaveType
   duty?: number
   volume?: number
+  pan?: number  // -1 (left) to 1 (right), default 0
   notes: NoteEvent[]
 }
 
