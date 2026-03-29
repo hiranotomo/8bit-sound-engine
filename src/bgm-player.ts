@@ -9,10 +9,10 @@ export class BGMPlayer {
   private loopTimeoutId: number | null = null
   private masterGain: GainNode
 
-  constructor(ctx: AudioContext) {
+  constructor(ctx: AudioContext, output?: AudioNode) {
     this.ctx = ctx
     this.masterGain = ctx.createGain()
-    this.masterGain.connect(ctx.destination)
+    this.masterGain.connect(output ?? ctx.destination)
   }
 
   play(definition: BGMDefinition): void {

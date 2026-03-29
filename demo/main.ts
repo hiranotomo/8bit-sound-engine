@@ -3,7 +3,9 @@ import { office as officeBGM } from './bgm/office'
 import { nature as natureBGM } from './bgm/nature'
 import './style.css'
 
-const engine = createSoundEngine()
+const engine = createSoundEngine({
+  reverb: { duration: 1.8, decay: 2.5, mix: 0.2 }
+})
 
 // --- BGM Controls ---
 

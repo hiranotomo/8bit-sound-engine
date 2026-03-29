@@ -8,9 +8,11 @@ const DEFAULT_BPM = 240
 
 export class SEPlayer {
   private ctx: AudioContext
+  private output: AudioNode
 
-  constructor(ctx: AudioContext) {
+  constructor(ctx: AudioContext, output?: AudioNode) {
     this.ctx = ctx
+    this.output = output ?? ctx.destination
   }
 
   play(nameOrDef: string | SEDefinition, options?: { pitch?: number }): void {
@@ -21,7 +23,7 @@ export class SEPlayer {
     const startTime = this.ctx.currentTime
     const gain = this.ctx.createGain()
     gain.gain.value = def.volume ?? 0.5
-    gain.connect(this.ctx.destination)
+    gain.connect(this.output)
 
     let time = startTime
     for (const note of def.notes) {
