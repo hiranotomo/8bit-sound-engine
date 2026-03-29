@@ -15,20 +15,20 @@ const bgmLabels: Record<string, string> = { office: 'Office / City', nature: 'Na
 interface Variation { name: string; layers: boolean[] }
 const variations: Record<string, Variation[]> = {
   office: [
-    { name: 'A  INTRO',   layers: [true,  false, false, false] },
-    { name: 'B  BUILD',   layers: [true,  true,  false, false] },
-    { name: 'C  GROOVE',  layers: [true,  true,  false, true]  },
-    { name: 'D  FULL',    layers: [true,  true,  true,  true]  },
-    { name: 'E  BREAK',   layers: [false, true,  false, true]  },
-    { name: 'F  OUTRO',   layers: [true,  false, true,  false] },
+    { name: 'FULL',       layers: [true,  true,  true,  true]  },
+    { name: 'HUSTLE',     layers: [false, true,  false, true]  },
+    { name: 'FOCUS',      layers: [true,  false, true,  false] },
+    { name: 'COFFEE',     layers: [true,  true,  false, false] },
+    { name: 'ELEVATOR',   layers: [false, false, true,  true]  },
+    { name: 'SOLO',       layers: [true,  false, false, false] },
   ],
   nature: [
-    { name: 'A  DAWN',    layers: [true,  false, false, false] },
-    { name: 'B  MORNING', layers: [true,  true,  false, false] },
-    { name: 'C  STROLL',  layers: [true,  true,  false, true]  },
-    { name: 'D  FULL',    layers: [true,  true,  true,  true]  },
-    { name: 'E  DREAMY',  layers: [false, false, true,  true]  },
-    { name: 'F  SUNSET',  layers: [true,  false, true,  false] },
+    { name: 'FULL',       layers: [true,  true,  true,  true]  },
+    { name: 'RIVERSIDE',  layers: [false, true,  true,  true]  },
+    { name: 'FIREFLY',    layers: [true,  false, true,  false] },
+    { name: 'CAMPFIRE',   layers: [true,  true,  false, false] },
+    { name: 'RAIN',       layers: [false, false, true,  true]  },
+    { name: 'SOLO',       layers: [true,  false, false, false] },
   ],
 }
 let currentBGM: string | null = null
@@ -59,8 +59,8 @@ document.querySelectorAll('[data-bgm]').forEach(btn => {
     currentVariation = -1
     updateNowPlaying()
     updateVariationPanel()
-    // Auto-select variation D (FULL) on start
-    setTimeout(() => applyVariation(3), currentBGM ? 600 : 100)
+    // Auto-select FULL (first button) on start
+    setTimeout(() => applyVariation(0), currentBGM ? 600 : 100)
     spawnFloatingNote()
   })
 })

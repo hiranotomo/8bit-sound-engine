@@ -52,9 +52,9 @@ export class BGMPlayer {
 
   /** Mute/unmute a channel by index with a short fade */
   setChannelMute(channelIndex: number, muted: boolean): void {
+    this.channelMuted[channelIndex] = muted
     const gain = this.channelGains[channelIndex]
     if (!gain) return
-    this.channelMuted[channelIndex] = muted
     const target = muted ? 0 : this.channelVolumes[channelIndex] ?? 0.5
     gain.gain.cancelScheduledValues(this.ctx.currentTime)
     gain.gain.setValueAtTime(gain.gain.value, this.ctx.currentTime)
@@ -98,19 +98,41 @@ export class BGMPlayer {
     this.channelMuted = []
   }
 
+  /** Clear scheduled audio nodes but preserve mute state for loop */
+  private clearScheduledNodes(): void {
+    if (this.loopTimeoutId !== null) {
+      clearTimeout(this.loopTimeoutId)
+      this.loopTimeoutId = null
+    }
+    for (const node of this.scheduledNodes) {
+      try { node.disconnect() } catch (_) { /* already disconnected */ }
+    }
+    this.scheduledNodes = []
+    this.channelGains = []
+    this.channelPanners = []
+    this.channelVolumes = []
+    // NOTE: channelMuted is NOT cleared — preserved across loops
+  }
+
   private scheduleTrack(def: BGMDefinition): void {
+    // On loop, clear nodes but keep mute state
+    if (this.channelGains.length > 0) {
+      this.clearScheduledNodes()
+    }
+
     let maxDuration = 0
     const startTime = this.ctx.currentTime + 0.05
+    let chIndex = 0
 
     for (const ch of def.channels) {
       if (ch.wave === 'noise') continue
 
       const oscType: OscillatorType = ch.wave as OscillatorType
       const volume = ch.volume ?? 0.5
-      const chIndex = this.channelGains.length
+      const isMuted = this.channelMuted[chIndex] ?? false
 
       const channelGain = this.ctx.createGain()
-      channelGain.gain.value = this.channelMuted[chIndex] ? 0 : volume
+      channelGain.gain.value = isMuted ? 0 : volume
 
       const panner = this.ctx.createStereoPanner()
       panner.pan.value = ch.pan ?? 0
@@ -120,7 +142,7 @@ export class BGMPlayer {
       this.channelGains.push(channelGain)
       this.channelPanners.push(panner)
       this.channelVolumes.push(volume)
-      if (this.channelMuted[chIndex] === undefined) this.channelMuted.push(false)
+      if (this.channelMuted.length <= chIndex) this.channelMuted.push(false)
       this.scheduledNodes.push(panner)
       this.scheduledNodes.push(channelGain)
 
@@ -141,6 +163,7 @@ export class BGMPlayer {
       }
       const channelDuration = time - startTime
       if (channelDuration > maxDuration) maxDuration = channelDuration
+      chIndex++
     }
 
     if (def.loop && this.isPlaying) {
