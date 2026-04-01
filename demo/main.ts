@@ -1,4 +1,4 @@
-import { createSoundEngine } from '../src/index'
+import { createSoundEngine, Variation } from '../src/index'
 import { office as officeBGM } from './bgm/office'
 import { nature as natureBGM } from './bgm/nature'
 import './style.css'
@@ -11,27 +11,13 @@ const engine = createSoundEngine({
 
 const bgms = { office: officeBGM, nature: natureBGM }
 const bgmLabels: Record<string, string> = { office: 'Office / City', nature: 'Nature / Adventure' }
-// Variation presets: each is a name + which layers are ON [melody, bass, harmony, rhythm/arpeggio]
-interface Variation { name: string; layers: boolean[] }
-const variations: Record<string, Variation[]> = {
-  office: [
-    { name: 'FULL',       layers: [true,  true,  true,  true]  },
-    { name: 'HUSTLE',     layers: [false, true,  false, true]  },
-    { name: 'FOCUS',      layers: [true,  false, true,  false] },
-    { name: 'COFFEE',     layers: [true,  true,  false, false] },
-    { name: 'ELEVATOR',   layers: [false, false, true,  true]  },
-    { name: 'SOLO',       layers: [true,  false, false, false] },
-  ],
-  nature: [
-    { name: 'FULL',       layers: [true,  true,  true,  true]  },
-    { name: 'RIVERSIDE',  layers: [false, true,  true,  true]  },
-    { name: 'FIREFLY',    layers: [true,  false, true,  false] },
-    { name: 'CAMPFIRE',   layers: [true,  true,  false, false] },
-    { name: 'RAIN',       layers: [false, false, true,  true]  },
-    { name: 'SOLO',       layers: [true,  false, false, false] },
-  ],
-}
 let currentBGM: string | null = null
+
+function getVariations(): Variation[] {
+  if (!currentBGM) return []
+  const def = bgms[currentBGM as keyof typeof bgms]
+  return def.variations || []
+}
 let currentVariation: number = -1
 
 const variationPanel = document.getElementById('variation-panel')
@@ -151,7 +137,7 @@ function updateVariationPanel() {
     return
   }
   variationPanel.style.display = 'block'
-  const vars = variations[currentBGM] || []
+  const vars = getVariations()
   variationButtons.innerHTML = ''
   vars.forEach((v, i) => {
     const btn = document.createElement('button')
@@ -164,13 +150,10 @@ function updateVariationPanel() {
 
 function applyVariation(index: number) {
   if (!currentBGM) return
-  const vars = variations[currentBGM]
-  if (!vars || !vars[index]) return
+  const vars = getVariations()
+  if (!vars[index]) return
   currentVariation = index
-  const v = vars[index]
-  for (let i = 0; i < v.layers.length; i++) {
-    engine.bgm.setChannelMute(i, !v.layers[i])
-  }
+  engine.bgm.setVariation(vars[index].name)
   // Update button highlight
   if (variationButtons) {
     Array.from(variationButtons.children).forEach((btn, i) => {

@@ -9,10 +9,19 @@ import { BGMDefinition } from '../../src/types'
 export const office: BGMDefinition = {
   bpm: 144,
   loop: true,
+  variations: [
+    { name: 'FULL',     layers: [true,  true,  true,  true]  },
+    { name: 'HUSTLE',   layers: [false, true,  false, true]  },
+    { name: 'FOCUS',    layers: [true,  false, true,  false] },
+    { name: 'COFFEE',   layers: [true,  true,  false, false] },
+    { name: 'ELEVATOR', layers: [false, false, true,  true]  },
+    { name: 'SOLO',     layers: [true,  false, false, false] },
+  ],
   channels: [
     // Melody — triangle (warm, recorder-like) — slightly right
     {
       wave: 'triangle',
+      label: 'melody',
       volume: 0.35,
       pan: 0.25,
       notes: [
@@ -74,6 +83,7 @@ export const office: BGMDefinition = {
     // Bass — triangle WALKING bass (8th notes — busy, DQ city feel) — slightly left
     {
       wave: 'triangle',
+      label: 'bass',
       volume: 0.3,
       pan: -0.25,
       notes: [
@@ -154,6 +164,7 @@ export const office: BGMDefinition = {
     // Harmony — sawtooth (soft pad-like chords) — slightly left
     {
       wave: 'sawtooth',
+      label: 'harmony',
       volume: 0.12,
       pan: -0.3,
       notes: [
@@ -182,6 +193,7 @@ export const office: BGMDefinition = {
     // Rhythm — square (percussive staccato) — center-right
     {
       wave: 'square',
+      label: 'rhythm',
       volume: 0.15,
       pan: 0.1,
       notes: [

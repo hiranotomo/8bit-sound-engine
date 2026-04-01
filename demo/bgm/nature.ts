@@ -10,10 +10,19 @@ import { BGMDefinition } from '../../src/types'
 export const nature: BGMDefinition = {
   bpm: 92,
   loop: true,
+  variations: [
+    { name: 'FULL',      layers: [true,  true,  true,  true]  },
+    { name: 'RIVERSIDE', layers: [false, true,  true,  true]  },
+    { name: 'FIREFLY',   layers: [true,  false, true,  false] },
+    { name: 'CAMPFIRE',  layers: [true,  true,  false, false] },
+    { name: 'RAIN',      layers: [false, false, true,  true]  },
+    { name: 'SOLO',      layers: [true,  false, false, false] },
+  ],
   channels: [
     // Melody — square (staccato, piano-like, soft) — slightly left
     {
       wave: 'square',
+      label: 'melody',
       volume: 0.25,
       pan: -0.2,
       notes: [
@@ -64,6 +73,7 @@ export const nature: BGMDefinition = {
     // Bass — triangle (long, warm, spacious) — slightly right
     {
       wave: 'triangle',
+      label: 'bass',
       volume: 0.35,
       pan: 0.2,
       notes: [
@@ -98,6 +108,7 @@ export const nature: BGMDefinition = {
     // Harmony — sawtooth (dreamy pad, very soft) — right of center
     {
       wave: 'sawtooth',
+      label: 'harmony',
       volume: 0.10,
       pan: 0.3,
       notes: [
@@ -132,6 +143,7 @@ export const nature: BGMDefinition = {
     // Arpeggio — triangle (gentle music-box texture) — slightly left
     {
       wave: 'triangle',
+      label: 'arpeggio',
       volume: 0.15,
       pan: -0.15,
       notes: [
