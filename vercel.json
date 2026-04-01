@@ -1,5 +1,8 @@
 {
   "buildCommand": "npx vite build --mode demo",
   "outputDirectory": "dist",
-  "framework": "vite"
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/s/:id", "destination": "/api/s/:id" }
+  ]
 }
