@@ -45,7 +45,7 @@
 }
 
 html {
-  font-size: 16px;
+  font-size: 20px;
   image-rendering: pixelated;
   -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: unset;
@@ -1226,6 +1226,34 @@ body {
 
 .error-retry {
   font-size: 0.4rem !important;
+}
+
+/* --- How To Use (Help) --- */
+.how-to-use {
+  background: rgba(0, 0, 0, 0.25);
+  border: 2px solid var(--brown-dark);
+  padding: 10px 14px;
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+
+.how-to-use p {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.4rem;
+  color: var(--cream);
+  line-height: 2;
+  margin-bottom: 2px;
+}
+
+.how-to-use strong {
+  color: var(--gold);
+}
+
+.how-to-example {
+  margin-top: 6px !important;
+  color: var(--brown-pale) !important;
+  font-style: italic;
+  font-size: 0.35rem !important;
 }
 
 /* --- Compose UI --- */

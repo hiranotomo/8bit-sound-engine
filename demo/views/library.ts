@@ -10,7 +10,13 @@ export async function libraryView(container: HTMLElement) {
 
   const header = document.createElement('div')
   header.className = 'view-header'
-  header.innerHTML = '<h2 class="view-title">&#9733; LIBRARY</h2><p class="help-text">Community-published songs</p>'
+  header.innerHTML = `
+    <h2 class="view-title">&#9733; LIBRARY</h2>
+    <div class="how-to-use">
+      <p>Songs created with the Compose tab appear here.</p>
+      <p>Play, copy code, or remix any song.</p>
+    </div>
+  `
   wrapper.appendChild(header)
 
   const grid = document.createElement('div')
@@ -26,7 +32,7 @@ export async function libraryView(container: HTMLElement) {
     hideLoading(grid)
 
     if (songs.length === 0) {
-      grid.innerHTML = '<p class="help-text">No songs in the library yet. Compose one in Phase 3!</p>'
+      grid.innerHTML = '<p class="help-text">No songs yet. Go to the <a href="#compose" style="color:var(--gold);">COMPOSE</a> tab to create one!</p>'
       return
     }
 

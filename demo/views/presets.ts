@@ -10,7 +10,14 @@ export async function presetsView(container: HTMLElement) {
 
   const header = document.createElement('div')
   header.className = 'view-header'
-  header.innerHTML = '<h2 class="view-title">&#9834; PRESET BGMs</h2><p class="help-text">Curated chiptune tracks — click to play</p>'
+  header.innerHTML = `
+    <h2 class="view-title">&#9834; PRESET BGMs</h2>
+    <div class="how-to-use">
+      <p><strong>&#9654; PLAY</strong> — Listen to the track. Controls appear below.</p>
+      <p><strong>&#60;/&#62; CODE</strong> — Get code snippet to use in your app.</p>
+      <p><strong>&#9998; REMIX</strong> — Open in Compose tab to create a variation.</p>
+    </div>
+  `
   wrapper.appendChild(header)
 
   const grid = document.createElement('div')

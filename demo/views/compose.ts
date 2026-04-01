@@ -15,7 +15,12 @@ export async function composeView(container: HTMLElement) {
   wrapper.innerHTML = `
     <div class="view-header">
       <h2 class="view-title">&#9998; COMPOSE</h2>
-      <p class="help-text">Describe your song and AI will compose it</p>
+      <div class="how-to-use">
+        <p><strong>1.</strong> Describe your song's mood, style, and tempo below.</p>
+        <p><strong>2.</strong> Click COMPOSE — AI generates a unique chiptune BGM.</p>
+        <p><strong>3.</strong> Listen, then find it in the LIBRARY tab.</p>
+        <p class="how-to-example">Try: "peaceful snowy village, slow and magical" or "intense boss battle, fast and aggressive"</p>
+      </div>
     </div>
     <div id="remix-banner" class="remix-banner" style="display:none;"></div>
     <div class="wood-panel">
