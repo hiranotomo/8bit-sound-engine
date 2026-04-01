@@ -1,7 +1,27 @@
 let modalEl: HTMLElement | null = null
 
+function buildClaudePrompt(songId: string, title: string, lang: 'en' | 'ja' | 'zh'): string {
+  const prompts = {
+    en: `Run "npm install 8bit-sound-engine" in my project.
+Then load the BGM "${title}" from https://8bit-eight.vercel.app/api/songs/${songId} and play it when this page opens.
+Also add a "coin" sound effect on button clicks and a "select" sound on navigation.
+Use the AGENTS.md in the installed package for the full API reference.`,
+    ja: `このプロジェクトで npm install 8bit-sound-engine を実行して。
+その後、BGM「${title}」を https://8bit-eight.vercel.app/api/songs/${songId} から読み込んでページを開いたら再生して。
+ボタンクリックに「coin」、ナビゲーションに「select」の効果音も追加して。
+APIの詳細はインストールしたパッケージのAGENTS.mdを参照して。`,
+    zh: `在我的项目中运行 npm install 8bit-sound-engine。
+然后从 https://8bit-eight.vercel.app/api/songs/${songId} 加载BGM「${title}」，打开页面时播放。
+按钮点击添加「coin」音效，导航添加「select」音效。
+API详情参考安装包中的AGENTS.md。`,
+  }
+  return prompts[lang]
+}
+
 export function showCodeModal(songId: string, title: string) {
   closeCodeModal()
+
+  let currentLang: 'en' | 'ja' | 'zh' = 'en'
 
   const cdnSnippet = `<script src="https://8bit-eight.vercel.app/sdk.js"><\/script>
 <script>
@@ -27,36 +47,48 @@ engine.bgm.play(song.definition)`
   modalEl.innerHTML = `
     <div class="code-modal wood-panel">
       <div class="panel-header">
-        <span class="panel-icon">&#60;/&#62;</span> ${title}
+        <span class="panel-icon">&#60;/&#62;</span> ${escapeHtml(title)}
         <button class="modal-close">&times;</button>
       </div>
       <div class="panel-content">
-        <div class="code-section">
-          <div class="code-label">CDN</div>
-          <pre class="code-block"><code>${escapeHtml(cdnSnippet)}</code></pre>
-          <button class="game-btn card-btn copy-btn" data-snippet="cdn">COPY</button>
+
+        <div class="code-section claude-section">
+          <div class="code-label">&#9835; Claude Code — copy &amp; paste this prompt</div>
+          <div class="lang-switcher">
+            <button class="lang-btn active" data-lang="en">EN</button>
+            <button class="lang-btn" data-lang="ja">JA</button>
+            <button class="lang-btn" data-lang="zh">ZH</button>
+          </div>
+          <pre class="code-block claude-prompt" id="claude-prompt"><code>${escapeHtml(buildClaudePrompt(songId, title, 'en'))}</code></pre>
+          <button class="game-btn btn-forest card-btn copy-btn" data-snippet="claude">COPY PROMPT</button>
+          <div class="claude-steps">
+            <p>Claude Code will automatically:</p>
+            <p>1. <strong>npm install</strong> 8bit-sound-engine</p>
+            <p>2. Read <strong>AGENTS.md</strong> for API usage</p>
+            <p>3. Write all the code for you</p>
+          </div>
         </div>
-        <div class="code-section">
-          <div class="code-label">npm</div>
-          <pre class="code-block"><code>${escapeHtml(npmSnippet)}</code></pre>
-          <button class="game-btn card-btn copy-btn" data-snippet="npm">COPY</button>
-        </div>
+
+        <details class="code-details">
+          <summary class="code-summary">Manual integration (CDN / npm)</summary>
+          <div class="code-section">
+            <div class="code-label">CDN</div>
+            <pre class="code-block"><code>${escapeHtml(cdnSnippet)}</code></pre>
+            <button class="game-btn card-btn copy-btn" data-snippet="cdn">COPY</button>
+          </div>
+          <div class="code-section">
+            <div class="code-label">npm</div>
+            <pre class="code-block"><code>${escapeHtml(npmSnippet)}</code></pre>
+            <button class="game-btn card-btn copy-btn" data-snippet="npm">COPY</button>
+          </div>
+        </details>
+
         <div class="code-section">
           <div class="code-label">Share URL</div>
           <pre class="code-block"><code>https://8bit-eight.vercel.app/s/${songId}</code></pre>
           <button class="game-btn card-btn copy-btn" data-snippet="url">COPY</button>
         </div>
-        <div class="code-section">
-          <div class="code-label">Claude Code (just say this)</div>
-          <div class="claude-code-help">
-            <pre class="code-block"><code>8bit-sound-engineをインストールして、${escapeHtml(title)}のBGMを再生して。ボタンにcoin音を追加して。</code></pre>
-            <button class="game-btn card-btn copy-btn" data-snippet="claude">COPY</button>
-            <p style="margin-top:8px;">Claude Codeがこの1行で全て自動実行します:</p>
-            <p>1. npm install 8bit-sound-engine</p>
-            <p>2. AGENTS.mdを読んで使い方を理解</p>
-            <p>3. コードを書いて実装完了</p>
-          </div>
-        </div>
+
       </div>
     </div>
   `
@@ -66,15 +98,31 @@ engine.bgm.play(song.definition)`
     if (e.target === modalEl) closeCodeModal()
   })
 
+  // Language switcher
+  const promptEl = modalEl.querySelector('#claude-prompt code') as HTMLElement
+  modalEl.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentLang = (btn as HTMLElement).dataset.lang as 'en' | 'ja' | 'zh'
+      promptEl.textContent = buildClaudePrompt(songId, title, currentLang)
+      modalEl!.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+    })
+  })
+
   // Copy buttons
-  const claudeSnippet = `8bit-sound-engineをインストールして、${title}のBGMを再生して。ボタンにcoin音を追加して。`
-  const snippets: Record<string, string> = { cdn: cdnSnippet, npm: npmSnippet, url: `https://8bit-eight.vercel.app/s/${songId}`, claude: claudeSnippet }
+  const snippets: Record<string, () => string> = {
+    claude: () => buildClaudePrompt(songId, title, currentLang),
+    cdn: () => cdnSnippet,
+    npm: () => npmSnippet,
+    url: () => `https://8bit-eight.vercel.app/s/${songId}`,
+  }
   modalEl.querySelectorAll('.copy-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
       const key = (btn as HTMLElement).dataset.snippet!
-      await navigator.clipboard.writeText(snippets[key])
+      await navigator.clipboard.writeText(snippets[key]())
+      const orig = btn.textContent
       btn.textContent = 'COPIED!'
-      setTimeout(() => { btn.textContent = 'COPY' }, 1500)
+      setTimeout(() => { btn.textContent = orig }, 1500)
     })
   })
 

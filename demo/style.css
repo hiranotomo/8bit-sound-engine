@@ -1449,19 +1449,79 @@ body {
   color: var(--text-light);
 }
 
-.claude-code-help {
+/* --- Claude Code Section --- */
+.claude-section {
+  border: 2px solid var(--gold-dark);
+  padding: 12px;
+  margin-bottom: 12px;
+  background: rgba(240, 192, 64, 0.05);
+}
+
+.claude-section .code-label {
+  color: var(--gold);
+  font-size: 0.45rem;
+  margin-bottom: 8px;
+}
+
+.lang-switcher {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.lang-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.35rem;
+  padding: 4px 10px;
+  background: var(--brown-dark);
+  color: var(--cream);
+  border: 2px solid var(--brown-mid);
+  cursor: pointer;
+}
+
+.lang-btn:hover {
+  background: var(--brown-mid);
+}
+
+.lang-btn.active {
+  background: var(--gold-dark);
+  border-color: var(--gold);
+  color: var(--white);
+}
+
+.claude-prompt {
+  background: #1a1a2e;
+  color: #f0e8d0;
+  white-space: pre-wrap;
+  line-height: 2;
+}
+
+.claude-steps {
+  margin-top: 10px;
   font-family: 'Press Start 2P', monospace;
   font-size: 0.35rem;
   color: var(--cream);
-  line-height: 1.8;
+  line-height: 2;
 }
 
-.claude-code-help p {
-  margin-bottom: 6px;
-}
-
-.claude-code-help code {
+.claude-steps strong {
   color: var(--gold);
+}
+
+.code-details {
+  margin-bottom: 12px;
+}
+
+.code-summary {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.4rem;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 8px 0;
+}
+
+.code-summary:hover {
+  color: var(--cream);
 }
 
 .remix-banner {
