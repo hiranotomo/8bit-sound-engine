@@ -47,12 +47,14 @@ engine.bgm.play(song.definition)`
           <button class="game-btn card-btn copy-btn" data-snippet="url">COPY</button>
         </div>
         <div class="code-section">
-          <div class="code-label">Claude Code</div>
+          <div class="code-label">Claude Code (just say this)</div>
           <div class="claude-code-help">
-            <p>Add AGENTS.md to your project, then ask Claude Code:</p>
-            <pre class="code-block"><code>"Add 8bit sound to my app. Use the ${escapeHtml(title)} BGM (ID: ${songId}) and play coin SE on button clicks."</code></pre>
-            <p>Claude Code reads AGENTS.md and integrates automatically.</p>
-            <p>Install: <code>npm i 8bit-sound-engine</code></p>
+            <pre class="code-block"><code>8bit-sound-engineをインストールして、${escapeHtml(title)}のBGMを再生して。ボタンにcoin音を追加して。</code></pre>
+            <button class="game-btn card-btn copy-btn" data-snippet="claude">COPY</button>
+            <p style="margin-top:8px;">Claude Codeがこの1行で全て自動実行します:</p>
+            <p>1. npm install 8bit-sound-engine</p>
+            <p>2. AGENTS.mdを読んで使い方を理解</p>
+            <p>3. コードを書いて実装完了</p>
           </div>
         </div>
       </div>
@@ -65,7 +67,8 @@ engine.bgm.play(song.definition)`
   })
 
   // Copy buttons
-  const snippets: Record<string, string> = { cdn: cdnSnippet, npm: npmSnippet, url: `https://8bit-eight.vercel.app/s/${songId}` }
+  const claudeSnippet = `8bit-sound-engineをインストールして、${title}のBGMを再生して。ボタンにcoin音を追加して。`
+  const snippets: Record<string, string> = { cdn: cdnSnippet, npm: npmSnippet, url: `https://8bit-eight.vercel.app/s/${songId}`, claude: claudeSnippet }
   modalEl.querySelectorAll('.copy-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
       const key = (btn as HTMLElement).dataset.snippet!
