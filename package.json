@@ -28,7 +28,15 @@
     "test": "vitest run",
     "prepublishOnly": "npm run build"
   },
-  "keywords": ["8bit", "chiptune", "web-audio", "game-audio", "sound-engine", "retro", "pixel"],
+  "keywords": [
+    "8bit",
+    "chiptune",
+    "web-audio",
+    "game-audio",
+    "sound-engine",
+    "retro",
+    "pixel"
+  ],
   "author": "hiranotomo",
   "license": "MIT",
   "repository": {
@@ -40,5 +48,8 @@
     "typescript": "^6.0.2",
     "vite": "^8.0.3",
     "vitest": "^4.1.2"
+  },
+  "dependencies": {
+    "@vercel/kv": "^3.0.0"
   }
 }
