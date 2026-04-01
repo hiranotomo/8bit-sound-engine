@@ -3,3 +3,4 @@ dist
 .playwright-mcp
 .vercel
 .env*.local
+*.png
