@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { kv } from './_lib/kv'
 import { generateId } from './_lib/id'
 import { isAdmin } from './_lib/auth'
+import { checkRateLimit } from './_lib/ratelimit'
 import type { SongMeta, StoredSong } from './_lib/types'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -37,8 +38,15 @@ async function handleList(req: VercelRequest, res: VercelResponse) {
 }
 
 async function handleCreate(req: VercelRequest, res: VercelResponse) {
-  if (!isAdmin(req)) {
-    return res.status(401).json({ error: 'Unauthorized' })
+  const admin = isAdmin(req)
+
+  // Public POST: rate-limited, isPreset forced to false
+  if (!admin) {
+    const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || 'unknown'
+    const allowed = await checkRateLimit(ip)
+    if (!allowed) {
+      return res.status(429).json({ error: 'Rate limited. Try again later.' })
+    }
   }
 
   const { title, prompt, tags, definition, isPreset, basedOn } = req.body
@@ -54,7 +62,7 @@ async function handleCreate(req: VercelRequest, res: VercelResponse) {
     basedOn,
     tags: tags || [],
     createdAt: new Date().toISOString(),
-    isPreset: isPreset || false,
+    isPreset: admin ? (isPreset || false) : false,
   }
 
   const stored: StoredSong = { definition, meta }
@@ -65,8 +73,8 @@ async function handleCreate(req: VercelRequest, res: VercelResponse) {
   index.unshift(id)
   await kv.set('songs:index', index)
 
-  // Add to presets if flagged
-  if (isPreset) {
+  // Add to presets if flagged (admin only)
+  if (admin && isPreset) {
     const presets: string[] = (await kv.get<string[]>('presets')) || []
     presets.push(id)
     await kv.set('presets', presets)
