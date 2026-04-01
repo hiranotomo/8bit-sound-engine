@@ -1,4 +1,4 @@
-import { playSong } from '../player'
+import { playSong, getEngine } from '../player'
 import { fetchSongs, fetchSong } from '../api'
 import { renderSongCard } from '../components/song-card'
 import { showLoading, hideLoading } from '../components/loading'
@@ -40,6 +40,7 @@ export async function presetsView(container: HTMLElement) {
     for (const song of songs) {
       const card = renderSongCard(song, {
         onPlay: async () => {
+          await getEngine().resume()  // Resume before async fetch (user gesture)
           const full = await fetchSong(song.id)
           playSong(full.definition, song.title)
         }

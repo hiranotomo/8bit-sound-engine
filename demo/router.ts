@@ -4,6 +4,7 @@ type RouteHandler = (container: HTMLElement) => void | Promise<void>
 
 const routes: Record<string, RouteHandler> = {}
 let currentRoute: Route | null = null
+let currentHash: string | null = null
 let container: HTMLElement | null = null
 
 export function registerRoute(name: Route, handler: RouteHandler) {
@@ -15,8 +16,9 @@ export function startRouter(el: HTMLElement) {
 
   const navigate = () => {
     const rawHash = location.hash.slice(1) || 'presets'
+    if (rawHash === currentHash) return
+    currentHash = rawHash
     const route = rawHash.split('?')[0] as Route
-    if (route === currentRoute) return
     currentRoute = route
     if (container) {
       container.innerHTML = ''
