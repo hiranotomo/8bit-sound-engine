@@ -1,18 +1,41 @@
 {
-  "name": "8bit",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
+  "name": "8bit-sound-engine",
+  "version": "0.2.0",
+  "description": "Chiptune sound engine for web apps — BGM, SE, reverb, variations. Built for AI coding assistants.",
+  "type": "module",
+  "main": "dist/8bit-sound-engine.cjs",
+  "module": "dist/8bit-sound-engine.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/8bit-sound-engine.js",
+      "require": "./dist/8bit-sound-engine.cjs",
+      "types": "./dist/index.d.ts"
+    }
   },
+  "files": [
+    "dist",
+    "AGENTS.md",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build && tsc --emitDeclarationOnly --outDir dist",
+    "build:cdn": "vite build --mode cdn",
+    "build:demo": "vite build --mode demo",
+    "build:all": "npm run build && npm run build:cdn",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
+  "keywords": ["8bit", "chiptune", "web-audio", "game-audio", "sound-engine", "retro", "pixel"],
+  "author": "hiranotomo",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hiranotomo/8bit-sound-engine"
+  },
+  "homepage": "https://8bit-eight.vercel.app",
   "devDependencies": {
     "typescript": "^6.0.2",
     "vite": "^8.0.3",
