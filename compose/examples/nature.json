@@ -61,9 +61,9 @@
     ],
     "channels": [
       {
-        "wave": "square",
+        "wave": "sawtooth",
         "label": "melody",
-        "volume": 0.25,
+        "volume": 0.22,
         "pan": -0.2,
         "notes": [
           {

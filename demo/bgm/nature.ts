@@ -19,11 +19,11 @@ export const nature: BGMDefinition = {
     { name: 'SOLO',      layers: [true,  false, false, false] },
   ],
   channels: [
-    // Melody — square (staccato, piano-like, soft) — slightly left
+    // Melody — sawtooth (warm guitar-like, gentle) — slightly left
     {
-      wave: 'square',
+      wave: 'sawtooth',
       label: 'melody',
-      volume: 0.25,
+      volume: 0.22,
       pan: -0.2,
       notes: [
         // A: Gentle, spacious — like sitting by a river

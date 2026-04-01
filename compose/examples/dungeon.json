@@ -28,10 +28,9 @@
     ],
     "channels": [
       {
-        "wave": "square",
+        "wave": "triangle",
         "label": "melody",
-        "duty": 0.25,
-        "volume": 0.4,
+        "volume": 0.35,
         "notes": [
           {
             "pitch": null,

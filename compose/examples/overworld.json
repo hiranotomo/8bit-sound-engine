@@ -28,10 +28,9 @@
     ],
     "channels": [
       {
-        "wave": "square",
+        "wave": "sawtooth",
         "label": "melody",
-        "duty": 0.5,
-        "volume": 0.5,
+        "volume": 0.3,
         "notes": [
           {
             "pitch": "E5",

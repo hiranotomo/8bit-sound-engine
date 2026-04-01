@@ -14,12 +14,11 @@ export const dungeon: BGMDefinition = {
     { name: 'ABYSS',   layers: [false, true]  },
   ],
   channels: [
-    // Melody - Square wave (thin, haunting tone)
+    // Melody - Triangle wave (thin, ghostly, haunting)
     {
-      wave: 'square',
+      wave: 'triangle',
       label: 'melody',
-      duty: 0.25,
-      volume: 0.4,
+      volume: 0.35,
       notes: [
         // Bar 1-2: Sparse opening, dripping water feel
         { pitch: null, duration: '4n' },

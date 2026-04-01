@@ -14,12 +14,11 @@ export const overworld: BGMDefinition = {
     { name: 'MARCH',     layers: [false, true]  },
   ],
   channels: [
-    // Melody - Square wave
+    // Melody - Sawtooth wave (brass-like, adventurous)
     {
-      wave: 'square',
+      wave: 'sawtooth',
       label: 'melody',
-      duty: 0.5,
-      volume: 0.5,
+      volume: 0.3,
       notes: [
         // Bar 1-2: Opening phrase (upward leap, bouncy)
         { pitch: 'E5', duration: '8n' },
