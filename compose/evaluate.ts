@@ -3,7 +3,7 @@ export interface ValidationResult {
   errors: string[]
 }
 
-const VALID_WAVES = ['square', 'triangle', 'sawtooth', 'noise']
+const VALID_WAVES = ['square', 'triangle', 'sawtooth', 'noise', 'piano', 'strings', 'organ', 'bell', 'choir']
 const VALID_DURATIONS = ['1n', '2n', '4n', '8n', '16n', '32n']
 const PITCH_REGEX = /^[A-G][b#]?[1-8]$/
 

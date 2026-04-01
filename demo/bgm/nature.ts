@@ -21,13 +21,12 @@ export const nature: BGMDefinition = {
   channels: [
     // Melody — sawtooth (warm guitar-like, gentle) — slightly left
     {
-      wave: 'sawtooth',
+      wave: 'bell',
       label: 'melody',
-      volume: 0.22,
+      volume: 0.25,
       pan: -0.2,
-      attack: 0.08,
-      release: 0.2,
-      detune: 10,
+      attack: 0.001,
+      release: 0.15,
       notes: [
         // A: Gentle, spacious — like sitting by a river
         // Bar 1
@@ -110,7 +109,7 @@ export const nature: BGMDefinition = {
     },
     // Harmony — sawtooth (dreamy pad, very soft) — right of center
     {
-      wave: 'sawtooth',
+      wave: 'choir',
       label: 'harmony',
       volume: 0.10,
       pan: 0.3,

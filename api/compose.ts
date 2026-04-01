@@ -35,7 +35,7 @@ async function checkRateLimit(ip: string): Promise<{ allowed: boolean; remaining
 
 // --- Inlined validation (from compose/evaluate.ts) ---
 
-const VALID_WAVES = ['square', 'triangle', 'sawtooth', 'noise']
+const VALID_WAVES = ['square', 'triangle', 'sawtooth', 'noise', 'piano', 'strings', 'organ', 'bell', 'choir']
 const VALID_DURATIONS = ['1n', '2n', '4n', '8n', '16n', '32n']
 const PITCH_REGEX = /^[A-G][b#]?[1-8]$/
 
@@ -92,7 +92,7 @@ You are a chiptune music composer. Given a text prompt, generate a BGMDefinition
 
 ## BGMDefinition JSON Schema
 
-type WaveType = 'square' | 'triangle' | 'sawtooth'
+type WaveType = 'square' | 'triangle' | 'sawtooth' | 'piano' | 'strings' | 'organ' | 'bell' | 'choir'
 
 interface NoteEvent { pitch: string | null; duration: string }
 // pitch: 'C4', 'F#5', 'Bb3', or null for rest
@@ -127,16 +127,16 @@ interface BGMDefinition {
 ## Composition Principles
 1. SHORT MOTIFS (4-8 notes) repeated with variation. Never scale runs.
 2. Maximize contrast: change tempo, wave types, rhythm, bass, key simultaneously.
-3. Instrument simulation — VARY wave + attack/release/detune per song:
-   - Piano: square, attack=0.003, release=0.02, detune=0 (sharp staccato)
-   - Flute: triangle, attack=0.02, release=0.08, detune=0 (smooth gentle)
-   - Guitar: sawtooth, attack=0.01, release=0.06, detune=12 (warm chorus)
-   - Brass: sawtooth, attack=0.03, release=0.08, detune=6 (bold)
-   - Ghostly: triangle, attack=0.15, release=0.3, detune=6 (eerie slow)
-   - Music Box: triangle, attack=0.001, release=0.03, detune=0 (tiny, high octave)
-   - Pad: sawtooth, attack=0.15, release=0.3, detune=12 (ethereal thick)
-   - Bass: triangle, attack=0.01, release=0.05, detune=0 (always clean)
-   - CRITICAL: Do NOT use same wave+envelope for every melody. Each channel DIFFERENT wave.
+3. Instrument simulation — use custom wave types + attack/release/detune:
+   Available waves: square, triangle, sawtooth, piano, strings, organ, bell, choir
+   - piano: warm piano tone, attack=0.005, release=0.08. Great for melodies.
+   - strings: rich orchestral, attack=0.08, release=0.2, detune=10. Lush pads/harmony.
+   - organ: drawbar organ, attack=0.01, release=0.05. Retro church/prog feel.
+   - bell: metallic bell, attack=0.001, release=0.15. Music box, chimes.
+   - choir: vowel-like, attack=0.1, release=0.25, detune=12. Ethereal background.
+   - square: classic 8-bit sharp. triangle: soft flute. sawtooth: brassy lead.
+   - PREFER custom waves (piano, strings, organ, bell, choir) over basic waves.
+   - CRITICAL: Each channel MUST use a DIFFERENT wave type. NEVER same wave for melody and harmony.
 4. Bass patterns: walking 8ths=energetic, long notes=calm, octave pumping=intense, chromatic=dark.
 5. Include rests (null pitch) — minimum 10% of notes. Sparse > busy.
 6. Major keys=bright/happy, Minor keys=dark/mysterious.

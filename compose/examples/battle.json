@@ -434,9 +434,11 @@
         ]
       },
       {
-        "wave": "triangle",
+        "wave": "organ",
         "label": "bass",
-        "volume": 0.45,
+        "volume": 0.4,
+        "attack": 0.005,
+        "release": 0.03,
         "notes": [
           {
             "pitch": "E2",

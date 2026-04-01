@@ -14,114 +14,89 @@ export const overworld: BGMDefinition = {
     { name: 'MARCH',     layers: [false, true]  },
   ],
   channels: [
-    // Melody - Sawtooth wave (brass-like, adventurous)
+    // Melody - Organ (warm adventure theme, Zelda-inspired)
     {
-      wave: 'sawtooth',
+      wave: 'organ',
       label: 'melody',
       volume: 0.3,
       attack: 0.01,
       release: 0.06,
-      detune: 12,
       notes: [
-        // Bar 1-2: Opening phrase (upward leap, bouncy)
-        { pitch: 'E5', duration: '8n' },
-        { pitch: 'E5', duration: '8n' },
-        { pitch: null, duration: '8n' },
-        { pitch: 'E5', duration: '8n' },
-        { pitch: null, duration: '8n' },
+        // Bar 1-2: Gentle rising motif (F major)
+        { pitch: 'F4', duration: '4n' },
+        { pitch: 'A4', duration: '8n' },
         { pitch: 'C5', duration: '8n' },
-        { pitch: 'E5', duration: '4n' },
-        { pitch: 'G5', duration: '4n' },
+        { pitch: 'D5', duration: '2n' },
+        { pitch: 'C5', duration: '4n' },
+        { pitch: 'A4', duration: '4n' },
+        { pitch: 'F4', duration: '4n' },
         { pitch: null, duration: '4n' },
+
+        // Bar 3-4: Response phrase, stepping up
         { pitch: 'G4', duration: '4n' },
-        { pitch: null, duration: '4n' },
-
-        // Bar 3-4: Answering phrase
-        { pitch: 'C5', duration: '4n' },
-        { pitch: null, duration: '8n' },
-        { pitch: 'G4', duration: '8n' },
-        { pitch: null, duration: '4n' },
-        { pitch: 'E4', duration: '4n' },
-        { pitch: null, duration: '8n' },
-        { pitch: 'A4', duration: '4n' },
-        { pitch: 'B4', duration: '8n' },
-        { pitch: 'A#4', duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
+        { pitch: 'D5', duration: '8n' },
+        { pitch: 'E5', duration: '2n' },
+        { pitch: 'D5', duration: '8n' },
+        { pitch: 'C5', duration: '8n' },
+        { pitch: 'Bb4', duration: '4n' },
         { pitch: 'A4', duration: '4n' },
 
-        // Bar 5-6: Ascending run with syncopation
-        { pitch: 'G4', duration: '8n' },
-        { pitch: 'E5', duration: '8n' },
-        { pitch: 'G5', duration: '8n' },
-        { pitch: 'A5', duration: '4n' },
-        { pitch: 'F5', duration: '8n' },
-        { pitch: 'G5', duration: '8n' },
-        { pitch: null, duration: '8n' },
+        // Bar 5-6: Soaring higher
+        { pitch: 'F5', duration: '2n' },
         { pitch: 'E5', duration: '4n' },
-        { pitch: 'C5', duration: '8n' },
-        { pitch: 'D5', duration: '8n' },
-        { pitch: 'B4', duration: '4n' },
-
-        // Bar 7-8: Turnaround
-        { pitch: null, duration: '4n' },
-        { pitch: 'G5', duration: '8n' },
-        { pitch: 'F#5', duration: '8n' },
-        { pitch: 'F5', duration: '8n' },
-        { pitch: 'D#5', duration: '4n' },
-        { pitch: 'E5', duration: '8n' },
-        { pitch: null, duration: '8n' },
-        { pitch: 'G#4', duration: '8n' },
-        { pitch: 'A4', duration: '8n' },
-        { pitch: 'C5', duration: '4n' },
-        { pitch: 'A4', duration: '8n' },
-        { pitch: 'C5', duration: '8n' },
-        { pitch: 'D5', duration: '8n' },
-
-        // Bar 9-10: Second section - higher energy
-        { pitch: null, duration: '4n' },
-        { pitch: 'G5', duration: '8n' },
-        { pitch: 'F#5', duration: '8n' },
-        { pitch: 'F5', duration: '8n' },
-        { pitch: 'D#5', duration: '4n' },
-        { pitch: 'E5', duration: '8n' },
-        { pitch: null, duration: '8n' },
-        { pitch: 'C6', duration: '4n' },
-        { pitch: 'C6', duration: '8n' },
-        { pitch: 'C6', duration: '4n' },
-
-        // Bar 11-12: Descending answer
-        { pitch: null, duration: '4n' },
-        { pitch: 'D#5', duration: '8n' },
-        { pitch: null, duration: '8n' },
         { pitch: 'D5', duration: '4n' },
-        { pitch: null, duration: '8n' },
         { pitch: 'C5', duration: '4n' },
-        { pitch: null, duration: '4n' },
+        { pitch: null, duration: '8n' },
+        { pitch: 'A4', duration: '8n' },
+        { pitch: 'Bb4', duration: '4n' },
+        { pitch: 'C5', duration: '4n' },
+
+        // Bar 7-8: Gentle descent, breathing
+        { pitch: 'D5', duration: '4n' },
+        { pitch: 'C5', duration: '4n' },
+        { pitch: 'A4', duration: '2n' },
         { pitch: 'G4', duration: '4n' },
         { pitch: null, duration: '4n' },
+        { pitch: null, duration: '2n' },
 
-        // Bar 13-14: Repeat opening idea with variation
-        { pitch: 'E5', duration: '8n' },
-        { pitch: 'E5', duration: '8n' },
-        { pitch: null, duration: '8n' },
-        { pitch: 'E5', duration: '8n' },
-        { pitch: null, duration: '8n' },
+        // Bar 9-10: Motif return, variation
+        { pitch: 'F4', duration: '4n' },
+        { pitch: 'A4', duration: '8n' },
         { pitch: 'C5', duration: '8n' },
+        { pitch: 'F5', duration: '2n' },
         { pitch: 'E5', duration: '4n' },
-        { pitch: 'G5', duration: '4n' },
-        { pitch: null, duration: '4n' },
-        { pitch: 'G4', duration: '4n' },
+        { pitch: 'D5', duration: '8n' },
+        { pitch: 'C5', duration: '8n' },
+        { pitch: 'Bb4', duration: '4n' },
         { pitch: null, duration: '4n' },
 
-        // Bar 15-16: Final phrase resolving to tonic
+        // Bar 11-12: Winding path
+        { pitch: 'A4', duration: '8n' },
+        { pitch: 'Bb4', duration: '8n' },
         { pitch: 'C5', duration: '4n' },
+        { pitch: 'D5', duration: '4n' },
+        { pitch: 'E5', duration: '2n' },
+        { pitch: 'D5', duration: '4n' },
+        { pitch: 'C5', duration: '4n' },
+
+        // Bar 13-14: Climax
+        { pitch: 'F5', duration: '4n' },
         { pitch: null, duration: '8n' },
-        { pitch: 'G4', duration: '4n' },
-        { pitch: null, duration: '8n' },
-        { pitch: 'E4', duration: '4n' },
-        { pitch: 'F4', duration: '8n' },
-        { pitch: 'G4', duration: '8n' },
+        { pitch: 'E5', duration: '8n' },
+        { pitch: 'D5', duration: '4n' },
+        { pitch: 'C5', duration: '4n' },
+        { pitch: 'Bb4', duration: '4n' },
         { pitch: 'A4', duration: '4n' },
-        { pitch: 'C5', duration: '2n' },
+        { pitch: 'G4', duration: '4n' },
+        { pitch: 'F4', duration: '4n' },
+
+        // Bar 15-16: Resolve home
+        { pitch: 'A4', duration: '4n' },
+        { pitch: 'C5', duration: '4n' },
+        { pitch: 'F5', duration: '2n' },
+        { pitch: 'F4', duration: '2n' },
+        { pitch: null, duration: '2n' },
       ]
     },
     // Bass - Triangle wave

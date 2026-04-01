@@ -1,5 +1,7 @@
 // src/types.ts
-export type WaveType = 'square' | 'triangle' | 'sawtooth' | 'noise'
+export type WaveType =
+  | 'square' | 'triangle' | 'sawtooth' | 'noise'   // basic oscillators
+  | 'piano' | 'strings' | 'organ' | 'bell' | 'choir' // custom periodic waves
 
 export interface NoteEvent {
   pitch: string | null

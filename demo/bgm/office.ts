@@ -20,11 +20,11 @@ export const office: BGMDefinition = {
   channels: [
     // Melody — triangle (warm, recorder-like) — slightly right
     {
-      wave: 'triangle',
+      wave: 'piano',
       label: 'melody',
       volume: 0.35,
       pan: 0.25,
-      attack: 0.02,
+      attack: 0.005,
       release: 0.08,
       notes: [
         // A: Rising triad hook — quick, energetic
@@ -165,7 +165,7 @@ export const office: BGMDefinition = {
     },
     // Harmony — sawtooth (soft pad-like chords) — slightly left
     {
-      wave: 'sawtooth',
+      wave: 'strings',
       label: 'harmony',
       volume: 0.12,
       pan: -0.3,

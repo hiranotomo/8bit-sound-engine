@@ -61,13 +61,12 @@
     ],
     "channels": [
       {
-        "wave": "sawtooth",
+        "wave": "bell",
         "label": "melody",
-        "volume": 0.22,
+        "volume": 0.25,
         "pan": -0.2,
-        "attack": 0.08,
-        "release": 0.2,
-        "detune": 10,
+        "attack": 0.001,
+        "release": 0.15,
         "notes": [
           {
             "pitch": "G4",
@@ -224,7 +223,7 @@
         ]
       },
       {
-        "wave": "sawtooth",
+        "wave": "choir",
         "label": "harmony",
         "volume": 0.1,
         "pan": 0.3,

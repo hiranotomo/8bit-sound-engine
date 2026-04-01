@@ -16,12 +16,12 @@ export const dungeon: BGMDefinition = {
   channels: [
     // Melody - Triangle wave (thin, ghostly, haunting)
     {
-      wave: 'triangle',
+      wave: 'choir',
       label: 'melody',
-      volume: 0.35,
+      volume: 0.3,
       attack: 0.15,
       release: 0.3,
-      detune: 6,
+      detune: 8,
       notes: [
         // Bar 1-2: Sparse opening, dripping water feel
         { pitch: null, duration: '4n' },

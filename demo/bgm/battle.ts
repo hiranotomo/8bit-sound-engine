@@ -139,11 +139,13 @@ export const battle: BGMDefinition = {
         { pitch: 'E5', duration: '2n' },
       ]
     },
-    // Bass - Triangle wave (driving pulse)
+    // Bass - Organ wave (driving, thick pulse)
     {
-      wave: 'triangle',
+      wave: 'organ',
       label: 'bass',
-      volume: 0.45,
+      volume: 0.4,
+      attack: 0.005,
+      release: 0.03,
       notes: [
         // Bar 1-2: Pumping eighth-note bass
         { pitch: 'E2', duration: '8n' },

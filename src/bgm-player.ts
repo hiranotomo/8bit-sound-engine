@@ -1,6 +1,7 @@
 import { BGMDefinition } from './types'
 import { noteToFrequency } from './utils/note'
 import { durationToSeconds } from './utils/timing'
+import { isCustomWave, getCustomWave } from './waves'
 
 export class BGMPlayer {
   private ctx: AudioContext
@@ -141,7 +142,9 @@ export class BGMPlayer {
     for (const ch of def.channels) {
       if (ch.wave === 'noise') continue
 
-      const oscType: OscillatorType = ch.wave as OscillatorType
+      const useCustom = isCustomWave(ch.wave)
+      const oscType: OscillatorType = useCustom ? 'sine' : ch.wave as OscillatorType
+      const customWave = useCustom ? getCustomWave(this.ctx, ch.wave) : null
       const volume = ch.volume ?? 0.5
       const isMuted = this.channelMuted[chIndex] ?? false
 
@@ -183,7 +186,11 @@ export class BGMPlayer {
 
           // Primary oscillator
           const osc = this.ctx.createOscillator()
-          osc.type = oscType
+          if (customWave) {
+            osc.setPeriodicWave(customWave)
+          } else {
+            osc.type = oscType
+          }
           osc.frequency.value = freq
           osc.connect(noteGain)
           osc.start(time)
@@ -193,7 +200,11 @@ export class BGMPlayer {
           // Detuned 2nd oscillator for chorus/thickness effect
           if (detuneVal > 0) {
             const osc2 = this.ctx.createOscillator()
-            osc2.type = oscType
+            if (customWave) {
+              osc2.setPeriodicWave(customWave)
+            } else {
+              osc2.type = oscType
+            }
             osc2.frequency.value = freq
             osc2.detune.value = detuneVal
             osc2.connect(noteGain)
