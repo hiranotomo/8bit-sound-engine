@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { kv } from '../_lib/kv'
-import type { StoredSong } from '../_lib/types'
+import { kv } from '../lib/kv'
+import type { StoredSong } from '../lib/types'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {

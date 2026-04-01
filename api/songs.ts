@@ -1,18 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import type { SongMeta, StoredSong } from './_lib/types'
-
-// Lazy-loaded modules to avoid static import issues in Vercel
-async function getKv() {
-  const { kv } = await import('./_lib/kv')
-  return kv
-}
-
-async function getHelpers() {
-  const { generateId } = await import('./_lib/id')
-  const { isAdmin } = await import('./_lib/auth')
-  const { checkRateLimit } = await import('./_lib/ratelimit')
-  return { generateId, isAdmin, checkRateLimit }
-}
+import { kv } from './lib/kv'
+import { generateId } from './lib/id'
+import { isAdmin } from './lib/auth'
+import { checkRateLimit } from './lib/ratelimit'
+import type { SongMeta, StoredSong } from './lib/types'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
@@ -30,7 +21,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 }
 
 async function handleList(req: VercelRequest, res: VercelResponse) {
-  const kv = await getKv()
   const presetFilter = req.query.preset
 
   const index: string[] = (await kv.get<string[]>('songs:index')) || []
@@ -53,8 +43,6 @@ async function handleList(req: VercelRequest, res: VercelResponse) {
 }
 
 async function handleCreate(req: VercelRequest, res: VercelResponse) {
-  const kv = await getKv()
-  const { generateId, isAdmin, checkRateLimit } = await getHelpers()
   const admin = isAdmin(req)
 
   if (!admin) {
