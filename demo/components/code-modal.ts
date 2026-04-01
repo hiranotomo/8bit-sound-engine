@@ -3,17 +3,14 @@ let modalEl: HTMLElement | null = null
 function buildClaudePrompt(songId: string, title: string, lang: 'en' | 'ja' | 'zh'): string {
   const prompts = {
     en: `Run "npm install 8bit-sound-engine" in my project.
-Then load the BGM "${title}" from https://8bit-eight.vercel.app/api/songs/${songId} and play it when this page opens.
-Also add a "coin" sound effect on button clicks and a "select" sound on navigation.
-Use the AGENTS.md in the installed package for the full API reference.`,
+Then load the BGM "${title}" from https://8bit-eight.vercel.app/api/songs/${songId} and play it as background music.
+Also add appropriate sound effects to UI interactions (buttons, navigation, success, errors, etc.) — choose the best SE for each based on AGENTS.md in the installed package.`,
     ja: `このプロジェクトで npm install 8bit-sound-engine を実行して。
-その後、BGM「${title}」を https://8bit-eight.vercel.app/api/songs/${songId} から読み込んでページを開いたら再生して。
-ボタンクリックに「coin」、ナビゲーションに「select」の効果音も追加して。
-APIの詳細はインストールしたパッケージのAGENTS.mdを参照して。`,
+BGM「${title}」を https://8bit-eight.vercel.app/api/songs/${songId} から読み込んでBGMとして再生して。
+UIの操作（ボタン、ナビゲーション、成功、エラーなど）にも適切な効果音を追加して。どのSEが最適かはインストールしたパッケージのAGENTS.mdを見て判断して。`,
     zh: `在我的项目中运行 npm install 8bit-sound-engine。
-然后从 https://8bit-eight.vercel.app/api/songs/${songId} 加载BGM「${title}」，打开页面时播放。
-按钮点击添加「coin」音效，导航添加「select」音效。
-API详情参考安装包中的AGENTS.md。`,
+从 https://8bit-eight.vercel.app/api/songs/${songId} 加载BGM「${title}」作为背景音乐播放。
+同时为UI交互（按钮、导航、成功、错误等）添加合适的音效。请参考安装包中的AGENTS.md选择最佳音效。`,
   }
   return prompts[lang]
 }
