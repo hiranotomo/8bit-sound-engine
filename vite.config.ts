@@ -5,13 +5,28 @@ export default defineConfig(({ mode }) => {
     // Demo page build for Vercel
     return {}
   }
-  // Library build
+  if (mode === 'cdn') {
+    return {
+      build: {
+        lib: {
+          entry: 'src/index.ts',
+          name: 'EightBit',
+          fileName: () => 'sdk.js',
+          formats: ['iife']
+        },
+        outDir: 'public',
+        emptyOutDir: false
+      }
+    }
+  }
+  // Default: library build (npm)
   return {
     build: {
       lib: {
         entry: 'src/index.ts',
         name: 'EightBitSound',
-        fileName: '8bit-sound-engine'
+        fileName: '8bit-sound-engine',
+        formats: ['es', 'cjs']
       }
     }
   }
