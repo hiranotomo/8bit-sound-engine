@@ -8,10 +8,16 @@ import { BGMDefinition } from '../../src/types'
 export const overworld: BGMDefinition = {
   bpm: 150,
   loop: true,
+  variations: [
+    { name: 'FULL',      layers: [true,  true]  },
+    { name: 'ADVENTURE', layers: [true,  false] },
+    { name: 'MARCH',     layers: [false, true]  },
+  ],
   channels: [
     // Melody - Square wave
     {
       wave: 'square',
+      label: 'melody',
       duty: 0.5,
       volume: 0.5,
       notes: [
@@ -119,6 +125,7 @@ export const overworld: BGMDefinition = {
     // Bass - Triangle wave
     {
       wave: 'triangle',
+      label: 'bass',
       volume: 0.4,
       notes: [
         // Bar 1-2
@@ -252,6 +259,7 @@ export const overworld: BGMDefinition = {
     // Percussion - Noise channel
     {
       wave: 'noise',
+      label: 'percussion',
       volume: 0.25,
       notes: [
         // Repeating 2-bar pattern x8 = 16 bars

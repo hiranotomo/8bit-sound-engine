@@ -8,10 +8,16 @@ import { BGMDefinition } from '../../src/types'
 export const battle: BGMDefinition = {
   bpm: 180,
   loop: true,
+  variations: [
+    { name: 'FULL',    layers: [true,  true]  },
+    { name: 'CHARGE',  layers: [true,  false] },
+    { name: 'RUMBLE',  layers: [false, true]  },
+  ],
   channels: [
     // Melody - Square wave
     {
       wave: 'square',
+      label: 'melody',
       duty: 0.5,
       volume: 0.5,
       notes: [
@@ -134,6 +140,7 @@ export const battle: BGMDefinition = {
     // Bass - Triangle wave (driving pulse)
     {
       wave: 'triangle',
+      label: 'bass',
       volume: 0.45,
       notes: [
         // Bar 1-2: Pumping eighth-note bass
@@ -267,6 +274,7 @@ export const battle: BGMDefinition = {
     // Percussion - Noise channel (driving beat)
     {
       wave: 'noise',
+      label: 'percussion',
       volume: 0.3,
       notes: [
         // Fast 4-bar pattern x4 = 16 bars

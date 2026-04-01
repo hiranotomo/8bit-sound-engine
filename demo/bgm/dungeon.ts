@@ -8,10 +8,16 @@ import { BGMDefinition } from '../../src/types'
 export const dungeon: BGMDefinition = {
   bpm: 80,
   loop: true,
+  variations: [
+    { name: 'FULL',    layers: [true,  true]  },
+    { name: 'GHOST',   layers: [true,  false] },
+    { name: 'ABYSS',   layers: [false, true]  },
+  ],
   channels: [
     // Melody - Square wave (thin, haunting tone)
     {
       wave: 'square',
+      label: 'melody',
       duty: 0.25,
       volume: 0.4,
       notes: [
@@ -98,6 +104,7 @@ export const dungeon: BGMDefinition = {
     // Bass - Triangle wave (ominous drone)
     {
       wave: 'triangle',
+      label: 'bass',
       volume: 0.35,
       notes: [
         // Bar 1-2: Low drone with slow pulse
