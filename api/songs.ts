@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { kv } from './_lib/kv'
 import { generateId } from './_lib/id'
+import { isAdmin } from './_lib/auth'
 import type { SongMeta, StoredSong } from './_lib/types'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -36,9 +37,7 @@ async function handleList(req: VercelRequest, res: VercelResponse) {
 }
 
 async function handleCreate(req: VercelRequest, res: VercelResponse) {
-  const adminKey = process.env.ADMIN_KEY
-  const auth = req.headers.authorization
-  if (auth !== `Bearer ${adminKey}`) {
+  if (!isAdmin(req)) {
     return res.status(401).json({ error: 'Unauthorized' })
   }
 
