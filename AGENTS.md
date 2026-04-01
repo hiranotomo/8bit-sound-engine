@@ -272,7 +272,41 @@ engine.bgm.play(song.definition)
 | `GET /api/songs` | List all songs (meta only) |
 | `GET /api/songs?preset=true` | List preset songs only |
 | `GET /api/songs/:id` | Get song definition + meta |
+| `POST /api/compose` | AI-compose a BGM from text prompt |
 | `GET /s/:id` | Shareable player page |
+
+### Composition API
+
+Generate a BGM from a text prompt using AI:
+
+```ts
+const res = await fetch('https://8bit-eight.vercel.app/api/compose', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ prompt: 'cheerful morning forest, Zelda style' })
+})
+const { id, definition, meta } = await res.json()
+engine.bgm.play(definition)
+// Song is auto-saved and available at /s/{id}
+```
+
+Remix an existing song:
+
+```ts
+const base = await fetch('https://8bit-eight.vercel.app/api/songs/290679c1').then(r => r.json())
+const res = await fetch('https://8bit-eight.vercel.app/api/compose', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    prompt: 'make it darker and slower',
+    base: base.definition
+  })
+})
+const { definition } = await res.json()
+engine.bgm.play(definition)
+```
+
+Rate limit: 5 compositions per hour per IP.
 
 ### Available Presets
 
