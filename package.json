@@ -1,6 +1,6 @@
 {
   "name": "8bit-sound-engine",
-  "version": "0.2.0",
+  "version": "0.5.0",
   "description": "Chiptune sound engine for web apps — BGM, SE, reverb, variations. Built for AI coding assistants.",
   "type": "module",
   "main": "dist/8bit-sound-engine.cjs",
