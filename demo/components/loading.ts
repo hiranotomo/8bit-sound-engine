@@ -1,9 +1,11 @@
+import { t } from '../i18n'
+
 const LOADING_CLASS = 'loading-spinner'
 
 export function showLoading(container: HTMLElement) {
   const spinner = document.createElement('div')
   spinner.className = LOADING_CLASS
-  spinner.innerHTML = '<span class="spinner-note">&#9835;</span><span class="spinner-text">Loading...</span>'
+  spinner.innerHTML = `<span class="spinner-note">&#9835;</span><span class="spinner-text">${t('loading')}</span>`
   container.appendChild(spinner)
 }
 

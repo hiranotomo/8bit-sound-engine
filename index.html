@@ -59,11 +59,18 @@
       <div class="scroll-bottom"></div>
     </header>
 
+    <!-- Language Switcher -->
+    <div class="lang-bar">
+      <button class="lang-global-btn active" data-global-lang="en">EN</button>
+      <button class="lang-global-btn" data-global-lang="ja">JA</button>
+      <button class="lang-global-btn" data-global-lang="zh">ZH</button>
+    </div>
+
     <!-- Tab Bar -->
     <nav class="tab-bar">
-      <a class="tab-btn active" data-tab="presets" href="#presets">&#9834; PRESETS</a>
-      <a class="tab-btn" data-tab="library" href="#library">&#9733; LIBRARY</a>
-      <a class="tab-btn" data-tab="compose" href="#compose">&#9998; COMPOSE</a>
+      <a class="tab-btn active" data-tab="presets" href="#presets">&#9834; <span data-t="tab.presets">PRESETS</span></a>
+      <a class="tab-btn" data-tab="library" href="#library">&#9733; <span data-t="tab.library">LIBRARY</span></a>
+      <a class="tab-btn" data-tab="compose" href="#compose">&#9998; <span data-t="tab.compose">COMPOSE</span></a>
     </nav>
 
     <!-- Dynamic tab content -->
@@ -78,11 +85,11 @@
         </div>
         <div class="btn-row player-controls">
           <button class="game-btn btn-stop" data-bgm="stop">
-            <span class="btn-icon">&#9632;</span> STOP
+            <span class="btn-icon">&#9632;</span> <span data-t="player.stop">STOP</span>
           </button>
         </div>
         <div class="variation-panel" id="variation-panel" style="display:none;">
-          <div class="layer-title">ARRANGEMENT</div>
+          <div class="layer-title" data-t="player.arrangement">ARRANGEMENT</div>
           <div class="layer-row" id="variation-buttons"></div>
         </div>
       </div>
@@ -90,10 +97,10 @@
       <!-- SE Section -->
       <div class="wood-panel">
         <div class="panel-header">
-          <span class="panel-icon">&#9733;</span> SOUND EFFECTS
+          <span class="panel-icon">&#9733;</span> <span data-t="se.title">SOUND EFFECTS</span>
         </div>
         <div class="panel-content">
-          <p class="help-text">Tap to trigger — plays on top of BGM</p>
+          <p class="help-text" data-t="se.help">Tap to trigger — plays on top of BGM</p>
           <div class="se-grid">
             <button class="item-btn" data-se="jump"><span class="item-icon">&#8593;</span><span class="item-label">JUMP</span></button>
             <button class="item-btn" data-se="coin"><span class="item-icon">&#9679;</span><span class="item-label">COIN</span></button>
@@ -112,7 +119,7 @@
       <!-- Channels -->
       <div class="wood-panel">
         <div class="panel-header">
-          <span class="panel-icon">&#9830;</span> CHANNELS
+          <span class="panel-icon">&#9830;</span> <span data-t="channels.title">CHANNELS</span>
         </div>
         <div class="panel-content">
           <div class="channel-row"><span class="channel-label"><span class="crystal crystal-green"></span> Pulse 1</span><div class="channel-bar-track"><div class="channel-bar-fill pulse1" style="width: 0%"></div></div></div>
@@ -125,7 +132,7 @@
       <!-- Mixer -->
       <div class="wood-panel">
         <div class="panel-header">
-          <span class="panel-icon">&#9881;</span> MIXER
+          <span class="panel-icon">&#9881;</span> <span data-t="mixer.title">MIXER</span>
         </div>
         <div class="panel-content">
           <div class="mixer-row"><span class="mixer-label">REVERB</span><input type="range" class="pixel-slider" id="reverb-mix" min="0" max="100" value="20" /><span class="mixer-value" id="reverb-value">20%</span></div>
@@ -137,8 +144,8 @@
 
     <!-- Footer -->
     <footer class="footer">
-      <span class="hint">Browse presets, listen, and integrate into your app!</span>
-      <span>Built with Web Audio API</span>
+      <span class="hint" data-t="footer.hint">Browse presets, listen, and integrate into your app!</span>
+      <span data-t="footer.built">Built with Web Audio API</span>
     </footer>
 
   </div>

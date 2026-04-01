@@ -1,12 +1,12 @@
 import { composeSong, fetchSong, saveSong, type ComposeResponse } from '../api'
 import { playSong, stopSong } from '../player'
+import { t } from '../i18n'
 import type { BGMDefinition } from '../../src/types'
 
 export async function composeView(container: HTMLElement) {
   const wrapper = document.createElement('div')
   wrapper.className = 'view-compose'
 
-  // Check for remix base
   const hashParams = new URLSearchParams(location.hash.split('?')[1] || '')
   const baseId = hashParams.get('base')
   let baseDef: BGMDefinition | undefined
@@ -14,20 +14,20 @@ export async function composeView(container: HTMLElement) {
 
   wrapper.innerHTML = `
     <div class="view-header">
-      <h2 class="view-title">&#9998; COMPOSE</h2>
+      <h2 class="view-title">&#9998; ${t('compose.title')}</h2>
       <div class="how-to-use">
-        <p><strong>1.</strong> Describe your song's mood, style, and tempo below.</p>
-        <p><strong>2.</strong> Click COMPOSE — AI generates a unique chiptune BGM.</p>
-        <p><strong>3.</strong> Listen, edit the title, then SAVE to library.</p>
-        <p class="how-to-example">Try: "peaceful snowy village, slow and magical" or "intense boss battle, fast and aggressive"</p>
+        <p><strong>1.</strong> ${t('compose.help.1')}</p>
+        <p><strong>2.</strong> ${t('compose.help.2')}</p>
+        <p><strong>3.</strong> ${t('compose.help.3')}</p>
+        <p class="how-to-example">${t('compose.help.example')}</p>
       </div>
     </div>
     <div id="remix-banner" class="remix-banner" style="display:none;"></div>
     <div class="wood-panel">
       <div class="panel-content">
-        <textarea id="compose-prompt" class="compose-textarea" placeholder="cheerful morning forest, gentle and cozy..." rows="3" maxlength="500"></textarea>
+        <textarea id="compose-prompt" class="compose-textarea" placeholder="${t('compose.placeholder')}" rows="3" maxlength="500"></textarea>
         <div class="compose-actions">
-          <button id="compose-btn" class="game-btn btn-forest compose-btn">&#9835; COMPOSE</button>
+          <button id="compose-btn" class="game-btn btn-forest compose-btn">&#9835; ${t('compose.btn')}</button>
           <span id="compose-chars" class="compose-chars">0/500</span>
           <span id="compose-remaining" class="compose-remaining"></span>
         </div>
@@ -43,11 +43,11 @@ export async function composeView(container: HTMLElement) {
             <span class="prog-note prog-note-4">&#9834;</span>
             <span class="prog-note prog-note-5">&#9835;</span>
           </div>
-          <div id="progress-step" class="progress-step">Analyzing prompt...</div>
+          <div id="progress-step" class="progress-step">${t('compose.progress.1')}</div>
           <div class="progress-bar-track">
             <div id="progress-bar-fill" class="progress-bar-fill"></div>
           </div>
-          <div class="progress-hint">Usually takes 10-20 seconds</div>
+          <div class="progress-hint">${t('compose.progress.hint')}</div>
         </div>
       </div>
     </div>
@@ -57,20 +57,20 @@ export async function composeView(container: HTMLElement) {
         <div class="panel-content">
           <div class="result-header">
             <div class="save-field">
-              <label class="save-label">Song Title</label>
+              <label class="save-label">${t('compose.result.title')}</label>
               <input id="result-title-input" class="save-input" type="text" maxlength="60" />
             </div>
             <div class="save-field">
-              <label class="save-label">Composer</label>
+              <label class="save-label">${t('compose.result.composer')}</label>
               <input id="result-composer-input" class="save-input" type="text" value="Tomo" maxlength="30" />
             </div>
             <div id="result-tags" class="card-tags"></div>
           </div>
           <div class="result-actions">
-            <button id="result-play" class="game-btn btn-forest">&#9654; PLAY</button>
-            <button id="result-stop" class="game-btn btn-stop" style="display:none;">&#9632; STOP</button>
-            <button id="result-save" class="game-btn btn-cave">&#9733; SAVE</button>
-            <button id="result-discard" class="game-btn">&#10005; DISCARD</button>
+            <button id="result-play" class="game-btn btn-forest">&#9654; ${t('card.play')}</button>
+            <button id="result-stop" class="game-btn btn-stop" style="display:none;">&#9632; ${t('player.stop')}</button>
+            <button id="result-save" class="game-btn btn-cave">&#9733; ${t('compose.result.save')}</button>
+            <button id="result-discard" class="game-btn">&#10005; ${t('compose.result.discard')}</button>
           </div>
           <div id="save-status" class="save-status" style="display:none;"></div>
         </div>
@@ -80,7 +80,6 @@ export async function composeView(container: HTMLElement) {
 
   container.appendChild(wrapper)
 
-  // Elements
   const prompt = wrapper.querySelector('#compose-prompt') as HTMLTextAreaElement
   const composeBtn = wrapper.querySelector('#compose-btn') as HTMLButtonElement
   const charsSpan = wrapper.querySelector('#compose-chars') as HTMLSpanElement
@@ -101,27 +100,24 @@ export async function composeView(container: HTMLElement) {
   let currentResult: ComposeResponse | null = null
   let isPlaying = false
 
-  // Char counter
   prompt.addEventListener('input', () => {
     charsSpan.textContent = `${prompt.value.length}/500`
   })
 
-  // Load remix base if present
   if (baseId) {
     try {
       const song = await fetchSong(baseId)
       baseDef = song.definition
       baseTitle = song.meta.title
       remixBanner.style.display = 'block'
-      remixBanner.innerHTML = `&#9835; Remixing: <strong>${baseTitle}</strong>`
-      prompt.placeholder = `How to modify "${baseTitle}"...`
+      remixBanner.innerHTML = `&#9835; ${t('compose.remixing')} <strong>${baseTitle}</strong>`
+      prompt.placeholder = t('compose.remix.placeholder')
     } catch {
       remixBanner.style.display = 'block'
-      remixBanner.innerHTML = 'Could not load base song'
+      remixBanner.innerHTML = t('compose.remix.fail')
     }
   }
 
-  // Compose
   composeBtn.addEventListener('click', async () => {
     const text = prompt.value.trim()
     if (!text) return
@@ -134,16 +130,15 @@ export async function composeView(container: HTMLElement) {
     stopSong()
     isPlaying = false
 
-    // Animated progress steps
     const progressStep = wrapper.querySelector('#progress-step') as HTMLElement
     const progressBar = wrapper.querySelector('#progress-bar-fill') as HTMLElement
     const steps = [
-      { text: 'Analyzing prompt...', pct: 10 },
-      { text: 'Choosing key and tempo...', pct: 25 },
-      { text: 'Composing melody...', pct: 45 },
-      { text: 'Adding bass line...', pct: 60 },
-      { text: 'Building harmony...', pct: 75 },
-      { text: 'Creating variations...', pct: 90 },
+      { text: t('compose.progress.1'), pct: 10 },
+      { text: t('compose.progress.2'), pct: 25 },
+      { text: t('compose.progress.3'), pct: 45 },
+      { text: t('compose.progress.4'), pct: 60 },
+      { text: t('compose.progress.5'), pct: 75 },
+      { text: t('compose.progress.6'), pct: 90 },
     ]
     let stepIndex = 0
     progressStep.textContent = steps[0].text
@@ -157,30 +152,21 @@ export async function composeView(container: HTMLElement) {
     }, 2500)
 
     try {
-      const result = await composeSong({
-        prompt: text,
-        base: baseDef,
-      })
+      const result = await composeSong({ prompt: text, base: baseDef })
       clearInterval(stepTimer)
       progressBar.style.width = '100%'
-      progressStep.textContent = 'Done!'
+      progressStep.textContent = t('compose.progress.done')
 
       currentResult = result
 
-      // Show remaining compositions
       if (result.remaining !== undefined) {
-        remainingSpan.textContent = `${result.remaining} left this hour`
+        remainingSpan.textContent = `${result.remaining} ${t('compose.left')}`
       }
 
-      // Show result with editable title/composer
       titleInput.value = result.suggestedMeta.title
-      resultTags.innerHTML = result.suggestedMeta.tags
-        .map(t => `<span class="tag">${t}</span>`)
-        .join('')
-
+      resultTags.innerHTML = result.suggestedMeta.tags.map(tag => `<span class="tag">${tag}</span>`).join('')
       resultEl.style.display = 'block'
 
-      // Auto-play
       playSong(result.definition, result.suggestedMeta.title)
       isPlaying = true
       playBtn.style.display = 'none'
@@ -188,22 +174,14 @@ export async function composeView(container: HTMLElement) {
     } catch (err: any) {
       clearInterval(stepTimer)
       errorEl.style.display = 'block'
-      errorEl.innerHTML = `
-        <div class="error-panel">
-          <p class="error-message">${err.message || 'Composition failed'}</p>
-          <button class="game-btn btn-battle error-retry">RETRY</button>
-        </div>
-      `
-      errorEl.querySelector('.error-retry')?.addEventListener('click', () => {
-        composeBtn.click()
-      })
+      errorEl.innerHTML = `<div class="error-panel"><p class="error-message">${err.message || 'Composition failed'}</p><button class="game-btn btn-battle error-retry">${t('retry')}</button></div>`
+      errorEl.querySelector('.error-retry')?.addEventListener('click', () => composeBtn.click())
     } finally {
       composeBtn.disabled = false
       loadingEl.style.display = 'none'
     }
   })
 
-  // Play/Stop
   playBtn.addEventListener('click', () => {
     if (!currentResult) return
     playSong(currentResult.definition, titleInput.value)
@@ -219,29 +197,24 @@ export async function composeView(container: HTMLElement) {
     stopBtn.style.display = 'none'
   })
 
-  // Save
   saveBtn.addEventListener('click', async () => {
     if (!currentResult) return
-    const title = titleInput.value.trim() || 'Untitled'
-    const composer = composerInput.value.trim() || 'Tomo'
-
     saveBtn.disabled = true
     saveStatus.style.display = 'block'
-    saveStatus.textContent = 'Saving...'
+    saveStatus.textContent = t('compose.result.saving')
     saveStatus.className = 'save-status'
-
     try {
       const { id } = await saveSong({
-        title,
-        composer,
+        title: titleInput.value.trim() || 'Untitled',
+        composer: composerInput.value.trim() || 'Tomo',
         prompt: currentResult.suggestedMeta.prompt,
         tags: currentResult.suggestedMeta.tags,
         definition: currentResult.definition,
         basedOn: currentResult.suggestedMeta.basedOn,
       })
-      saveStatus.textContent = `Saved! View in LIBRARY or share: /s/${id}`
+      saveStatus.textContent = `${t('compose.result.saved')} /s/${id}`
       saveStatus.className = 'save-status save-success'
-      saveBtn.textContent = '✓ SAVED'
+      saveBtn.textContent = t('compose.result.saved')
     } catch (err: any) {
       saveStatus.textContent = err.message || 'Save failed'
       saveStatus.className = 'save-status save-error'
@@ -249,7 +222,6 @@ export async function composeView(container: HTMLElement) {
     }
   })
 
-  // Discard
   discardBtn.addEventListener('click', () => {
     stopSong()
     isPlaying = false
@@ -258,7 +230,7 @@ export async function composeView(container: HTMLElement) {
     errorEl.style.display = 'none'
     saveStatus.style.display = 'none'
     saveBtn.disabled = false
-    saveBtn.textContent = '★ SAVE'
+    saveBtn.textContent = `★ ${t('compose.result.save')}`
     prompt.value = ''
     charsSpan.textContent = '0/500'
     prompt.focus()

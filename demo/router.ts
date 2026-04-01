@@ -36,3 +36,20 @@ export function startRouter(el: HTMLElement) {
 export function getCurrentRoute(): Route | null {
   return currentRoute
 }
+
+export function forceNavigate(el: HTMLElement) {
+  currentHash = null
+  currentRoute = null
+  container = el
+  const rawHash = location.hash.slice(1) || 'presets'
+  currentHash = rawHash
+  const route = rawHash.split('?')[0] as Route
+  currentRoute = route
+  if (container) {
+    container.innerHTML = ''
+    routes[route]?.(container)
+  }
+  document.querySelectorAll('[data-tab]').forEach(t =>
+    t.classList.toggle('active', (t as HTMLElement).dataset.tab === route)
+  )
+}

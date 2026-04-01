@@ -3,6 +3,7 @@ import { fetchSongs, fetchSong } from '../api'
 import { renderSongCard } from '../components/song-card'
 import { showLoading, hideLoading } from '../components/loading'
 import { showError } from '../components/error'
+import { t } from '../i18n'
 
 export async function presetsView(container: HTMLElement) {
   const wrapper = document.createElement('div')
@@ -11,11 +12,11 @@ export async function presetsView(container: HTMLElement) {
   const header = document.createElement('div')
   header.className = 'view-header'
   header.innerHTML = `
-    <h2 class="view-title">&#9834; PRESET BGMs</h2>
+    <h2 class="view-title">&#9834; ${t('presets.title')}</h2>
     <div class="how-to-use">
-      <p><strong>&#9654; PLAY</strong> — Listen to the track. Controls appear below.</p>
-      <p><strong>&#60;/&#62; CODE</strong> — Get code snippet to use in your app.</p>
-      <p><strong>&#9998; REMIX</strong> — Open in Compose tab to create a variation.</p>
+      <p><strong>&#9654; ${t('card.play')}</strong> — ${t('presets.help.play')}</p>
+      <p><strong>&#60;/&#62; ${t('card.code')}</strong> — ${t('presets.help.code')}</p>
+      <p><strong>&#9998; ${t('card.remix')}</strong> — ${t('presets.help.remix')}</p>
     </div>
   `
   wrapper.appendChild(header)
@@ -33,14 +34,14 @@ export async function presetsView(container: HTMLElement) {
     hideLoading(grid)
 
     if (songs.length === 0) {
-      grid.innerHTML = '<p class="help-text">No presets yet. Run the seed script.</p>'
+      grid.innerHTML = `<p class="help-text">${t('presets.empty')}</p>`
       return
     }
 
     for (const song of songs) {
       const card = renderSongCard(song, {
         onPlay: async () => {
-          await getEngine().resume()  // Resume before async fetch (user gesture)
+          await getEngine().resume()
           const full = await fetchSong(song.id)
           playSong(full.definition, song.title)
         }
@@ -49,7 +50,7 @@ export async function presetsView(container: HTMLElement) {
     }
   } catch (err) {
     hideLoading(grid)
-    showError(grid, 'Failed to load presets', () => {
+    showError(grid, t('presets.error'), () => {
       grid.innerHTML = ''
       presetsView(container)
     })
