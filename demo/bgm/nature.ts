@@ -25,6 +25,9 @@ export const nature: BGMDefinition = {
       label: 'melody',
       volume: 0.22,
       pan: -0.2,
+      attack: 0.08,
+      release: 0.2,
+      detune: 10,
       notes: [
         // A: Gentle, spacious — like sitting by a river
         // Bar 1
@@ -111,6 +114,9 @@ export const nature: BGMDefinition = {
       label: 'harmony',
       volume: 0.10,
       pan: 0.3,
+      attack: 0.15,
+      release: 0.3,
+      detune: 12,
       notes: [
         // Bar 1: G — 3rd
         { pitch: 'B3', duration: '1n' },

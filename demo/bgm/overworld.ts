@@ -19,6 +19,9 @@ export const overworld: BGMDefinition = {
       wave: 'sawtooth',
       label: 'melody',
       volume: 0.3,
+      attack: 0.01,
+      release: 0.06,
+      detune: 12,
       notes: [
         // Bar 1-2: Opening phrase (upward leap, bouncy)
         { pitch: 'E5', duration: '8n' },

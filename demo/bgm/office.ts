@@ -24,6 +24,8 @@ export const office: BGMDefinition = {
       label: 'melody',
       volume: 0.35,
       pan: 0.25,
+      attack: 0.02,
+      release: 0.08,
       notes: [
         // A: Rising triad hook — quick, energetic
         // Bar 1
@@ -167,6 +169,9 @@ export const office: BGMDefinition = {
       label: 'harmony',
       volume: 0.12,
       pan: -0.3,
+      attack: 0.1,
+      release: 0.2,
+      detune: 8,
       notes: [
         // Bar 1: Bb (I) — 3rd
         { pitch: 'D4', duration: '1n' },

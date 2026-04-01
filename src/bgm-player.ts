@@ -160,18 +160,47 @@ export class BGMPlayer {
       this.scheduledNodes.push(panner)
       this.scheduledNodes.push(channelGain)
 
+      const attack = ch.attack ?? 0.01
+      const release = ch.release ?? 0.05
+      const detuneVal = ch.detune ?? 0
+
       let time = startTime
       for (const note of ch.notes) {
         const dur = durationToSeconds(note.duration, def.bpm)
         const freq = noteToFrequency(note.pitch)
         if (freq > 0) {
+          // Per-note gain envelope (attack/release)
+          const noteGain = this.ctx.createGain()
+          noteGain.gain.setValueAtTime(0, time)
+          noteGain.gain.linearRampToValueAtTime(1, time + Math.min(attack, dur * 0.3))
+          const releaseStart = time + dur * 0.85 - release
+          if (releaseStart > time + attack) {
+            noteGain.gain.setValueAtTime(1, releaseStart)
+          }
+          noteGain.gain.linearRampToValueAtTime(0, time + dur * 0.9)
+          noteGain.connect(channelGain)
+          this.scheduledNodes.push(noteGain)
+
+          // Primary oscillator
           const osc = this.ctx.createOscillator()
           osc.type = oscType
           osc.frequency.value = freq
-          osc.connect(channelGain)
+          osc.connect(noteGain)
           osc.start(time)
-          osc.stop(time + dur * 0.9)
+          osc.stop(time + dur * 0.95)
           this.scheduledNodes.push(osc)
+
+          // Detuned 2nd oscillator for chorus/thickness effect
+          if (detuneVal > 0) {
+            const osc2 = this.ctx.createOscillator()
+            osc2.type = oscType
+            osc2.frequency.value = freq
+            osc2.detune.value = detuneVal
+            osc2.connect(noteGain)
+            osc2.start(time)
+            osc2.stop(time + dur * 0.95)
+            this.scheduledNodes.push(osc2)
+          }
         }
         time += dur
       }

@@ -31,6 +31,9 @@
         "wave": "sawtooth",
         "label": "melody",
         "volume": 0.3,
+        "attack": 0.01,
+        "release": 0.06,
+        "detune": 12,
         "notes": [
           {
             "pitch": "E5",

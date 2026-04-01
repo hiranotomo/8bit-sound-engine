@@ -65,6 +65,8 @@
         "label": "melody",
         "volume": 0.35,
         "pan": 0.25,
+        "attack": 0.02,
+        "release": 0.08,
         "notes": [
           {
             "pitch": "Bb4",
@@ -453,6 +455,9 @@
         "label": "harmony",
         "volume": 0.12,
         "pan": -0.3,
+        "attack": 0.1,
+        "release": 0.2,
+        "detune": 8,
         "notes": [
           {
             "pitch": "D4",

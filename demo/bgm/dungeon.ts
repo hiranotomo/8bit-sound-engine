@@ -19,6 +19,9 @@ export const dungeon: BGMDefinition = {
       wave: 'triangle',
       label: 'melody',
       volume: 0.35,
+      attack: 0.15,
+      release: 0.3,
+      detune: 6,
       notes: [
         // Bar 1-2: Sparse opening, dripping water feel
         { pitch: null, duration: '4n' },

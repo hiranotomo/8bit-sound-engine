@@ -20,6 +20,8 @@ export const battle: BGMDefinition = {
       label: 'melody',
       duty: 0.5,
       volume: 0.5,
+      attack: 0.003,
+      release: 0.02,
       notes: [
         // Bar 1-2: Aggressive opening riff
         { pitch: 'E5', duration: '8n' },

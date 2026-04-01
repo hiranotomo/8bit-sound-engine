@@ -99,7 +99,11 @@ interface NoteEvent { pitch: string | null; duration: string }
 // duration: '1n', '2n', '4n', '8n', '16n', '32n'
 
 interface ChannelDefinition {
-  wave: WaveType; label?: string; volume?: number; pan?: number; notes: NoteEvent[]
+  wave: WaveType; label?: string; volume?: number; pan?: number
+  attack?: number  // note fade-in secs (0.001=sharp piano, 0.15=slow pad)
+  release?: number // note fade-out secs (0.02=staccato, 0.3=legato)
+  detune?: number  // cents, 2nd osc for chorus (0=clean, 8-15=thick)
+  notes: NoteEvent[]
 }
 
 interface Variation { name: string; layers: boolean[] }
@@ -123,12 +127,16 @@ interface BGMDefinition {
 ## Composition Principles
 1. SHORT MOTIFS (4-8 notes) repeated with variation. Never scale runs.
 2. Maximize contrast: change tempo, wave types, rhythm, bass, key simultaneously.
-3. Instrument simulation — VARY the melody wave per song:
-   - Piano/Keys: square, staccato. Flute: triangle, legato. Guitar: sawtooth, rhythmic.
-   - Music Box: triangle high octave. Brass: sawtooth bold. Warm Pad: sawtooth soft.
-   - Bass: always triangle low octave. Chorus: sawtooth whole notes soft.
-   - CRITICAL: Do NOT use square for every melody. Match instrument to mood.
-   - Each channel MUST use a DIFFERENT wave type.
+3. Instrument simulation — VARY wave + attack/release/detune per song:
+   - Piano: square, attack=0.003, release=0.02, detune=0 (sharp staccato)
+   - Flute: triangle, attack=0.02, release=0.08, detune=0 (smooth gentle)
+   - Guitar: sawtooth, attack=0.01, release=0.06, detune=12 (warm chorus)
+   - Brass: sawtooth, attack=0.03, release=0.08, detune=6 (bold)
+   - Ghostly: triangle, attack=0.15, release=0.3, detune=6 (eerie slow)
+   - Music Box: triangle, attack=0.001, release=0.03, detune=0 (tiny, high octave)
+   - Pad: sawtooth, attack=0.15, release=0.3, detune=12 (ethereal thick)
+   - Bass: triangle, attack=0.01, release=0.05, detune=0 (always clean)
+   - CRITICAL: Do NOT use same wave+envelope for every melody. Each channel DIFFERENT wave.
 4. Bass patterns: walking 8ths=energetic, long notes=calm, octave pumping=intense, chromatic=dark.
 5. Include rests (null pitch) — minimum 10% of notes. Sparse > busy.
 6. Major keys=bright/happy, Minor keys=dark/mysterious.

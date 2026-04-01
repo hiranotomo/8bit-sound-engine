@@ -64,17 +64,22 @@ interface BGMDefinition {
 ### 3. Instrument simulation through wave types
 Each wave type simulates different instruments. VARY the melody wave type per song:
 
-| Instrument Feel | Wave | Volume | Notes |
-|----------------|------|--------|-------|
-| Piano/Keys | square | 0.25-0.35 | Short staccato notes, clear attack |
-| Flute/Recorder | triangle | 0.3-0.4 | Smooth legato, gentle |
-| Guitar/Pluck | sawtooth | 0.2-0.3 | Medium notes, rhythmic |
-| Synth Lead | square | 0.3-0.4 | Sustained notes, bright |
-| Warm Pad | sawtooth | 0.08-0.15 | Very long notes, background |
-| Music Box | triangle | 0.15-0.2 | High octave (5-6), short 8th notes |
-| Brass/Horn | sawtooth | 0.25-0.35 | Bold, medium-long notes |
-| Bass | triangle | 0.3-0.45 | Low octave (2-3), always triangle |
-| Chorus/Pad | sawtooth | 0.08-0.12 | Whole notes, background texture |
+| Instrument Feel | Wave | Volume | attack | release | detune | Notes |
+|----------------|------|--------|--------|---------|--------|-------|
+| Piano/Keys | square | 0.25-0.35 | 0.003 | 0.02 | 0 | Sharp staccato, quick decay |
+| Flute/Recorder | triangle | 0.3-0.4 | 0.02 | 0.08 | 0 | Smooth, gentle |
+| Guitar/Pluck | sawtooth | 0.2-0.3 | 0.01 | 0.06 | 12 | Warm, chorus thickness |
+| Synth Lead | square | 0.3-0.4 | 0.01 | 0.05 | 8 | Bright, slightly detuned |
+| Warm Pad | sawtooth | 0.08-0.15 | 0.15 | 0.3 | 12 | Slow fade in/out, thick |
+| Music Box | triangle | 0.15-0.2 | 0.001 | 0.03 | 0 | Tiny attack, high octave |
+| Brass/Horn | sawtooth | 0.25-0.35 | 0.03 | 0.08 | 6 | Bold, slight detune |
+| Ghostly | triangle | 0.3-0.4 | 0.15 | 0.3 | 6 | Slow attack, eerie |
+| Bass | triangle | 0.3-0.45 | 0.01 | 0.05 | 0 | Low octave, clean |
+| Chorus/Pad | sawtooth | 0.08-0.12 | 0.2 | 0.3 | 15 | Ethereal, very thick |
+
+- **attack**: seconds for note to reach full volume (0.001=instant, 0.15=slow pad)
+- **release**: seconds for note to fade out (0.02=staccato, 0.3=legato)
+- **detune**: cents to detune a 2nd oscillator for thickness/chorus (0=clean, 8-15=warm chorus)
 
 CRITICAL: Do NOT use square wave for every melody. Match the instrument feel to the mood:
 - Calm/nature → triangle (flute) or sawtooth (guitar)
