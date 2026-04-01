@@ -1,0 +1,448 @@
+{
+  "prompt": "dark mysterious dungeon, sparse melody, chromatic movement, droning bass, eerie silences, D minor, 80 BPM",
+  "definition": {
+    "bpm": 80,
+    "loop": true,
+    "variations": [
+      {
+        "name": "FULL",
+        "layers": [
+          true,
+          true
+        ]
+      },
+      {
+        "name": "GHOST",
+        "layers": [
+          true,
+          false
+        ]
+      },
+      {
+        "name": "ABYSS",
+        "layers": [
+          false,
+          true
+        ]
+      }
+    ],
+    "channels": [
+      {
+        "wave": "square",
+        "label": "melody",
+        "duty": 0.25,
+        "volume": 0.4,
+        "notes": [
+          {
+            "pitch": null,
+            "duration": "4n"
+          },
+          {
+            "pitch": "D5",
+            "duration": "8n"
+          },
+          {
+            "pitch": null,
+            "duration": "8n"
+          },
+          {
+            "pitch": null,
+            "duration": "2n"
+          },
+          {
+            "pitch": null,
+            "duration": "4n"
+          },
+          {
+            "pitch": "C#5",
+            "duration": "8n"
+          },
+          {
+            "pitch": "D5",
+            "duration": "8n"
+          },
+          {
+            "pitch": null,
+            "duration": "2n"
+          },
+          {
+            "pitch": "A5",
+            "duration": "4n"
+          },
+          {
+            "pitch": null,
+            "duration": "4n"
+          },
+          {
+            "pitch": "G#5",
+            "duration": "4n"
+          },
+          {
+            "pitch": null,
+            "duration": "4n"
+          },
+          {
+            "pitch": "G5",
+            "duration": "4n"
+          },
+          {
+            "pitch": null,
+            "duration": "4n"
+          },
+          {
+            "pitch": "F5",
+            "duration": "4n"
+          },
+          {
+            "pitch": "E5",
+            "duration": "4n"
+          },
+          {
+            "pitch": "D5",
+            "duration": "2n"
+          },
+          {
+            "pitch": null,
+            "duration": "8n"
+          },
+          {
+            "pitch": "A4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "Bb4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "A4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "F4",
+            "duration": "2n"
+          },
+          {
+            "pitch": null,
+            "duration": "4n"
+          },
+          {
+            "pitch": "E4",
+            "duration": "4n"
+          },
+          {
+            "pitch": "F4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "G4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "A4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "Bb4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "C5",
+            "duration": "4n"
+          },
+          {
+            "pitch": "C#5",
+            "duration": "4n"
+          },
+          {
+            "pitch": "D5",
+            "duration": "2n"
+          },
+          {
+            "pitch": null,
+            "duration": "2n"
+          },
+          {
+            "pitch": null,
+            "duration": "2n"
+          },
+          {
+            "pitch": "A5",
+            "duration": "8n"
+          },
+          {
+            "pitch": null,
+            "duration": "8n"
+          },
+          {
+            "pitch": "F5",
+            "duration": "8n"
+          },
+          {
+            "pitch": null,
+            "duration": "8n"
+          },
+          {
+            "pitch": null,
+            "duration": "2n"
+          },
+          {
+            "pitch": "E5",
+            "duration": "8n"
+          },
+          {
+            "pitch": null,
+            "duration": "8n"
+          },
+          {
+            "pitch": "D5",
+            "duration": "8n"
+          },
+          {
+            "pitch": null,
+            "duration": "8n"
+          },
+          {
+            "pitch": "D4",
+            "duration": "4n"
+          },
+          {
+            "pitch": null,
+            "duration": "4n"
+          },
+          {
+            "pitch": "G#4",
+            "duration": "4n"
+          },
+          {
+            "pitch": null,
+            "duration": "4n"
+          },
+          {
+            "pitch": "D4",
+            "duration": "4n"
+          },
+          {
+            "pitch": null,
+            "duration": "4n"
+          },
+          {
+            "pitch": "G#4",
+            "duration": "4n"
+          },
+          {
+            "pitch": "A4",
+            "duration": "4n"
+          },
+          {
+            "pitch": "D5",
+            "duration": "4n"
+          },
+          {
+            "pitch": "C5",
+            "duration": "4n"
+          },
+          {
+            "pitch": "Bb4",
+            "duration": "4n"
+          },
+          {
+            "pitch": "A4",
+            "duration": "4n"
+          },
+          {
+            "pitch": "G4",
+            "duration": "4n"
+          },
+          {
+            "pitch": "F4",
+            "duration": "4n"
+          },
+          {
+            "pitch": "E4",
+            "duration": "2n"
+          },
+          {
+            "pitch": "D4",
+            "duration": "4n"
+          },
+          {
+            "pitch": null,
+            "duration": "4n"
+          },
+          {
+            "pitch": "C#4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "D4",
+            "duration": "8n"
+          },
+          {
+            "pitch": null,
+            "duration": "2n"
+          },
+          {
+            "pitch": null,
+            "duration": "1n"
+          }
+        ]
+      },
+      {
+        "wave": "triangle",
+        "label": "bass",
+        "volume": 0.35,
+        "notes": [
+          {
+            "pitch": "D2",
+            "duration": "2n"
+          },
+          {
+            "pitch": null,
+            "duration": "4n"
+          },
+          {
+            "pitch": "D2",
+            "duration": "4n"
+          },
+          {
+            "pitch": "D2",
+            "duration": "2n"
+          },
+          {
+            "pitch": null,
+            "duration": "4n"
+          },
+          {
+            "pitch": "A1",
+            "duration": "4n"
+          },
+          {
+            "pitch": "A2",
+            "duration": "2n"
+          },
+          {
+            "pitch": "G#2",
+            "duration": "2n"
+          },
+          {
+            "pitch": "G2",
+            "duration": "2n"
+          },
+          {
+            "pitch": "F2",
+            "duration": "2n"
+          },
+          {
+            "pitch": "D2",
+            "duration": "1n"
+          },
+          {
+            "pitch": "Bb1",
+            "duration": "2n"
+          },
+          {
+            "pitch": "C2",
+            "duration": "2n"
+          },
+          {
+            "pitch": "D2",
+            "duration": "4n"
+          },
+          {
+            "pitch": null,
+            "duration": "4n"
+          },
+          {
+            "pitch": "D2",
+            "duration": "4n"
+          },
+          {
+            "pitch": null,
+            "duration": "4n"
+          },
+          {
+            "pitch": "D2",
+            "duration": "2n"
+          },
+          {
+            "pitch": null,
+            "duration": "2n"
+          },
+          {
+            "pitch": "F2",
+            "duration": "1n"
+          },
+          {
+            "pitch": "E2",
+            "duration": "2n"
+          },
+          {
+            "pitch": "D2",
+            "duration": "2n"
+          },
+          {
+            "pitch": "D2",
+            "duration": "2n"
+          },
+          {
+            "pitch": "G#1",
+            "duration": "2n"
+          },
+          {
+            "pitch": "D2",
+            "duration": "2n"
+          },
+          {
+            "pitch": "G#1",
+            "duration": "4n"
+          },
+          {
+            "pitch": "A1",
+            "duration": "4n"
+          },
+          {
+            "pitch": "Bb1",
+            "duration": "1n"
+          },
+          {
+            "pitch": "C2",
+            "duration": "2n"
+          },
+          {
+            "pitch": "A1",
+            "duration": "2n"
+          },
+          {
+            "pitch": "D2",
+            "duration": "2n"
+          },
+          {
+            "pitch": null,
+            "duration": "2n"
+          },
+          {
+            "pitch": "D2",
+            "duration": "4n"
+          },
+          {
+            "pitch": null,
+            "duration": "2n"
+          },
+          {
+            "pitch": null,
+            "duration": "4n"
+          }
+        ]
+      }
+    ]
+  },
+  "_meta": {
+    "title": "Dungeon",
+    "tags": [
+      "dark",
+      "mysterious",
+      "underground",
+      "eerie"
+    ]
+  }
+}

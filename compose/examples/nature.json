@@ -1,0 +1,550 @@
+{
+  "prompt": "calm nature afternoon, Animal Crossing style, slow spacious cozy, square staccato melody, G major, 92 BPM",
+  "definition": {
+    "bpm": 92,
+    "loop": true,
+    "variations": [
+      {
+        "name": "FULL",
+        "layers": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "name": "RIVERSIDE",
+        "layers": [
+          false,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "name": "FIREFLY",
+        "layers": [
+          true,
+          false,
+          true,
+          false
+        ]
+      },
+      {
+        "name": "CAMPFIRE",
+        "layers": [
+          true,
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "name": "RAIN",
+        "layers": [
+          false,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "name": "SOLO",
+        "layers": [
+          true,
+          false,
+          false,
+          false
+        ]
+      }
+    ],
+    "channels": [
+      {
+        "wave": "square",
+        "label": "melody",
+        "volume": 0.25,
+        "pan": -0.2,
+        "notes": [
+          {
+            "pitch": "G4",
+            "duration": "8n"
+          },
+          {
+            "pitch": null,
+            "duration": "8n"
+          },
+          {
+            "pitch": "B4",
+            "duration": "8n"
+          },
+          {
+            "pitch": null,
+            "duration": "8n"
+          },
+          {
+            "pitch": "D5",
+            "duration": "2n"
+          },
+          {
+            "pitch": "E5",
+            "duration": "2n"
+          },
+          {
+            "pitch": "D5",
+            "duration": "2n"
+          },
+          {
+            "pitch": "G4",
+            "duration": "8n"
+          },
+          {
+            "pitch": null,
+            "duration": "8n"
+          },
+          {
+            "pitch": "B4",
+            "duration": "8n"
+          },
+          {
+            "pitch": null,
+            "duration": "8n"
+          },
+          {
+            "pitch": "D5",
+            "duration": "2n"
+          },
+          {
+            "pitch": "G5",
+            "duration": "2n"
+          },
+          {
+            "pitch": null,
+            "duration": "2n"
+          },
+          {
+            "pitch": "C5",
+            "duration": "2n"
+          },
+          {
+            "pitch": "E5",
+            "duration": "2n"
+          },
+          {
+            "pitch": "D5",
+            "duration": "2n"
+          },
+          {
+            "pitch": "B4",
+            "duration": "2n"
+          },
+          {
+            "pitch": "A4",
+            "duration": "8n"
+          },
+          {
+            "pitch": null,
+            "duration": "8n"
+          },
+          {
+            "pitch": "B4",
+            "duration": "8n"
+          },
+          {
+            "pitch": null,
+            "duration": "8n"
+          },
+          {
+            "pitch": "C5",
+            "duration": "2n"
+          },
+          {
+            "pitch": "B4",
+            "duration": "2n"
+          },
+          {
+            "pitch": null,
+            "duration": "2n"
+          }
+        ]
+      },
+      {
+        "wave": "triangle",
+        "label": "bass",
+        "volume": 0.35,
+        "pan": 0.2,
+        "notes": [
+          {
+            "pitch": "G2",
+            "duration": "1n"
+          },
+          {
+            "pitch": "C3",
+            "duration": "1n"
+          },
+          {
+            "pitch": "G2",
+            "duration": "1n"
+          },
+          {
+            "pitch": "E2",
+            "duration": "2n"
+          },
+          {
+            "pitch": "D2",
+            "duration": "2n"
+          },
+          {
+            "pitch": "C3",
+            "duration": "1n"
+          },
+          {
+            "pitch": "A2",
+            "duration": "2n"
+          },
+          {
+            "pitch": "G2",
+            "duration": "2n"
+          },
+          {
+            "pitch": "D2",
+            "duration": "1n"
+          },
+          {
+            "pitch": "G2",
+            "duration": "2n"
+          },
+          {
+            "pitch": null,
+            "duration": "2n"
+          }
+        ]
+      },
+      {
+        "wave": "sawtooth",
+        "label": "harmony",
+        "volume": 0.1,
+        "pan": 0.3,
+        "notes": [
+          {
+            "pitch": "B3",
+            "duration": "1n"
+          },
+          {
+            "pitch": "E4",
+            "duration": "1n"
+          },
+          {
+            "pitch": "D4",
+            "duration": "1n"
+          },
+          {
+            "pitch": "G3",
+            "duration": "2n"
+          },
+          {
+            "pitch": "F#3",
+            "duration": "2n"
+          },
+          {
+            "pitch": "E4",
+            "duration": "1n"
+          },
+          {
+            "pitch": "C4",
+            "duration": "2n"
+          },
+          {
+            "pitch": "B3",
+            "duration": "2n"
+          },
+          {
+            "pitch": "F#4",
+            "duration": "1n"
+          },
+          {
+            "pitch": "B3",
+            "duration": "2n"
+          },
+          {
+            "pitch": "D4",
+            "duration": "2n"
+          }
+        ]
+      },
+      {
+        "wave": "triangle",
+        "label": "arpeggio",
+        "volume": 0.15,
+        "pan": -0.15,
+        "notes": [
+          {
+            "pitch": "G4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "B4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "D5",
+            "duration": "8n"
+          },
+          {
+            "pitch": "B4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "G4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "B4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "D5",
+            "duration": "8n"
+          },
+          {
+            "pitch": "B4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "C4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "E4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "G4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "E4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "C4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "E4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "G4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "E4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "G4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "B4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "D5",
+            "duration": "8n"
+          },
+          {
+            "pitch": "B4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "G4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "B4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "D5",
+            "duration": "8n"
+          },
+          {
+            "pitch": "B4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "E4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "G4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "B4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "G4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "D4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "F#4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "A4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "F#4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "C4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "E4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "G4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "E4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "C4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "E4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "G4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "E4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "A3",
+            "duration": "8n"
+          },
+          {
+            "pitch": "C4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "E4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "C4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "G3",
+            "duration": "8n"
+          },
+          {
+            "pitch": "B3",
+            "duration": "8n"
+          },
+          {
+            "pitch": "D4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "B3",
+            "duration": "8n"
+          },
+          {
+            "pitch": "D4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "F#4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "A4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "F#4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "D4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "F#4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "A4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "F#4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "G3",
+            "duration": "8n"
+          },
+          {
+            "pitch": "B3",
+            "duration": "8n"
+          },
+          {
+            "pitch": "D4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "G4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "D4",
+            "duration": "8n"
+          },
+          {
+            "pitch": "B3",
+            "duration": "8n"
+          },
+          {
+            "pitch": "G3",
+            "duration": "8n"
+          },
+          {
+            "pitch": null,
+            "duration": "8n"
+          }
+        ]
+      }
+    ]
+  },
+  "_meta": {
+    "title": "Nature / Adventure",
+    "tags": [
+      "forest",
+      "calm",
+      "cozy",
+      "exploration"
+    ]
+  }
+}
