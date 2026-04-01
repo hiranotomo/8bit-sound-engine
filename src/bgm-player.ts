@@ -12,6 +12,7 @@ export class BGMPlayer {
   private channelPanners: StereoPannerNode[] = []
   private channelVolumes: number[] = []
   private channelMuted: boolean[] = []
+  private currentDefinition: BGMDefinition | null = null
 
   constructor(ctx: AudioContext, output?: AudioNode) {
     this.ctx = ctx
@@ -21,6 +22,7 @@ export class BGMPlayer {
 
   play(definition: BGMDefinition): void {
     this.stopImmediate()
+    this.currentDefinition = definition
     this.isPlaying = true
     this.masterGain.gain.setValueAtTime(1, this.ctx.currentTime)
     this.scheduleTrack(definition)
@@ -34,6 +36,7 @@ export class BGMPlayer {
     this.masterGain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + fadeSec)
     setTimeout(() => {
       this.stopImmediate()
+      this.currentDefinition = definition
       this.isPlaying = true
       this.scheduleTrack(definition)
     }, fadeMs)
@@ -80,7 +83,18 @@ export class BGMPlayer {
     return this.channelGains.length
   }
 
+  /** Apply a named variation from the current BGM's variations list */
+  setVariation(name: string): void {
+    if (!this.currentDefinition?.variations) return
+    const v = this.currentDefinition.variations.find(v => v.name === name)
+    if (!v) return
+    for (let i = 0; i < v.layers.length; i++) {
+      this.setChannelMute(i, !v.layers[i])
+    }
+  }
+
   private stopImmediate(): void {
+    this.currentDefinition = null
     this.isPlaying = false
     if (this.loopTimeoutId !== null) {
       clearTimeout(this.loopTimeoutId)
