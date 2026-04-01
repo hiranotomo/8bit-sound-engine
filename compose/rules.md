@@ -38,7 +38,7 @@ interface BGMDefinition {
 
 - BPM: 40-240
 - Channels: 2-4 (never more than 4 audible channels)
-- Pitch range: C1 to C8 (sharps: C#, D#, F#, G#, A#; flats: Db, Eb, Gb, Ab, Bb)
+- Pitch: single note names ONLY — C, D, E, F, G, A, B + optional # or b + octave 1-8. Examples: C4, F#5, Bb3. NEVER use chord names (Am, Cm, Dm are INVALID pitch values)
 - Valid durations: '1n' (whole), '2n' (half), '4n' (quarter), '8n' (eighth), '16n', '32n'
 - Valid wave types: 'square', 'triangle', 'sawtooth' (noise is SE only, do not use in BGM)
 - Notes per channel: 16-96 (short enough to loop cleanly)
