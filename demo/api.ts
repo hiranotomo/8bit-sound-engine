@@ -28,3 +28,27 @@ export async function fetchSong(id: string): Promise<SongDetail> {
   if (!res.ok) throw new Error(`Song not found: ${id}`)
   return res.json()
 }
+
+export interface ComposeRequest {
+  prompt: string
+  base?: BGMDefinition
+}
+
+export interface ComposeResponse {
+  id: string
+  definition: BGMDefinition
+  meta: SongListItem
+}
+
+export async function composeSong(request: ComposeRequest): Promise<ComposeResponse> {
+  const res = await fetch(`${BASE}/compose`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(request),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: 'Unknown error' }))
+    throw new Error(err.error || `Compose failed: ${res.status}`)
+  }
+  return res.json()
+}
