@@ -1228,6 +1228,89 @@ body {
   font-size: 0.4rem !important;
 }
 
+/* --- Compose UI --- */
+.compose-textarea {
+  width: 100%;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  line-height: 1.8;
+  padding: 10px;
+  background: var(--cream);
+  color: var(--text);
+  border: 3px solid var(--brown-dark);
+  resize: vertical;
+  min-height: 60px;
+  image-rendering: auto;
+  -webkit-font-smoothing: auto;
+}
+
+.compose-textarea::placeholder {
+  color: var(--text-light);
+  opacity: 0.6;
+}
+
+.compose-textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 8px rgba(240, 192, 64, 0.3);
+}
+
+.compose-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.compose-btn {
+  font-size: 0.5rem !important;
+  padding: 8px 16px !important;
+}
+
+.compose-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.compose-chars {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.3rem;
+  color: var(--text-light);
+}
+
+.compose-loading {
+  margin-top: 12px;
+}
+
+.compose-error {
+  margin-top: 12px;
+}
+
+.compose-result {
+  margin-top: 12px;
+}
+
+.result-header {
+  margin-bottom: 10px;
+}
+
+.result-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.remix-banner {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.4rem;
+  color: var(--gold);
+  background: var(--brown-dark);
+  padding: 8px 12px;
+  border: 2px solid var(--gold-dark);
+  margin-bottom: 12px;
+  text-align: center;
+}
+
 /* --- Responsive: Tabs --- */
 @media (max-width: 600px) {
   .tab-btn {
