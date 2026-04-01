@@ -1,5 +1,3 @@
-import type { BGMDefinition } from '../../src/types'
-
 export interface SongMeta {
   id: string
   title: string
@@ -11,6 +9,6 @@ export interface SongMeta {
 }
 
 export interface StoredSong {
-  definition: BGMDefinition
+  definition: Record<string, unknown>
   meta: SongMeta
 }

@@ -6,13 +6,18 @@ import { checkRateLimit } from './_lib/ratelimit'
 import type { SongMeta, StoredSong } from './_lib/types'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method === 'GET') {
-    return handleList(req, res)
+  try {
+    if (req.method === 'GET') {
+      return await handleList(req, res)
+    }
+    if (req.method === 'POST') {
+      return await handleCreate(req, res)
+    }
+    res.status(405).json({ error: 'Method not allowed' })
+  } catch (err: any) {
+    console.error('songs handler error:', err)
+    res.status(500).json({ error: err.message || 'Internal server error' })
   }
-  if (req.method === 'POST') {
-    return handleCreate(req, res)
-  }
-  res.status(405).json({ error: 'Method not allowed' })
 }
 
 async function handleList(req: VercelRequest, res: VercelResponse) {
