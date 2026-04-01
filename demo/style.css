@@ -457,6 +457,13 @@ body {
   margin-top: 6px;
 }
 
+.scroll-body .credit {
+  font-size: 0.35rem;
+  color: var(--text-light);
+  margin-top: 4px;
+  opacity: 0.7;
+}
+
 /* --- Wood Panel (card sections) --- */
 .wood-panel {
   margin-bottom: 16px;
@@ -1308,6 +1315,63 @@ body {
 
 .compose-loading {
   margin-top: 12px;
+}
+
+.compose-progress {
+  text-align: center;
+}
+
+.progress-notes {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.prog-note {
+  font-size: 1.2rem;
+  color: var(--gold);
+  animation: prog-bounce 0.5s infinite alternate;
+}
+
+.prog-note-1 { animation-delay: 0s; }
+.prog-note-2 { animation-delay: 0.1s; }
+.prog-note-3 { animation-delay: 0.2s; }
+.prog-note-4 { animation-delay: 0.3s; }
+.prog-note-5 { animation-delay: 0.4s; }
+
+@keyframes prog-bounce {
+  from { transform: translateY(0); opacity: 0.4; }
+  to { transform: translateY(-6px); opacity: 1; }
+}
+
+.progress-step {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  color: var(--cream);
+  margin-bottom: 10px;
+}
+
+.progress-bar-track {
+  background: var(--brown-dark);
+  border: 2px solid var(--brown-light);
+  height: 16px;
+  width: 100%;
+  position: relative;
+}
+
+.progress-bar-fill {
+  background: var(--green-mid);
+  height: 100%;
+  width: 5%;
+  transition: width 0.8s ease;
+}
+
+.progress-hint {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.3rem;
+  color: var(--text-light);
+  margin-top: 6px;
 }
 
 .compose-error {

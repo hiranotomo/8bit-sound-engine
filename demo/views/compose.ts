@@ -33,9 +33,21 @@ export async function composeView(container: HTMLElement) {
       </div>
     </div>
     <div id="compose-loading" class="compose-loading" style="display:none;">
-      <div class="loading-spinner">
-        <span class="spinner-note">&#9835;</span>
-        <span class="spinner-text">Composing...</span>
+      <div class="compose-progress wood-panel">
+        <div class="panel-content">
+          <div class="progress-notes">
+            <span class="prog-note prog-note-1">&#9835;</span>
+            <span class="prog-note prog-note-2">&#9834;</span>
+            <span class="prog-note prog-note-3">&#9835;</span>
+            <span class="prog-note prog-note-4">&#9834;</span>
+            <span class="prog-note prog-note-5">&#9835;</span>
+          </div>
+          <div id="progress-step" class="progress-step">Analyzing prompt...</div>
+          <div class="progress-bar-track">
+            <div id="progress-bar-fill" class="progress-bar-fill"></div>
+          </div>
+          <div class="progress-hint">Usually takes 10-20 seconds</div>
+        </div>
       </div>
     </div>
     <div id="compose-error" class="compose-error" style="display:none;"></div>
@@ -109,11 +121,36 @@ export async function composeView(container: HTMLElement) {
     stopSong()
     isPlaying = false
 
+    // Animated progress steps
+    const progressStep = wrapper.querySelector('#progress-step') as HTMLElement
+    const progressBar = wrapper.querySelector('#progress-bar-fill') as HTMLElement
+    const steps = [
+      { text: 'Analyzing prompt...', pct: 10 },
+      { text: 'Choosing key and tempo...', pct: 25 },
+      { text: 'Composing melody...', pct: 45 },
+      { text: 'Adding bass line...', pct: 60 },
+      { text: 'Building harmony...', pct: 75 },
+      { text: 'Creating variations...', pct: 90 },
+    ]
+    let stepIndex = 0
+    progressStep.textContent = steps[0].text
+    progressBar.style.width = '5%'
+    const stepTimer = setInterval(() => {
+      if (stepIndex < steps.length) {
+        progressStep.textContent = steps[stepIndex].text
+        progressBar.style.width = `${steps[stepIndex].pct}%`
+        stepIndex++
+      }
+    }, 2500)
+
     try {
       const result = await composeSong({
         prompt: text,
         base: baseDef,
       })
+      clearInterval(stepTimer)
+      progressBar.style.width = '100%'
+      progressStep.textContent = 'Done!'
 
       currentResult = result
 
@@ -131,6 +168,7 @@ export async function composeView(container: HTMLElement) {
       playBtn.style.display = 'none'
       stopBtn.style.display = 'inline-block'
     } catch (err: any) {
+      clearInterval(stepTimer)
       errorEl.style.display = 'block'
       errorEl.innerHTML = `
         <div class="error-panel">

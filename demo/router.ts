@@ -14,15 +14,16 @@ export function startRouter(el: HTMLElement) {
   container = el
 
   const navigate = () => {
-    const hash = (location.hash.slice(1) || 'presets') as Route
-    if (hash === currentRoute) return
-    currentRoute = hash
+    const rawHash = location.hash.slice(1) || 'presets'
+    const route = rawHash.split('?')[0] as Route
+    if (route === currentRoute) return
+    currentRoute = route
     if (container) {
       container.innerHTML = ''
-      routes[hash]?.(container)
+      routes[route]?.(container)
     }
     document.querySelectorAll('[data-tab]').forEach(t =>
-      t.classList.toggle('active', (t as HTMLElement).dataset.tab === hash)
+      t.classList.toggle('active', (t as HTMLElement).dataset.tab === route)
     )
   }
 
