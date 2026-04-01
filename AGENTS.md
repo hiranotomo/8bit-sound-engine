@@ -254,6 +254,36 @@ engine.bgm.toggleChannel(2)         // Toggle harmony
 </html>
 ```
 
+## Remote Song Loading (Studio API)
+
+Load songs from the 8bit Studio API:
+
+```ts
+// Fetch a song by ID and play it
+const res = await fetch('https://8bit-eight.vercel.app/api/songs/290679c1')
+const song = await res.json()
+engine.bgm.play(song.definition)
+```
+
+### Studio API Endpoints
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /api/songs` | List all songs (meta only) |
+| `GET /api/songs?preset=true` | List preset songs only |
+| `GET /api/songs/:id` | Get song definition + meta |
+| `GET /s/:id` | Shareable player page |
+
+### Available Presets
+
+| ID | Title | Tags |
+|----|-------|------|
+| `290679c1` | Office / City | city, upbeat, work, morning |
+| `6d8cc967` | Nature / Adventure | forest, calm, cozy, exploration |
+| `a8c13760` | Battle | combat, intense, boss, action |
+| `e53b8e03` | Dungeon | dark, mysterious, underground, eerie |
+| `d101122a` | Overworld | adventure, journey, map, cheerful |
+
 ## Important Notes
 
 - Always call `await engine.resume()` inside a user gesture handler (click, touch, keydown) before first playback. Browsers require user interaction to start audio.
