@@ -61,12 +61,27 @@ interface BGMDefinition {
 - Slow songs: 60-100 BPM, quarter/half notes, long bass tones
 - Medium songs: 100-140 BPM, mixed rhythms
 
-### 3. Wave type diversity
-- Triangle: warm, gentle — best for bass, calm melodies
-- Square: classic 8-bit, bright — good for melody, percussive rhythm
-- Sawtooth: rich, brassy — excellent for harmony pads, modern feel
-- Do NOT default to square for everything
-- Each channel should use a DIFFERENT wave type when possible
+### 3. Instrument simulation through wave types
+Each wave type simulates different instruments. VARY the melody wave type per song:
+
+| Instrument Feel | Wave | Volume | Notes |
+|----------------|------|--------|-------|
+| Piano/Keys | square | 0.25-0.35 | Short staccato notes, clear attack |
+| Flute/Recorder | triangle | 0.3-0.4 | Smooth legato, gentle |
+| Guitar/Pluck | sawtooth | 0.2-0.3 | Medium notes, rhythmic |
+| Synth Lead | square | 0.3-0.4 | Sustained notes, bright |
+| Warm Pad | sawtooth | 0.08-0.15 | Very long notes, background |
+| Music Box | triangle | 0.15-0.2 | High octave (5-6), short 8th notes |
+| Brass/Horn | sawtooth | 0.25-0.35 | Bold, medium-long notes |
+| Bass | triangle | 0.3-0.45 | Low octave (2-3), always triangle |
+| Chorus/Pad | sawtooth | 0.08-0.12 | Whole notes, background texture |
+
+CRITICAL: Do NOT use square wave for every melody. Match the instrument feel to the mood:
+- Calm/nature → triangle (flute) or sawtooth (guitar)
+- Upbeat/city → square (piano) or sawtooth (brass)
+- Dark/dungeon → square low duty (thin, eerie) or sawtooth (ominous)
+- Battle → square (sharp) or sawtooth (aggressive)
+- Each channel should use a DIFFERENT wave type
 
 ### 4. Bass patterns matter
 - Walking bass (8th notes ascending/descending): energetic, city feel

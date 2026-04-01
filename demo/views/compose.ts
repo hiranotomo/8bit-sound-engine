@@ -1,4 +1,4 @@
-import { composeSong, fetchSong, type ComposeResponse } from '../api'
+import { composeSong, fetchSong, saveSong, type ComposeResponse } from '../api'
 import { playSong, stopSong } from '../player'
 import type { BGMDefinition } from '../../src/types'
 
@@ -18,7 +18,7 @@ export async function composeView(container: HTMLElement) {
       <div class="how-to-use">
         <p><strong>1.</strong> Describe your song's mood, style, and tempo below.</p>
         <p><strong>2.</strong> Click COMPOSE — AI generates a unique chiptune BGM.</p>
-        <p><strong>3.</strong> Listen, then find it in the LIBRARY tab.</p>
+        <p><strong>3.</strong> Listen, edit the title, then SAVE to library.</p>
         <p class="how-to-example">Try: "peaceful snowy village, slow and magical" or "intense boss battle, fast and aggressive"</p>
       </div>
     </div>
@@ -29,6 +29,7 @@ export async function composeView(container: HTMLElement) {
         <div class="compose-actions">
           <button id="compose-btn" class="game-btn btn-forest compose-btn">&#9835; COMPOSE</button>
           <span id="compose-chars" class="compose-chars">0/500</span>
+          <span id="compose-remaining" class="compose-remaining"></span>
         </div>
       </div>
     </div>
@@ -55,15 +56,23 @@ export async function composeView(container: HTMLElement) {
       <div class="wood-panel">
         <div class="panel-content">
           <div class="result-header">
-            <span id="result-title" class="card-title"></span>
+            <div class="save-field">
+              <label class="save-label">Song Title</label>
+              <input id="result-title-input" class="save-input" type="text" maxlength="60" />
+            </div>
+            <div class="save-field">
+              <label class="save-label">Composer</label>
+              <input id="result-composer-input" class="save-input" type="text" value="Tomo" maxlength="30" />
+            </div>
             <div id="result-tags" class="card-tags"></div>
           </div>
           <div class="result-actions">
             <button id="result-play" class="game-btn btn-forest">&#9654; PLAY</button>
             <button id="result-stop" class="game-btn btn-stop" style="display:none;">&#9632; STOP</button>
-            <button id="result-again" class="game-btn">&#9998; NEW</button>
-            <button id="result-publish" class="game-btn btn-cave">&#9733; LIBRARY</button>
+            <button id="result-save" class="game-btn btn-cave">&#9733; SAVE</button>
+            <button id="result-discard" class="game-btn">&#10005; DISCARD</button>
           </div>
+          <div id="save-status" class="save-status" style="display:none;"></div>
         </div>
       </div>
     </div>
@@ -75,16 +84,19 @@ export async function composeView(container: HTMLElement) {
   const prompt = wrapper.querySelector('#compose-prompt') as HTMLTextAreaElement
   const composeBtn = wrapper.querySelector('#compose-btn') as HTMLButtonElement
   const charsSpan = wrapper.querySelector('#compose-chars') as HTMLSpanElement
+  const remainingSpan = wrapper.querySelector('#compose-remaining') as HTMLSpanElement
   const loadingEl = wrapper.querySelector('#compose-loading') as HTMLElement
   const errorEl = wrapper.querySelector('#compose-error') as HTMLElement
   const resultEl = wrapper.querySelector('#compose-result') as HTMLElement
   const remixBanner = wrapper.querySelector('#remix-banner') as HTMLElement
-  const resultTitle = wrapper.querySelector('#result-title') as HTMLElement
+  const titleInput = wrapper.querySelector('#result-title-input') as HTMLInputElement
+  const composerInput = wrapper.querySelector('#result-composer-input') as HTMLInputElement
   const resultTags = wrapper.querySelector('#result-tags') as HTMLElement
   const playBtn = wrapper.querySelector('#result-play') as HTMLButtonElement
   const stopBtn = wrapper.querySelector('#result-stop') as HTMLButtonElement
-  const againBtn = wrapper.querySelector('#result-again') as HTMLButtonElement
-  const publishBtn = wrapper.querySelector('#result-publish') as HTMLButtonElement
+  const saveBtn = wrapper.querySelector('#result-save') as HTMLButtonElement
+  const discardBtn = wrapper.querySelector('#result-discard') as HTMLButtonElement
+  const saveStatus = wrapper.querySelector('#save-status') as HTMLElement
 
   let currentResult: ComposeResponse | null = null
   let isPlaying = false
@@ -118,6 +130,7 @@ export async function composeView(container: HTMLElement) {
     loadingEl.style.display = 'block'
     errorEl.style.display = 'none'
     resultEl.style.display = 'none'
+    saveStatus.style.display = 'none'
     stopSong()
     isPlaying = false
 
@@ -154,16 +167,21 @@ export async function composeView(container: HTMLElement) {
 
       currentResult = result
 
-      // Show result
-      resultTitle.textContent = result.meta.title
-      resultTags.innerHTML = result.meta.tags
+      // Show remaining compositions
+      if (result.remaining !== undefined) {
+        remainingSpan.textContent = `${result.remaining} left this hour`
+      }
+
+      // Show result with editable title/composer
+      titleInput.value = result.suggestedMeta.title
+      resultTags.innerHTML = result.suggestedMeta.tags
         .map(t => `<span class="tag">${t}</span>`)
         .join('')
 
       resultEl.style.display = 'block'
 
       // Auto-play
-      playSong(result.definition, result.meta.title)
+      playSong(result.definition, result.suggestedMeta.title)
       isPlaying = true
       playBtn.style.display = 'none'
       stopBtn.style.display = 'inline-block'
@@ -188,7 +206,7 @@ export async function composeView(container: HTMLElement) {
   // Play/Stop
   playBtn.addEventListener('click', () => {
     if (!currentResult) return
-    playSong(currentResult.definition, currentResult.meta.title)
+    playSong(currentResult.definition, titleInput.value)
     isPlaying = true
     playBtn.style.display = 'none'
     stopBtn.style.display = 'inline-block'
@@ -201,20 +219,48 @@ export async function composeView(container: HTMLElement) {
     stopBtn.style.display = 'none'
   })
 
-  // New composition
-  againBtn.addEventListener('click', () => {
+  // Save
+  saveBtn.addEventListener('click', async () => {
+    if (!currentResult) return
+    const title = titleInput.value.trim() || 'Untitled'
+    const composer = composerInput.value.trim() || 'Tomo'
+
+    saveBtn.disabled = true
+    saveStatus.style.display = 'block'
+    saveStatus.textContent = 'Saving...'
+    saveStatus.className = 'save-status'
+
+    try {
+      const { id } = await saveSong({
+        title,
+        composer,
+        prompt: currentResult.suggestedMeta.prompt,
+        tags: currentResult.suggestedMeta.tags,
+        definition: currentResult.definition,
+        basedOn: currentResult.suggestedMeta.basedOn,
+      })
+      saveStatus.textContent = `Saved! View in LIBRARY or share: /s/${id}`
+      saveStatus.className = 'save-status save-success'
+      saveBtn.textContent = '✓ SAVED'
+    } catch (err: any) {
+      saveStatus.textContent = err.message || 'Save failed'
+      saveStatus.className = 'save-status save-error'
+      saveBtn.disabled = false
+    }
+  })
+
+  // Discard
+  discardBtn.addEventListener('click', () => {
     stopSong()
     isPlaying = false
     currentResult = null
     resultEl.style.display = 'none'
     errorEl.style.display = 'none'
+    saveStatus.style.display = 'none'
+    saveBtn.disabled = false
+    saveBtn.textContent = '★ SAVE'
     prompt.value = ''
     charsSpan.textContent = '0/500'
     prompt.focus()
-  })
-
-  // Go to library
-  publishBtn.addEventListener('click', () => {
-    location.hash = '#library'
   })
 }

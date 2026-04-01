@@ -5,6 +5,7 @@ const BASE = '/api'
 export interface SongListItem {
   id: string
   title: string
+  composer?: string
   tags: string[]
   isPreset: boolean
   createdAt: string
@@ -35,9 +36,36 @@ export interface ComposeRequest {
 }
 
 export interface ComposeResponse {
-  id: string
   definition: BGMDefinition
-  meta: SongListItem
+  suggestedMeta: {
+    title: string
+    tags: string[]
+    prompt: string
+    basedOn?: string
+  }
+  remaining: number
+}
+
+export interface SaveSongRequest {
+  title: string
+  composer: string
+  prompt: string
+  tags: string[]
+  definition: BGMDefinition
+  basedOn?: string
+}
+
+export async function saveSong(request: SaveSongRequest): Promise<{ id: string; url: string }> {
+  const res = await fetch(`${BASE}/songs`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(request),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: 'Unknown error' }))
+    throw new Error(err.error || `Save failed: ${res.status}`)
+  }
+  return res.json()
 }
 
 export async function composeSong(request: ComposeRequest): Promise<ComposeResponse> {

@@ -1392,6 +1392,78 @@ body {
   flex-wrap: wrap;
 }
 
+/* --- Save Form --- */
+.save-field {
+  margin-bottom: 8px;
+}
+
+.save-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.35rem;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 3px;
+}
+
+.save-input {
+  width: 100%;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.4rem;
+  padding: 6px 8px;
+  background: var(--cream);
+  color: var(--text);
+  border: 2px solid var(--brown-dark);
+}
+
+.save-input:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+.save-status {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.35rem;
+  margin-top: 8px;
+  padding: 6px;
+}
+
+.save-success {
+  color: var(--green-light);
+}
+
+.save-error {
+  color: var(--red);
+}
+
+.card-composer {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.3rem;
+  color: var(--text-light);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.compose-remaining {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.3rem;
+  color: var(--text-light);
+}
+
+.claude-code-help {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.35rem;
+  color: var(--cream);
+  line-height: 1.8;
+}
+
+.claude-code-help p {
+  margin-bottom: 6px;
+}
+
+.claude-code-help code {
+  color: var(--gold);
+}
+
 .remix-banner {
   font-family: 'Press Start 2P', monospace;
   font-size: 0.4rem;

@@ -46,6 +46,15 @@ engine.bgm.play(song.definition)`
           <pre class="code-block"><code>https://8bit-eight.vercel.app/s/${songId}</code></pre>
           <button class="game-btn card-btn copy-btn" data-snippet="url">COPY</button>
         </div>
+        <div class="code-section">
+          <div class="code-label">Claude Code</div>
+          <div class="claude-code-help">
+            <p>Add AGENTS.md to your project, then ask Claude Code:</p>
+            <pre class="code-block"><code>"Add 8bit sound to my app. Use the ${escapeHtml(title)} BGM (ID: ${songId}) and play coin SE on button clicks."</code></pre>
+            <p>Claude Code reads AGENTS.md and integrates automatically.</p>
+            <p>Install: <code>npm i 8bit-sound-engine</code></p>
+          </div>
+        </div>
       </div>
     </div>
   `

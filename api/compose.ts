@@ -17,11 +17,20 @@ function isAdmin(req: VercelRequest): boolean {
   return req.headers.authorization === `Bearer ${process.env.ADMIN_KEY}`
 }
 
-async function checkRateLimit(ip: string, limit = 5, windowSecs = 3600): Promise<boolean> {
-  const key = `ratelimit:compose:${ip}`
-  const current = await kv.incr(key)
-  if (current === 1) await kv.expire(key, windowSecs)
-  return current <= limit
+async function checkRateLimit(ip: string): Promise<{ allowed: boolean; remaining: number }> {
+  // Per-IP limit: 10/hour
+  const ipKey = `ratelimit:compose:${ip}`
+  const ipCount = await kv.incr(ipKey)
+  if (ipCount === 1) await kv.expire(ipKey, 3600)
+  if (ipCount > 10) return { allowed: false, remaining: 0 }
+
+  // Global limit: 200/hour
+  const globalKey = 'ratelimit:compose:global'
+  const globalCount = await kv.incr(globalKey)
+  if (globalCount === 1) await kv.expire(globalKey, 3600)
+  if (globalCount > 200) return { allowed: false, remaining: 0 }
+
+  return { allowed: true, remaining: 10 - ipCount }
 }
 
 // --- Inlined validation (from compose/evaluate.ts) ---
@@ -114,7 +123,12 @@ interface BGMDefinition {
 ## Composition Principles
 1. SHORT MOTIFS (4-8 notes) repeated with variation. Never scale runs.
 2. Maximize contrast: change tempo, wave types, rhythm, bass, key simultaneously.
-3. Wave diversity: triangle=warm/bass, square=bright/melody, sawtooth=rich/harmony. Use DIFFERENT waves per channel.
+3. Instrument simulation — VARY the melody wave per song:
+   - Piano/Keys: square, staccato. Flute: triangle, legato. Guitar: sawtooth, rhythmic.
+   - Music Box: triangle high octave. Brass: sawtooth bold. Warm Pad: sawtooth soft.
+   - Bass: always triangle low octave. Chorus: sawtooth whole notes soft.
+   - CRITICAL: Do NOT use square for every melody. Match instrument to mood.
+   - Each channel MUST use a DIFFERENT wave type.
 4. Bass patterns: walking 8ths=energetic, long notes=calm, octave pumping=intense, chromatic=dark.
 5. Include rests (null pitch) — minimum 10% of notes. Sparse > busy.
 6. Major keys=bright/happy, Minor keys=dark/mysterious.
@@ -178,10 +192,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Rate limit
     const admin = isAdmin(req)
+    let remaining = 10
     if (!admin) {
       const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || 'unknown'
-      if (!(await checkRateLimit(ip))) {
-        return res.status(429).json({ error: 'Rate limited. Max 5 compositions per hour.' })
+      const rl = await checkRateLimit(ip)
+      remaining = rl.remaining
+      if (!rl.allowed) {
+        return res.status(429).json({ error: 'Rate limited. Max 10 compositions per hour.', remaining: 0 })
       }
     }
 
@@ -236,24 +253,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(500).json({ error: 'Validation failed', details: validation.errors })
     }
 
-    // Save to KV
-    const id = generateId()
-    const meta = {
-      id,
+    // Return definition + suggested meta (not saved yet — client decides to save)
+    const suggestedMeta = {
       title: metaRaw.title || 'Untitled',
+      tags: Array.isArray(metaRaw.tags) ? metaRaw.tags : [],
       prompt,
       basedOn: base ? 'remix' : undefined,
-      tags: Array.isArray(metaRaw.tags) ? metaRaw.tags : [],
-      createdAt: new Date().toISOString(),
-      isPreset: false,
     }
 
-    await kv.set(`songs:${id}`, { definition: parsed, meta })
-    const index: string[] = (await kv.get<string[]>('songs:index')) || []
-    index.unshift(id)
-    await kv.set('songs:index', index)
-
-    res.status(201).json({ id, definition: parsed, meta })
+    res.status(200).json({ definition: parsed, suggestedMeta, remaining })
   } catch (err: any) {
     console.error('compose error:', err)
     res.status(500).json({ error: err.message || 'Internal server error' })

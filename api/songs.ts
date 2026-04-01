@@ -8,7 +8,7 @@ const kv = new Redis({
 })
 
 interface SongMeta {
-  id: string; title: string; prompt: string; basedOn?: string
+  id: string; title: string; composer?: string; prompt: string; basedOn?: string
   tags: string[]; createdAt: string; isPreset: boolean
 }
 interface StoredSong { definition: Record<string, unknown>; meta: SongMeta }
@@ -67,12 +67,12 @@ async function handleCreate(req: VercelRequest, res: VercelResponse) {
     }
   }
 
-  const { title, prompt, tags, definition, isPreset, basedOn } = req.body
+  const { title, prompt, tags, definition, isPreset, basedOn, composer } = req.body
   if (!title || !definition) return res.status(400).json({ error: 'title and definition are required' })
 
   const id = generateId()
   const meta: SongMeta = {
-    id, title, prompt: prompt || '', basedOn, tags: tags || [],
+    id, title, composer: composer || 'Tomo', prompt: prompt || '', basedOn, tags: tags || [],
     createdAt: new Date().toISOString(), isPreset: admin ? (isPreset || false) : false,
   }
 

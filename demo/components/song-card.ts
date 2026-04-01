@@ -11,9 +11,12 @@ export function renderSongCard(song: SongListItem, opts: SongCardOptions): HTMLE
 
   const tags = song.tags.map(t => `<span class="tag">${t}</span>`).join('')
 
+  const composer = (song as any).composer || 'Tomo'
+
   card.innerHTML = `
     <div class="card-header">
       <span class="card-title">${song.title}</span>
+      <span class="card-composer">by ${composer}</span>
       <div class="card-tags">${tags}</div>
     </div>
     <div class="card-actions">
