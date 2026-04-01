@@ -45,6 +45,7 @@
   },
   "homepage": "https://8bit-eight.vercel.app",
   "devDependencies": {
+    "@vercel/node": "^5.6.23",
     "typescript": "^6.0.2",
     "vite": "^8.0.3",
     "vitest": "^4.1.2"
