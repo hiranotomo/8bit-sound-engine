@@ -22,6 +22,7 @@ export default defineConfig(({ mode }) => {
   // Default: library build (npm)
   return {
     build: {
+      copyPublicDir: false,
       lib: {
         entry: 'src/index.ts',
         name: 'EightBitSound',
