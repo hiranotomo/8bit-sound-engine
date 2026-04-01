@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { kv } from '../lib/kv'
-import { generateId } from '../lib/id'
-import { isAdmin } from '../lib/auth'
-import { checkRateLimit } from '../lib/ratelimit'
-import type { SongMeta, StoredSong } from '../lib/types'
+import { kv } from './_kv'
+import { generateId } from './_id'
+import { isAdmin } from './_auth'
+import { checkRateLimit } from './_ratelimit'
+import type { SongMeta, StoredSong } from './_types'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {

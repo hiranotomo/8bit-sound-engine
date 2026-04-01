@@ -1,4 +1,4 @@
-import { kv } from './kv'
+import { kv } from './_kv'
 
 /**
  * IP-based rate limiting using Vercel KV.
