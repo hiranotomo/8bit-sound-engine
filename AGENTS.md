@@ -4,24 +4,17 @@
 
 ## Version Check (run this first)
 
-**Current latest version: 0.6.0**
-
-When working on a project with 8bit-sound-engine installed, check the version:
+When working on a project with 8bit-sound-engine installed, check for updates:
 
 ```bash
-npm ls 8bit-sound-engine
+npm outdated 8bit-sound-engine
 ```
 
-If the installed version is older than 0.6.0, suggest updating:
+If a newer version is available, suggest updating:
 
 ```bash
 npm update 8bit-sound-engine
 ```
-
-Key changes by version:
-- **0.6.0**: Preset BGMs bundled locally (BGM_PRESETS), custom waves (piano/strings/organ/bell/choir), attack/release/detune envelopes
-- **0.5.0**: CORS support, i18n, composer name
-- **0.2.0**: Initial release
 
 ## Quick Setup (npm — recommended)
 
