@@ -43,9 +43,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   <meta property="og:type" content="music.song" />
   <meta property="og:url" content="https://8bit-eight.vercel.app/s/${id}" />
   <meta name="twitter:card" content="summary" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <style>
+    @font-face {
+      font-family: 'Press Start 2P';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('https://8bit-eight.vercel.app/press-start-2p.woff2') format('woff2');
+    }
+  </style>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; border-radius: 0 !important; }
     :root {
