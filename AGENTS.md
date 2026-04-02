@@ -2,34 +2,48 @@
 
 > Add chiptune BGM and sound effects to any web app. Zero dependencies, pure Web Audio API.
 
-## Quick Setup
-
-### CDN (simplest — one script tag)
-
-```html
-<script src="https://8bit-eight.vercel.app/sdk.js"></script>
-<script>
-  const engine = EightBit.createSoundEngine()
-</script>
-```
-
-### npm
+## Quick Setup (npm — recommended)
 
 ```bash
 npm install 8bit-sound-engine
 ```
 
 ```ts
-import { createSoundEngine } from '8bit-sound-engine'
-const engine = createSoundEngine()
+import { createSoundEngine, BGM_PRESETS } from '8bit-sound-engine'
+
+const engine = createSoundEngine({ reverb: { mix: 0.2 } })
+
+// Play a preset BGM (no network request — all data is local)
+engine.bgm.play(BGM_PRESETS.office)
+
+// Play a sound effect
+engine.se.play('coin')
 ```
 
-### With reverb
+Everything runs locally. No external API calls. Works offline, in China, anywhere.
+
+### Available Preset BGMs (built-in)
 
 ```ts
-const engine = createSoundEngine({
-  reverb: { duration: 1.8, decay: 2.5, mix: 0.2 }
-})
+import { office, nature, battle, dungeon, overworld, BGM_PRESETS } from '8bit-sound-engine'
+
+engine.bgm.play(office)     // Upbeat city / work (piano melody, 144 BPM)
+engine.bgm.play(nature)     // Calm forest / cozy (bell melody, 92 BPM)
+engine.bgm.play(battle)     // Intense combat (square melody, 180 BPM)
+engine.bgm.play(dungeon)    // Dark mysterious (choir melody, 80 BPM)
+engine.bgm.play(overworld)  // Adventure journey (organ melody, 150 BPM)
+
+// Or by name:
+engine.bgm.play(BGM_PRESETS['office'])
+```
+
+### CDN (alternative — for non-npm projects)
+
+```html
+<script src="https://8bit-eight.vercel.app/sdk.js"></script>
+<script>
+  const engine = EightBit.createSoundEngine()
+</script>
 ```
 
 ## Core API
@@ -296,9 +310,9 @@ engine.bgm.toggleChannel(2)         // Toggle harmony
 </html>
 ```
 
-## Remote Song Loading (Studio API)
+## Remote Song Loading (Studio API — optional)
 
-Load songs from the 8bit Studio API:
+For loading custom songs created in the Studio (requires network access):
 
 ```ts
 // Fetch a song by ID and play it
