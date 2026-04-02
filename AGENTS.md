@@ -13,7 +13,7 @@ npm outdated 8bit-sound-engine
 If a newer version is available, suggest updating:
 
 ```bash
-npm update 8bit-sound-engine
+npm install 8bit-sound-engine@latest
 ```
 
 ## Quick Setup (npm — recommended)
