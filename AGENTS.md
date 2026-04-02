@@ -54,6 +54,48 @@ await engine.resume()                          // Resume AudioContext (call from
 engine.setReverbMix(0.3)                       // Adjust reverb wet/dry mix
 ```
 
+## IMPORTANT: BGM Integration — Ask the User First
+
+When adding BGM to a web project, **you MUST ask the project owner** which approach they prefer, using AskUserQuestion or equivalent:
+
+**Question:** "BGM を再生するにはユーザー操作が必要です。どちらの方法にしますか？"
+
+**Option 1: Splash Screen (recommended for immersive apps)**
+- Display a full-screen splash/welcome screen matching the project's design
+- Include a "Enter" or "Start" button that triggers BGM playback
+- The splash screen should feel like part of the app, not a generic overlay
+- After clicking, the splash fades out and the app loads with BGM playing
+
+**Option 2: BGM Toggle Button (recommended for tools/dashboards)**
+- Add a small music note button (🎵) in the header or corner
+- Clicking it starts BGM; clicking again pauses
+- Show a visual indicator when music is playing
+- Non-intrusive, user can ignore it
+
+Do NOT auto-play or silently add BGM without asking. The choice affects UX significantly.
+
+### Other Questions to Ask the User
+
+When integrating 8bit sound, ask these questions as needed (use AskUserQuestion):
+
+**BGM Selection:**
+- "Which BGM style fits your app? (1) Upbeat/City (2) Calm/Nature (3) Intense/Battle (4) Dark/Dungeon (5) Adventure/Overworld (6) AI-compose a custom one"
+- If they choose AI compose: "Describe the mood/style you want for the BGM"
+
+**Sound Effects Scope:**
+- "Which interactions should have sound effects? (1) All buttons and navigation (2) Only important actions (success, error, rewards) (3) Let me choose per-element"
+
+**Reverb:**
+- "Do you want reverb on the audio? (1) Yes, subtle (mix: 0.15) (2) Yes, noticeable (mix: 0.3) (3) No reverb"
+
+**Volume Control:**
+- "Should users be able to control volume? (1) Yes, add a volume slider (2) Just a mute/unmute toggle (3) No volume control needed"
+
+**Page Transitions:**
+- If the app has multiple pages/routes: "Should BGM continue across page navigation, or change per page?"
+
+Do NOT assume answers to these questions. Ask, then implement based on the user's preferences.
+
 ## Pattern Catalog — When X, Use Y
 
 | Scenario | Code |
